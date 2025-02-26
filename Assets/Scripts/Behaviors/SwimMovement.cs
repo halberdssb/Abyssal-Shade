@@ -23,11 +23,11 @@ public class SwimMovement : MonoBehaviour
     }
 
     // overload that takes in custom swim speed values
-    public void Swim(Rigidbody rb, Vector2 moveInput, float swimSpeed, float StrafeSpeed)
+    public void Swim(Rigidbody rb, Vector2 moveInput, float swimSpeed, float strafeSpeed)
     {
         Vector3 forwardSwimForce = rb.transform.TransformDirection(Vector3.forward) * moveInput.y * swimSpeed;
         //forwardSwimForce = rb.transform.rotation * forwardSwimForce;
-        Vector3 strafeForce = rb.transform.TransformDirection(Vector3.right) * moveInput.x * swimSpeed;
+        Vector3 strafeForce = rb.transform.TransformDirection(Vector3.right) * moveInput.x * strafeSpeed;
         //strafeForce = rb.transform.rotation * strafeForce;
 
         Vector3 totalSwimForce = forwardSwimForce + strafeForce;

@@ -39,18 +39,12 @@ public class PlayerControls : MonoBehaviour
     */
     public void OnMove(InputValue value)
     {
-        Debug.Log("movement happening!");
         _movementInput = value.Get<Vector2>();
     }
 
     public void OnLook(InputValue value)
     {
         _lookInput = value.Get<Vector2>();
-    }
-
-    private void Update()
-    {
-        //Debug.Log(MovementInput);
     }
 
     #endregion
