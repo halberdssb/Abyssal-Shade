@@ -21,7 +21,7 @@ public class PlayerStateController : MonoBehaviour
     [SerializeField]
     private PlayerData data;
     // state instances
-    private PlayerSwimState swimState;
+    private PlayerSwimState swimState = new PlayerSwimState();
 
     private PlayerBaseState currentState; // current state player is in
 
@@ -66,8 +66,11 @@ public class PlayerStateController : MonoBehaviour
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         controls = GetComponent<PlayerControls>();
         swimMovement = GetComponent<SwimMovement>();
+
+        SwitchState(SwimState);
     }
 
     private void Update()
@@ -83,7 +86,7 @@ public class PlayerStateController : MonoBehaviour
     // switches current state to passed in state, calls OnEnter and OnExit on appropriate states
     public void SwitchState(PlayerBaseState stateToSwitchTo)
     {
-        currentState.OnExitState(this);
+        currentState?.OnExitState(this);
         currentState = stateToSwitchTo;
         currentState.OnEnterState(this);
     }

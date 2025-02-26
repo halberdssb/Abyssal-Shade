@@ -14,5 +14,7 @@ public class PlayerData : ScriptableObject
 {
     [Header("Controls")]
     public float swimSpeed;
+    public float strafeSpeed;
+    [Range(0f, 1f)]
     public float lookSensitivity;
 }

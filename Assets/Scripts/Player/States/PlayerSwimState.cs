@@ -14,7 +14,8 @@ public class PlayerSwimState : PlayerBaseState
 {
     public override void OnEnterState(PlayerStateController player)
     {
-
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     public override void OnUpdateState(PlayerStateController player)
     {
@@ -22,7 +23,9 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
-
+        player.SwimMovement.Swim(player.Rb, player.Controls.MovementInput, player.Data.swimSpeed, player.Data.strafeSpeed);
+        player.SwimMovement.Turn(player.Rb, player.Controls.LookInput, player.Data.lookSensitivity);
+        //player.Rb.AddTorque(Vector3.right);
     }
     public override void OnExitState(PlayerStateController player)
     {
