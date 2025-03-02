@@ -25,6 +25,7 @@ public class PlayerSwimState : PlayerBaseState
     {
         player.SwimMovement.Swim(player.Rb, player.Controls.MovementInput, player.Data.swimSpeed, player.Data.strafeSpeed);
         player.SwimMovement.Turn(player.Rb, player.Controls.LookInput, player.Data.lookSensitivity);
+        player.SwimMovement.Roll(player.Rb, player.Controls.RollInput, player.Data.rollSpeed);
     }
     public override void OnExitState(PlayerStateController player)
     {
