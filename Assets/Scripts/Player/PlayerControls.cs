@@ -17,6 +17,7 @@ public class PlayerControls : MonoBehaviour
 
     private Vector2 _movementInput;
     private Vector2 _lookInput;
+    private float _rollInput;
 
     #endregion
 
@@ -31,6 +32,11 @@ public class PlayerControls : MonoBehaviour
         get { return _lookInput; }
     }
 
+    public float RollInput
+    {
+        get { return _rollInput; }
+    }
+
     #endregion
 
     #region Methods
@@ -39,7 +45,6 @@ public class PlayerControls : MonoBehaviour
     */
     public void OnMove(InputValue value)
     {
-        Debug.Log("movement happening!");
         _movementInput = value.Get<Vector2>();
     }
 
@@ -48,9 +53,9 @@ public class PlayerControls : MonoBehaviour
         _lookInput = value.Get<Vector2>();
     }
 
-    private void Update()
+    public void OnRoll(InputValue value)
     {
-        //Debug.Log(MovementInput);
+        _rollInput = value.Get<float>();
     }
 
     #endregion

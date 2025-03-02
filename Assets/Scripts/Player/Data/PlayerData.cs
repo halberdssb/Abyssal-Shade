@@ -12,9 +12,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/Player Data")]
 public class PlayerData : ScriptableObject
 {
-    [Header("Controls")]
+    [Header("Movement")]
     public float swimSpeed;
     public float strafeSpeed;
+    public float rollSpeed;
     [Range(0f, 1f)]
     public float lookSensitivity;
 }

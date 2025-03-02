@@ -26,13 +26,11 @@ public class SwimMovement : MonoBehaviour
     public void Swim(Rigidbody rb, Vector2 moveInput, float swimSpeed, float StrafeSpeed)
     {
         Vector3 forwardSwimForce = rb.transform.TransformDirection(Vector3.forward) * moveInput.y * swimSpeed;
-        //forwardSwimForce = rb.transform.rotation * forwardSwimForce;
         Vector3 strafeForce = rb.transform.TransformDirection(Vector3.right) * moveInput.x * swimSpeed;
-        //strafeForce = rb.transform.rotation * strafeForce;
 
         Vector3 totalSwimForce = forwardSwimForce + strafeForce;
 
-        // clamp to swim speed to diagonal movement is not faster than forwards
+        // clamp to swim speed to diagonal movement is not faster than forwards - NOT USED right now
         //totalSwimForce = totalSwimForce.normalized * swimSpeed;
 
         rb.AddForce(totalSwimForce, ForceMode.Force);
@@ -54,5 +52,19 @@ public class SwimMovement : MonoBehaviour
         Vector3 totalTurnForce = horizontalTurnForce + verticalTurnForce;
 
         rb.AddTorque(totalTurnForce, ForceMode.VelocityChange);
+    }
+
+    // adds roll (rotation around forward axis) to the rigibbody
+    public void Roll(Rigidbody rb, float rollInput)
+    {
+        Roll(rb, rollInput, 1);
+    }
+
+    // overload that takes in roll speed (for player)
+    public void Roll(Rigidbody rb, float rollInput, float rollSpeed)
+    {
+        Vector3 rollForce = rb.transform.TransformDirection(Vector3.forward) * rollInput * rollSpeed;
+
+        rb.AddTorque(rollForce, ForceMode.Force);
     }
 }
