@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500fa9d8427e58e4fad094c823bca473, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  swimSpeed: 10
-  strafeSpeed: 6
-  lookSensitivity: 0.4
+  swimSpeed: 12
+  strafeSpeed: 5
+  lookSensitivity: 0.03
