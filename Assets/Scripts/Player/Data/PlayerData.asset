@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500fa9d8427e58e4fad094c823bca473, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  swimSpeed: 12
-  strafeSpeed: 5
+  swimSpeed: 16
+  strafeSpeed: 8
+  rollSpeed: 4
   lookSensitivity: 0.03

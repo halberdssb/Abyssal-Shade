@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309622d37b86d954794180df796deb17, type: 3}
+  m_Name: Boid Data
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  maxSpeed: 3
+  turnSpeed: 1
+  separationInfluence: 2
+  alignmentInfluence: 0
+  cohesionInfluence: 0
+  neighborCastRadius: 1
+  neighborCastMask:
+    serializedVersion: 2
+    m_Bits: 64
+  fovCutoff: -0.2

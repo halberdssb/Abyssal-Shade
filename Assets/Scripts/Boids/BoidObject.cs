@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 /*
@@ -16,6 +17,10 @@ public class BoidObject : MonoBehaviour
     [HideInInspector]
     public BoidData data;
 
+    private List<Transform> neighborBoids;
+
+    private Vector3 velocity;
+
     public BoidObject(BoidData boidData)
     {
         this.data = boidData;
@@ -24,7 +29,8 @@ public class BoidObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        neighborBoids = new List<Transform>();
+        Debug.Log(neighborBoids);
     }
 
     // Update is called once per frame
@@ -37,22 +43,28 @@ public class BoidObject : MonoBehaviour
     // called by BoidManager
     public void UpdateBoid()
     {
-        Vector3 separation = Vector3.zero;
+        FindNeighborBoids();
+
+        Vector3 separation = CalculateSeparation();
         Vector3 alignment = Vector3.zero;
         Vector3 cohesion = Vector3.zero;
 
-        Transform[] neighorBoids = FindNeighborBoids();
+        Vector3 acceleration = Vector3.forward * data.moveSpeed;
+        acceleration += separation + alignment + cohesion;
+        acceleration = Vector3.ClampMagnitude(acceleration, data.maxSpeed);
 
+        velocity += acceleration / Time.deltaTime;
+        velocity = Vector3.ClampMagnitude(velocity, data.maxSpeed);
 
+        transform.position += velocity * Time.deltaTime;
+        transform.forward = velocity.normalized;
     }
 
     // spherecasts for nearby boid neighbors and returns array of neighbors in vision
-    private Transform[] FindNeighborBoids()
+    private void FindNeighborBoids()
     {
         RaycastHit[] hits;
         hits = Physics.SphereCastAll(transform.position, data.neighborCastRadius, Vector3.forward, data.neighborCastRadius, data.neighborCastMask);
-
-        List<Transform> neighborBoidTransforms = new List<Transform>();
 
         for (int i = 0; i < hits.Length; i++)
         {
@@ -61,16 +73,29 @@ public class BoidObject : MonoBehaviour
             if (dotProductOfNeighborBoid < data.fovCutoff)
             {
                 // if out of fov, remove from list
-                neighborBoidTransforms.Add(hits[i].transform);
+                neighborBoids.Add(hits[i].transform);
             }
         }
 
-        return neighborBoidTransforms.ToArray();
+        //return neighborBoids.ToArray();
     }
 
-    private void CalculateSeparation()
+    // add repelling separation force from other neighbor boids
+    private Vector3 CalculateSeparation()
     {
+        Vector3 separationForce = Vector3.zero;
 
+        // add forces away from all neighbors - stronger the closer the boid is
+        foreach (Transform neighborBoid in neighborBoids)
+        {
+            Vector3 forceFromNeighbor = transform.position - neighborBoid.position;
+            float forceStrength = Mathf.InverseLerp(data.neighborCastRadius * data.neighborCastRadius, 0, forceFromNeighbor.sqrMagnitude);
+            separationForce += forceFromNeighbor * forceStrength;
+        }
+
+        separationForce = separationForce.normalized * data.separationInfluence;
+
+        return separationForce;
     }
 
     private void CalculateAlignment()

@@ -9,13 +9,18 @@ using UnityEngine;
  * 3.2.25
  */
 
-[CreateAssetMenu(menuName = "Data")]
+[CreateAssetMenu(menuName = "Data/Boid Data")]
 public class BoidData : ScriptableObject
 {
+    [Header("Movement Values")]
     [Range(0f, 100f)]
     public float moveSpeed;
+    public float maxSpeed;
     [Range(0f, 100f)]
     public float turnSpeed;
+
+    [Header("Boid Behavior Values")]
+    [Space]
     [Range(0f, 100f)]
     public float separationInfluence;
     [Range(0f, 100f)]
@@ -23,6 +28,7 @@ public class BoidData : ScriptableObject
     [Range(0f, 100f)]
     public float cohesionInfluence;
 
+    [Header("Neighbor Detection Values")]
     [Space]
     public float neighborCastRadius;
     public LayerMask neighborCastMask;
