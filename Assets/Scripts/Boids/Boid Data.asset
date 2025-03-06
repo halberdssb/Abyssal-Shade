@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Boid Data
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  maxSpeed: 3
+  maxSpeed: 5
   turnSpeed: 1
-  separationInfluence: 2
-  alignmentInfluence: 0
-  cohesionInfluence: 0
-  neighborCastRadius: 3
+  separationInfluence: 1
+  alignmentInfluence: 15
+  cohesionInfluence: 20
+  randomMovementInfluence: 0
+  neighborCastRadius: 5
   neighborCastMask:
     serializedVersion: 2
     m_Bits: 64
-  fovCutoff: -0.2
+  fovCutoff: -0.4
