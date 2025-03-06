@@ -18,7 +18,7 @@ MonoBehaviour:
   separationInfluence: 2
   alignmentInfluence: 0
   cohesionInfluence: 0
-  neighborCastRadius: 1
+  neighborCastRadius: 3
   neighborCastMask:
     serializedVersion: 2
     m_Bits: 64

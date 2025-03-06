@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /*
  * Handles an individual boid object and its movement
@@ -31,6 +32,9 @@ public class BoidObject : MonoBehaviour
     {
         neighborBoids = new List<Transform>();
         Debug.Log(neighborBoids);
+
+        velocity = Vector3.zero;
+        transform.rotation = Random.rotation;
     }
 
     // Update is called once per frame
@@ -46,12 +50,15 @@ public class BoidObject : MonoBehaviour
         FindNeighborBoids();
 
         Vector3 separation = CalculateSeparation();
-        Vector3 alignment = Vector3.zero;
-        Vector3 cohesion = Vector3.zero;
+        Vector3 alignment = CalculateAlignment();
+        Vector3 cohesion = CalculateCohesion();
 
-        Vector3 acceleration = Vector3.forward * data.moveSpeed;
+        Vector3 randomMovement = Random.rotation * transform.forward;
+
+        Vector3 acceleration = transform.rotation * Vector3.forward * data.moveSpeed;
+
+        //acceleration += randomMovement * data.randomMovementInfluence;
         acceleration += separation + alignment + cohesion;
-        acceleration = Vector3.ClampMagnitude(acceleration, data.maxSpeed);
 
         velocity += acceleration / Time.deltaTime;
         velocity = Vector3.ClampMagnitude(velocity, data.maxSpeed);
@@ -68,29 +75,34 @@ public class BoidObject : MonoBehaviour
 
         for (int i = 0; i < hits.Length; i++)
         {
-            // check if boid is in field of view
-            float dotProductOfNeighborBoid = Vector3.Dot(transform.forward, transform.position - hits[i].point);
-            if (dotProductOfNeighborBoid < data.fovCutoff)
+            // check if boid is self
+            if (hits[i].collider.gameObject != this.gameObject)
             {
-                // if out of fov, remove from list
-                neighborBoids.Add(hits[i].transform);
+                // check if boid is in field of view
+                float dotProductOfNeighborBoid = Vector3.Dot(transform.forward, transform.position - hits[i].point);
+                if (dotProductOfNeighborBoid < data.fovCutoff)
+                {
+                    // if out of fov, remove from list
+                    neighborBoids.Add(hits[i].transform);
+                }
             }
         }
 
         //return neighborBoids.ToArray();
     }
 
-    // add repelling separation force from other neighbor boids
+    // calculates repelling separation force from other neighbor boids
     private Vector3 CalculateSeparation()
     {
+        if (neighborBoids.Count == 0) return Vector3.zero;
+
         Vector3 separationForce = Vector3.zero;
 
         // add forces away from all neighbors - stronger the closer the boid is
         foreach (Transform neighborBoid in neighborBoids)
         {
             Vector3 forceFromNeighbor = transform.position - neighborBoid.position;
-            float forceStrength = Mathf.InverseLerp(data.neighborCastRadius * data.neighborCastRadius, 0, forceFromNeighbor.sqrMagnitude);
-            separationForce += forceFromNeighbor * forceStrength;
+            separationForce += forceFromNeighbor / forceFromNeighbor.sqrMagnitude;
         }
 
         separationForce = separationForce.normalized * data.separationInfluence;
@@ -98,13 +110,40 @@ public class BoidObject : MonoBehaviour
         return separationForce;
     }
 
-    private void CalculateAlignment()
+    // calculates average direction force of neighbors to help align boids to same direction
+    private Vector3 CalculateAlignment()
     {
+        if (neighborBoids.Count == 0) return Vector3.zero;
 
+        Vector3 alignmentForce = Vector3.zero;
+
+        // combine forward directions from all neighbors
+        foreach (Transform neighborBoid in neighborBoids)
+        {
+            alignmentForce += neighborBoid.forward;
+        }
+
+        alignmentForce /= neighborBoids.Count;
+        alignmentForce = alignmentForce.normalized * data.alignmentInfluence;
+
+        return alignmentForce;
     }
 
-    private void CalculateCohesion()
+    // calculates center of neighbor boids to help form boids into flocks/schoo;s
+    private Vector3 CalculateCohesion()
     {
+        if (neighborBoids.Count == 0) return Vector3.zero;
 
+        Vector3 cohesionForce = Vector3.zero;
+
+        foreach (Transform neighborBoid in neighborBoids)
+        {
+            cohesionForce += neighborBoid.position;
+        }
+
+        cohesionForce /= neighborBoids.Count;
+        cohesionForce = cohesionForce.normalized * data.cohesionInfluence;
+
+        return cohesionForce;
     }
 }

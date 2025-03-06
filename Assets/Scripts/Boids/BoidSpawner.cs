@@ -17,7 +17,13 @@ public class BoidSpawner : MonoBehaviour
     [SerializeField]
     private GameObject boidPrefab;
 
+    [Space]
+    [SerializeField]
+    private bool clampToSpawnArea;
+
     private BoxCollider spawnArea;
+
+    private GameObject[] boids;
 
     // Start is called before the first frame update
     void Awake()
@@ -30,12 +36,30 @@ public class BoidSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (clampToSpawnArea)
+        {
+            foreach (var boid in boids)
+            {
+                if (Mathf.Abs(boid.transform.position.x) > spawnArea.transform.position.x + spawnArea.size.x / 2)
+                {
+                    boid.transform.position += new Vector3(spawnArea.size.x, 0, 0) * -Mathf.Sign(boid.transform.position.x);
+                }
+                if (Mathf.Abs(boid.transform.position.y) > spawnArea.transform.position.y + spawnArea.size.y / 2)
+                {
+                    boid.transform.position += new Vector3(0, spawnArea.size.y, 0) * -Mathf.Sign(boid.transform.position.y);
+                }
+                if (Mathf.Abs(boid.transform.position.z) > spawnArea.transform.position.z + spawnArea.size.z / 2)
+                {
+                    boid.transform.position += new Vector3(0, 0, spawnArea.size.z) * -Mathf.Sign(boid.transform.position.z);
+                }
+            }
+        }
     }
 
     // spawns specified number of boids in spawn area
     private void SpawnBoids()
     {
+        boids = new GameObject[numberBoidsToSpawn];
         Transform boidParent = new GameObject("BoidHolder").transform;
 
         for (int i = 0; i < numberBoidsToSpawn; i++)
@@ -45,7 +69,7 @@ public class BoidSpawner : MonoBehaviour
             spawnPos.y += Random.Range(-spawnArea.size.y * 0.5f, spawnArea.size.y * 0.5f);
             spawnPos.z += Random.Range(-spawnArea.size.z * 0.5f, spawnArea.size.z * 0.5f);
 
-            Instantiate(boidPrefab, spawnPos, Random.rotation);
+            boids[i] = Instantiate(boidPrefab, spawnPos, Random.rotation);
         }
     }
 }

@@ -27,6 +27,8 @@ public class BoidData : ScriptableObject
     public float alignmentInfluence;
     [Range(0f, 100f)]
     public float cohesionInfluence;
+    [Range(0f, 100f)]
+    public float randomMovementInfluence;
 
     [Header("Neighbor Detection Values")]
     [Space]
