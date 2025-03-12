@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c74fa1f976a8ba4e9b3675b22971b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberBoidsToSpawn: 1
+  numberBoidsToSpawn: 1000
   boidPrefab: {fileID: 1322852238248066386, guid: 153c5a752d494844fb2d4ec6a20b36e6,
     type: 3}
   clampToSpawnArea: 0
@@ -341,8 +341,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1408115361}
   - {fileID: 351199543}
@@ -439,7 +439,7 @@ Transform:
   m_GameObject: {fileID: 1015755149}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -80}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

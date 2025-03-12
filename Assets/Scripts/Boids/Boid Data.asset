@@ -12,19 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309622d37b86d954794180df796deb17, type: 3}
   m_Name: Boid Data
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  maxSpeed: 7
-  turnSpeed: 2
+  maxSpeed: 8
+  maxTurnSpeed: 4
   separationInfluence: 10
   alignmentInfluence: 10
   cohesionInfluence: 10
-  collisionAvoidInfluence: 10
+  collisionAvoidInfluence: 50
   neighborCastRadius: 5
   neighborAvoidRadius: 3
   collisionMask:
     serializedVersion: 2
     m_Bits: 128
-  collisionViewDistance: 5
+  collisionViewDistance: 3
   collisionViewRadius: 1
-  collisionNavigationChecks: 100
+  collisionNavigationChecks: 200
   fovCutoff: -0.5
