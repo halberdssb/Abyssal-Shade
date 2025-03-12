@@ -48,10 +48,7 @@ public class BoidManager : MonoBehaviour
 
         foreach (BoidObject boid in boidsInScene)
         {
-            if (boid.data == null)
-            {
-                boid.BoidStart(boidData);
-            }
+            boid.BoidStart(boidData);
         }
     }
 

@@ -27,8 +27,7 @@ public class BoidObject : MonoBehaviour
     [HideInInspector]
     public int numNeighborBoids;
 
-    private List<Transform> neighborBoids;
-
+    private Vector3[] collisionNavigationCheckVectors;
     private Vector3 velocity;
 
     public BoidObject(BoidData boidData)
@@ -39,12 +38,12 @@ public class BoidObject : MonoBehaviour
     // called when a boid is found at start of scene by BoidManager
     public void BoidStart(BoidData data)
     {
-        //neighborBoids = new List<Transform>();
-
         this.data = data;
 
-        velocity = transform.forward * data.moveSpeed;
+        velocity = transform.forward * data.maxSpeed / 2;
         transform.rotation = Random.rotation;
+
+        collisionNavigationCheckVectors = NavigationSphereCaster.GetNavigationSphereVectors(data.collisionNavigationChecks);
     }
 
     // gets separation, alignment, and cohesion values and adds them to move boid
@@ -53,102 +52,94 @@ public class BoidObject : MonoBehaviour
     {
         Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
 
+        // boid rules - alignment/cohesion/separation
         if (numNeighborBoids > 0)
         {
             neighborsCenter /= numNeighborBoids;
+            Vector3 vectorToNeighborsCenter = neighborsCenter - transform.position;
 
-            Vector3 separation = neighborsSeparationForce * data.separationInfluence;
-            Vector3 alignment = neighborsDirection * data.alignmentInfluence;
-            Vector3 cohesion = neighborsCenter * data.cohesionInfluence;
-
+            Vector3 separation = GetWeightedClampedForce(neighborsSeparationForce, data.separationInfluence);
+            Vector3 alignment = GetWeightedClampedForce(neighborsDirection, data.alignmentInfluence);
+            Vector3 cohesion = GetWeightedClampedForce(vectorToNeighborsCenter, data.cohesionInfluence);
 
             acceleration += separation + alignment + cohesion;
         }
 
-        velocity += acceleration / Time.deltaTime;
+        // check for obstacles and avoid if so
+        if (CheckForApproachingCollision())
+        {
+            Vector3 collisionAvoidForce = CalculateMovementAroundCollisions();
+            collisionAvoidForce = GetWeightedClampedForce(collisionAvoidForce, data.collisionAvoidInfluence);
+
+            acceleration += collisionAvoidForce;
+        }
+
+        // apply forces to boid and move
+        velocity += acceleration * Time.deltaTime;
         velocity = Vector3.ClampMagnitude(velocity, data.maxSpeed);
 
         transform.position += velocity * Time.deltaTime;
-        transform.forward = velocity.normalized;
+        transform.forward = velocity;
     }
 
-    // spherecasts for nearby boid neighbors and returns array of neighbors in vision
-    private void FindNeighborBoids()
+    // checks for obstacle collision in front of boid
+    private bool CheckForApproachingCollision()
     {
-        RaycastHit[] hits;
-        hits = Physics.SphereCastAll(transform.position, data.neighborCastRadius, Vector3.forward, data.neighborCastRadius, data.neighborCastMask);
+        Ray collisionCheckRay = new Ray(transform.position, transform.forward);
 
-        for (int i = 0; i < hits.Length; i++)
+        return Physics.SphereCast(collisionCheckRay, data.collisionViewRadius, data.collisionViewDistance, data.collisionMask);
+    }
+
+    // finds path of least resistance to avoid approaching collisions
+    private Vector3 CalculateMovementAroundCollisions()
+    {
+        foreach (Vector3 collisionCheckVector in collisionNavigationCheckVectors)
         {
-            // check if boid is self
-            if (hits[i].collider.gameObject != this.gameObject)
+            // check that ray is within fov of boid
+            if (Vector3.Dot(transform.forward, collisionCheckVector) > data.fovCutoff)
             {
-                // check if boid is in field of view
-                float dotProductOfNeighborBoid = Vector3.Dot(transform.forward, transform.position - hits[i].point);
-                if (dotProductOfNeighborBoid < data.fovCutoff)
+                // check in set world space direction independent from boid direction
+                Vector3 worldSpaceCheckVector = transform.TransformDirection(collisionCheckVector);
+
+                Ray collisionCheckRay = new Ray(transform.position, worldSpaceCheckVector);
+                if (!Physics.SphereCast(collisionCheckRay, data.collisionViewRadius, data.collisionViewDistance, data.collisionMask))
                 {
-                    // if out of fov, remove from list
-                    neighborBoids.Add(hits[i].transform);
+                    Debug.Log("Path out found!");
+                    Debug.DrawLine(transform.position, transform.position + worldSpaceCheckVector);
+                    return worldSpaceCheckVector;
                 }
             }
         }
 
-        //return neighborBoids.ToArray();
+        // if no valid way out found, just move forward - will likely get stuck
+        Debug.Log("couldn't find way out");
+        return transform.forward;
     }
 
-    // calculates repelling separation force from other neighbor boids
-    private Vector3 CalculateSeparation()
+    // returns a movement force for the boid clamped to max turn speed
+    private Vector3 GetWeightedClampedForce(Vector3 force, float weight)
     {
-        if (neighborBoids.Count == 0) return Vector3.zero;
+        Vector3 forceToAdd = force.normalized * data.maxSpeed - velocity;
 
-        Vector3 separationForce = Vector3.zero;
-
-        // add forces away from all neighbors - stronger the closer the boid is
-        foreach (Transform neighborBoid in neighborBoids)
-        {
-            Vector3 forceFromNeighbor = transform.position - neighborBoid.position;
-            separationForce += forceFromNeighbor / forceFromNeighbor.sqrMagnitude;
-        }
-
-        separationForce = separationForce.normalized * data.separationInfluence;
-
-        return separationForce;
+        return Vector3.ClampMagnitude(forceToAdd, data.maxTurnSpeed) * weight;
     }
 
-    // calculates average direction force of neighbors to help align boids to same direction
-    private Vector3 CalculateAlignment()
+    private void OnDrawGizmosSelected()
     {
-        if (neighborBoids.Count == 0) return Vector3.zero;
+        Vector3[] rays = NavigationSphereCaster.GetNavigationSphereVectors(200);
 
-        Vector3 alignmentForce = Vector3.zero;
-
-        // combine forward directions from all neighbors
-        foreach (Transform neighborBoid in neighborBoids)
+        foreach (Vector3 ray in rays)
         {
-            alignmentForce += neighborBoid.forward;
+            if (Vector3.Dot(transform.forward, ray) > -0.5)
+            {
+                Gizmos.color = Color.green;
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+            }
+
+            Gizmos.DrawLine(transform.position, transform.position + ray.normalized);
         }
-
-        alignmentForce /= neighborBoids.Count;
-        alignmentForce = alignmentForce.normalized * data.alignmentInfluence;
-
-        return alignmentForce;
-    }
-
-    // calculates center of neighbor boids to help form boids into flocks/schoo;s
-    private Vector3 CalculateCohesion()
-    {
-        if (neighborBoids.Count == 0) return Vector3.zero;
-
-        Vector3 cohesionForce = Vector3.zero;
-
-        foreach (Transform neighborBoid in neighborBoids)
-        {
-            cohesionForce += neighborBoid.position;
-        }
-
-        cohesionForce /= neighborBoids.Count;
-        cohesionForce = cohesionForce.normalized * data.cohesionInfluence;
-
-        return cohesionForce;
     }
 }

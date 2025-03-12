@@ -20,7 +20,10 @@ public class BoidSpawner : MonoBehaviour
     [Space]
     [SerializeField]
     private bool clampToSpawnArea;
+    [SerializeField]
+    private bool showSpawnBounds;
 
+    [SerializeField]
     private BoxCollider spawnArea;
 
     private GameObject[] boids;
@@ -70,6 +73,17 @@ public class BoidSpawner : MonoBehaviour
             spawnPos.z += Random.Range(-spawnArea.size.z * 0.5f, spawnArea.size.z * 0.5f);
 
             boids[i] = Instantiate(boidPrefab, spawnPos, Random.rotation);
+            boids[i].transform.parent = boidParent;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (showSpawnBounds)
+        {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawCube(spawnArea.center, spawnArea.size);
         }
     }
 }

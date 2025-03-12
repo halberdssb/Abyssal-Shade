@@ -13,26 +13,33 @@ using UnityEngine;
 public class BoidData : ScriptableObject
 {
     [Header("Movement Values")]
-    [Range(0f, 100f)]
-    public float moveSpeed;
     public float maxSpeed;
-    [Range(0f, 100f)]
-    public float turnSpeed;
+    //[Range(1f, 100f)]
+    public float maxTurnSpeed;
 
-    [Header("Boid Behavior Values")]
     [Space]
-    [Range(0f, 100f)]
+    [Header("Boid Behavior Values")]
+    [Range(1f, 100f)]
     public float separationInfluence;
-    [Range(0f, 100f)]
+    [Range(1f, 100f)]
     public float alignmentInfluence;
-    [Range(0f, 100f)]
+    [Range(1f, 100f)]
     public float cohesionInfluence;
+    [Range(1, 100f)]
+    public float collisionAvoidInfluence;
+
+    [Space]
+    [Header("Neighbor Detection Values")]
+    public float neighborCastRadius;
     public float neighborAvoidRadius;
 
-    [Header("Neighbor Detection Values")]
     [Space]
-    public float neighborCastRadius;
-    public LayerMask neighborCastMask;
+    [Header("Obstacle & Collision Values")]
+    public LayerMask collisionMask;
+    public float collisionViewDistance;
+    public float collisionViewRadius;
+    public int collisionNavigationChecks;
     [Range(-1f, 1f)]
     public float fovCutoff;
+
 }

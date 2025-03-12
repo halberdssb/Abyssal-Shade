@@ -54,7 +54,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
                 if (squareDistance < avoidRadius * avoidRadius)
                 {
                     // divide by square distance to apply exponentially greater force the closer boids are - prevents overlap well
-                    boids[id.x].neighborsSeparationForce += -offset / squareDistance;
+                    boids[id.x].neighborsSeparationForce -= offset / squareDistance;
                 }
             }
         }
