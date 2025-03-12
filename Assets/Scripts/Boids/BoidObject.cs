@@ -104,16 +104,13 @@ public class BoidObject : MonoBehaviour
                 Ray collisionCheckRay = new Ray(transform.position, worldSpaceCheckVector);
                 if (!Physics.SphereCast(collisionCheckRay, data.collisionViewRadius, data.collisionViewDistance, data.collisionMask))
                 {
-                    Debug.Log("Path out found!");
-                    Debug.DrawLine(transform.position, transform.position + worldSpaceCheckVector);
                     return worldSpaceCheckVector;
                 }
             }
         }
 
-        // if no valid way out found, just move forward - will likely get stuck
-        Debug.Log("couldn't find way out");
-        return transform.forward;
+        // if no valid way out found, do a 180
+        return -transform.forward;
     }
 
     // returns a movement force for the boid clamped to max turn speed

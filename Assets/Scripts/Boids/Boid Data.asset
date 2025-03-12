@@ -18,12 +18,12 @@ MonoBehaviour:
   alignmentInfluence: 10
   cohesionInfluence: 10
   collisionAvoidInfluence: 50
-  neighborCastRadius: 5
+  neighborCastRadius: 4
   neighborAvoidRadius: 3
   collisionMask:
     serializedVersion: 2
     m_Bits: 128
   collisionViewDistance: 3
   collisionViewRadius: 1
-  collisionNavigationChecks: 200
-  fovCutoff: -0.5
+  collisionNavigationChecks: 100
+  fovCutoff: -1
