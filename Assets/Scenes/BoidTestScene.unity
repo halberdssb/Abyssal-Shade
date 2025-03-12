@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boidData: {fileID: 11400000, guid: 272269b1056563b4baca54b245356adb, type: 2}
+  boidComputeShader: {fileID: 7200000, guid: fd9cc25e236071d448d54e3e913dd7d4, type: 3}
 --- !u!4 &175949765
 Transform:
   m_ObjectHideFlags: 0

@@ -1,0 +1,62 @@
+#pragma kernel CSMain
+
+/*
+ * Calculates values for neighbors (cohesion/alignment/separation values) for each boid
+ *
+ * Jeff Stevenson
+ * 3.11.25
+ */
+
+static const int THREAD_GROUP_SIZE = 1024;
+
+// Boid data struct - holds boid data mirroring BoidComputeData struct in BoidManager
+struct Boid
+{
+    float3 boidPosition;
+    float3 boidDirection;
+    
+    float3 neighborsDirection;
+    float3 neighborsCenter;
+    float3 neighborsSeparationForce;
+    int numNeighbors;
+};
+
+// buffer instantiated by BoidManager to run compute shader and use data
+RWStructuredBuffer<Boid> boids;
+
+int numBoids;
+float viewRadius;
+float avoidRadius;
+
+[numthreads(THREAD_GROUP_SIZE,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    for (int i = 0; i < numBoids; i++)
+    {
+        // check if boid is not self
+        if (id.x != i)
+        {
+            // note: self = boids[id.x]
+            // other boid = boids[i]
+            
+            float3 offset = boids[i].boidPosition - boids[id.x].boidPosition;
+            float squareDistance = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
+            
+            // check if neighbor is in range
+            if (squareDistance < viewRadius * viewRadius)
+            {
+                boids[id.x].numNeighbors++;
+                
+                // add neighbor's data to values for cohesion/alignment/separation
+                boids[id.x].neighborsDirection += boids[i].boidDirection;
+                boids[id.x].neighborsCenter += boids[i].boidPosition;
+                
+                if (squareDistance < avoidRadius * avoidRadius)
+                {
+                    // divide by square distance to apply exponentially greater force the closer boids are - prevents overlap well
+                    boids[id.x].neighborsSeparationForce += -offset / squareDistance;
+                }
+            }
+        }
+    }
+}

@@ -18,7 +18,7 @@ MonoBehaviour:
   separationInfluence: 1
   alignmentInfluence: 15
   cohesionInfluence: 20
-  randomMovementInfluence: 0
+  neighborAvoidRadius: 3
   neighborCastRadius: 5
   neighborCastMask:
     serializedVersion: 2

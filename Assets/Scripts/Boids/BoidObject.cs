@@ -18,6 +18,15 @@ public class BoidObject : MonoBehaviour
     [HideInInspector]
     public BoidData data;
 
+    [HideInInspector]
+    public Vector3 neighborsDirection;
+    [HideInInspector]
+    public Vector3 neighborsCenter;
+    [HideInInspector]
+    public Vector3 neighborsSeparationForce;
+    [HideInInspector]
+    public int numNeighborBoids;
+
     private List<Transform> neighborBoids;
 
     private Vector3 velocity;
@@ -27,38 +36,34 @@ public class BoidObject : MonoBehaviour
         this.data = boidData;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // called when a boid is found at start of scene by BoidManager
+    public void BoidStart(BoidData data)
     {
-        neighborBoids = new List<Transform>();
-        Debug.Log(neighborBoids);
+        //neighborBoids = new List<Transform>();
 
-        velocity = Vector3.zero;
+        this.data = data;
+
+        velocity = transform.forward * data.moveSpeed;
         transform.rotation = Random.rotation;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     // gets separation, alignment, and cohesion values and adds them to move boid
     // called by BoidManager
     public void UpdateBoid()
     {
-        FindNeighborBoids();
+        Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
 
-        Vector3 separation = CalculateSeparation();
-        Vector3 alignment = CalculateAlignment();
-        Vector3 cohesion = CalculateCohesion();
+        if (numNeighborBoids > 0)
+        {
+            neighborsCenter /= numNeighborBoids;
 
-        Vector3 randomMovement = Random.rotation * transform.forward;
+            Vector3 separation = neighborsSeparationForce * data.separationInfluence;
+            Vector3 alignment = neighborsDirection * data.alignmentInfluence;
+            Vector3 cohesion = neighborsCenter * data.cohesionInfluence;
 
-        Vector3 acceleration = transform.rotation * Vector3.forward * data.moveSpeed;
 
-        //acceleration += randomMovement * data.randomMovementInfluence;
-        acceleration += separation + alignment + cohesion;
+            acceleration += separation + alignment + cohesion;
+        }
 
         velocity += acceleration / Time.deltaTime;
         velocity = Vector3.ClampMagnitude(velocity, data.maxSpeed);
