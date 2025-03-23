@@ -14,6 +14,8 @@ public class PlayerStateController : MonoBehaviour
 
     #region Public Variables
 
+    public PlayerCameraFollow cameraFollow;
+
     #endregion
 
     #region Private Variables

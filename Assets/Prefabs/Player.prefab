@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5367026162877008400}
+  - component: {fileID: 7663333604491946025}
+  - component: {fileID: 6742959084749163542}
+  - component: {fileID: 8251469929020423543}
   m_Layer: 3
   m_Name: CameraFollow
   m_TagString: Untagged
@@ -24,13 +27,65 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2268764372287138791}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.037341367, y: 0, z: 0, w: 0.99930257}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5217981797825697993}
-  m_LocalEulerAnglesHint: {x: 4.28, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7663333604491946025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2268764372287138791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f879a04c6c803a04d8bae3c3d4b6fd6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1818360608 &6742959084749163542
+PositionConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2268764372287138791}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 1.19, z: 0}
+  m_TranslationOffset: {x: 0, y: 1.19, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_Active: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 5217981797825697993}
+    weight: 1
+--- !u!1818360609 &8251469929020423543
+RotationConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2268764372287138791}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 1
+  m_Active: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 5217981797825697993}
+    weight: 1
 --- !u!1 &2298810129248631512
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f071d284e28fb2247b9333ac6602eb5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraFollow: {fileID: 7663333604491946025}
   data: {fileID: 11400000, guid: 1e6127ae03d437c4a9bdd31f1c923b06, type: 2}
 --- !u!54 &5860787491787781471
 Rigidbody:

@@ -11,11 +11,6 @@ using UnityEngine;
 
 public class SwimMovement : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
     // returns swim force vector to move entity based on input
     public void Swim(Rigidbody rb, Vector2 moveInput)
     {
@@ -23,14 +18,20 @@ public class SwimMovement : MonoBehaviour
     }
 
     // overload that takes in custom swim speed values
-    public void Swim(Rigidbody rb, Vector2 moveInput, float swimSpeed, float strafeSpeed)
+    public void Swim(Rigidbody rb, Vector2 moveInput, float swimSpeed, float strafeSpeed, Transform rotationTransform = null)
     {
-        Vector3 forwardSwimForce = rb.transform.TransformDirection(Vector3.forward) * moveInput.y * swimSpeed;
-        //forwardSwimForce = rb.transform.rotation * forwardSwimForce;
-        Vector3 strafeForce = rb.transform.TransformDirection(Vector3.right) * moveInput.x * strafeSpeed;
-        //strafeForce = rb.transform.rotation * strafeForce;
+        if (rotationTransform == null)
+        {
+            rotationTransform = rb.transform;
+        }
+
+        Vector3 forwardSwimForce = rotationTransform.TransformDirection(Vector3.forward) * moveInput.y * swimSpeed;
+        //float forwardSwimForce = moveInput.y * swimSpeed;
+        Vector3 strafeForce = rotationTransform.TransformDirection(Vector3.right) * moveInput.x * strafeSpeed;
+        //float strafeForce = moveInput.x * strafeSpeed;
 
         Vector3 totalSwimForce = forwardSwimForce + strafeForce;
+        //Vector3 totalSwimForce = new Vector3(strafeForce, 0, forwardSwimForce);
 
         // clamp to swim speed to diagonal movement is not faster than forwards - NOT USED right now
         //totalSwimForce = totalSwimForce.normalized * swimSpeed;
