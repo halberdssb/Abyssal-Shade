@@ -24,14 +24,28 @@ public class PlayerCameraFollow : MonoBehaviour
     void Update()
     {
         // update camera movement
-        Rotate();
+        //Rotate();
     }
 
     // rotates based on player mouse input and sensitivity
-    private void Rotate()
+    public void Rotate()
     {
         // switch x and y axis of mouse input to correctly rotate based on input
         Vector3 flippedLookInput = new Vector3(-player.Controls.LookInput.y, player.Controls.LookInput.x);
         transform.Rotate(flippedLookInput * player.Data.lookSensitivity);
+
+        // clamp vertical rotation to min and max values to prevent camera jittering
+        Debug.Log(transform.rotation.eulerAngles.x);
+
+        float clampedYLook = transform.rotation.eulerAngles.x;
+        if (clampedYLook > 180)
+        {
+            clampedYLook = Mathf.Clamp(clampedYLook, 275, 360);
+        }
+        else
+        {
+            clampedYLook = Mathf.Clamp(clampedYLook, 0, 85);
+        }
+        transform.rotation = Quaternion.Euler(clampedYLook, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 }

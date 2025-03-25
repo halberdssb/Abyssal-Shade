@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 /*
@@ -11,6 +12,8 @@ using UnityEngine;
 
 public class SwimMovement : MonoBehaviour
 {
+    private Vector3 testVel;
+
     // returns swim force vector to move entity based on input
     public void Swim(Rigidbody rb, Vector2 moveInput)
     {
@@ -20,6 +23,7 @@ public class SwimMovement : MonoBehaviour
     // overload that takes in custom swim speed values
     public void Swim(Rigidbody rb, Vector2 moveInput, float swimSpeed, float strafeSpeed, Transform rotationTransform = null)
     {
+        // if no outside rotation transform used (like player cam follow), use rb transform
         if (rotationTransform == null)
         {
             rotationTransform = rb.transform;
@@ -69,5 +73,22 @@ public class SwimMovement : MonoBehaviour
         Vector3 rollForce = rb.transform.TransformDirection(Vector3.forward) * rollInput * rollSpeed;
 
         rb.AddTorque(rollForce, ForceMode.Force);
+    }
+
+    // smoothly lerps a rb rotation to another - for player turning towards camera direction
+    public void SmoothTurn(Rigidbody rbToTurn, Transform target, float maxSpeed)
+    {
+        float turnTime = 0.5f;
+        // lerp to forward direction based on 
+
+
+        //Vector3 smoothTurnVector = Vector3.SmoothDamp(rbToTurn.transform.forward, target.forward, ref testVel, turnTime);
+
+        /*        float speedLerpVal = Mathf.InverseLerp(0, maxSpeed, rbToTurn.velocity.sqrMagnitude);
+                Vector3 forwardVector = Vector3.Lerp(rbToTurn.transform.forward, target.forward, speedLerpVal);*/
+
+        Quaternion smoothTurnRotation = Quaternion.Lerp(rbToTurn.transform.rotation, target.rotation, Time.deltaTime * rbToTurn.velocity.sqrMagnitude);
+
+        rbToTurn.transform.rotation = smoothTurnRotation;
     }
 }

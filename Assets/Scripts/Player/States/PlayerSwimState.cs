@@ -19,16 +19,17 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnUpdateState(PlayerStateController player)
     {
-
+        player.cameraFollow.Rotate();
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
         // rotate input vector based on camera rotation
-
         Vector3 rotatedInputVector = player.Controls.MovementInput * player.cameraFollow.transform.forward;
-        Debug.Log(rotatedInputVector);
         player.SwimMovement.Swim(player.Rb, player.Controls.MovementInput, player.Data.swimSpeed, player.Data.strafeSpeed, player.cameraFollow.transform);
-        //player.SwimMovement.Turn(player.CameraLookRb, player.Controls.LookInput, player.Data.lookSensitivity);
+        if (player.transform.forward != player.cameraFollow.transform.forward)
+        {
+            player.SwimMovement.SmoothTurn(player.Rb, player.cameraFollow.transform, player.Data.swimSpeed);
+        }
         player.SwimMovement.Roll(player.Rb, player.Controls.RollInput, player.Data.rollSpeed);
     }
     public override void OnExitState(PlayerStateController player)
