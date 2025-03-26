@@ -35,7 +35,7 @@ public class PlayerCameraFollow : MonoBehaviour
         transform.Rotate(flippedLookInput * player.Data.lookSensitivity);
 
         // clamp vertical rotation to min and max values to prevent camera jittering
-        Debug.Log(transform.rotation.eulerAngles.x);
+        //Debug.Log(transform.rotation.eulerAngles.x);
 
         float clampedYLook = transform.rotation.eulerAngles.x;
         if (clampedYLook > 180)
@@ -46,6 +46,6 @@ public class PlayerCameraFollow : MonoBehaviour
         {
             clampedYLook = Mathf.Clamp(clampedYLook, 0, 85);
         }
-        transform.rotation = Quaternion.Euler(clampedYLook, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        //transform.rotation = Quaternion.Euler(clampedYLook, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 }

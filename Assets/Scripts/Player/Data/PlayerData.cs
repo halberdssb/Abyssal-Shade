@@ -16,6 +16,7 @@ public class PlayerData : ScriptableObject
     public float swimSpeed;
     public float strafeSpeed;
     public float rollSpeed;
+    public float turnSpeed;
     [Range(0f, 1f)]
     public float lookSensitivity;
 }

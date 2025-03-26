@@ -15,8 +15,8 @@ MonoBehaviour:
   maxSpeed: 8
   maxTurnSpeed: 4
   separationInfluence: 10
-  alignmentInfluence: 10
-  cohesionInfluence: 10
+  alignmentInfluence: 8
+  cohesionInfluence: 8
   collisionAvoidInfluence: 50
   neighborCastRadius: 4
   neighborAvoidRadius: 3

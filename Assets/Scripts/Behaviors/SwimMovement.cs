@@ -68,7 +68,7 @@ public class SwimMovement : MonoBehaviour
     }
 
     // overload that takes in roll speed (for player)
-    public void Roll(Rigidbody rb, float rollInput, float rollSpeed)
+    public void Roll(Rigidbody rb, float rollInput, float rollSpeed, Transform lookTransform = null)
     {
         Vector3 rollForce = rb.transform.TransformDirection(Vector3.forward) * rollInput * rollSpeed;
 
@@ -76,19 +76,11 @@ public class SwimMovement : MonoBehaviour
     }
 
     // smoothly lerps a rb rotation to another - for player turning towards camera direction
-    public void SmoothTurn(Rigidbody rbToTurn, Transform target, float maxSpeed)
+    public void SmoothTurn(Transform rbToTurn, Transform target, Vector2 directionalInput, float turnSpeed)
     {
-        float turnTime = 0.5f;
-        // lerp to forward direction based on 
+        float lerpTValue = directionalInput.sqrMagnitude * turnSpeed * Time.fixedDeltaTime;
+        Quaternion smoothTurnRotation = Quaternion.Slerp(rbToTurn.rotation, target.rotation, lerpTValue);
 
-
-        //Vector3 smoothTurnVector = Vector3.SmoothDamp(rbToTurn.transform.forward, target.forward, ref testVel, turnTime);
-
-        /*        float speedLerpVal = Mathf.InverseLerp(0, maxSpeed, rbToTurn.velocity.sqrMagnitude);
-                Vector3 forwardVector = Vector3.Lerp(rbToTurn.transform.forward, target.forward, speedLerpVal);*/
-
-        Quaternion smoothTurnRotation = Quaternion.Lerp(rbToTurn.transform.rotation, target.rotation, Time.deltaTime * rbToTurn.velocity.sqrMagnitude);
-
-        rbToTurn.transform.rotation = smoothTurnRotation;
+        rbToTurn.rotation = smoothTurnRotation;
     }
 }

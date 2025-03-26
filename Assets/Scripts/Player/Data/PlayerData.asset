@@ -15,4 +15,5 @@ MonoBehaviour:
   swimSpeed: 16
   strafeSpeed: 8
   rollSpeed: 4
+  turnSpeed: 4
   lookSensitivity: 0.2
