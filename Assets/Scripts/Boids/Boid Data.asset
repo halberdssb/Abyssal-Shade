@@ -18,6 +18,7 @@ MonoBehaviour:
   alignmentInfluence: 8
   cohesionInfluence: 8
   collisionAvoidInfluence: 50
+  followObjInfluence: 10.7
   neighborCastRadius: 4
   neighborAvoidRadius: 3
   collisionMask:

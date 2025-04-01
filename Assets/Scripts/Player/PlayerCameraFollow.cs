@@ -46,6 +46,6 @@ public class PlayerCameraFollow : MonoBehaviour
         {
             clampedYLook = Mathf.Clamp(clampedYLook, 0, 85);
         }
-        //transform.rotation = Quaternion.Euler(clampedYLook, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        transform.rotation = Quaternion.Euler(clampedYLook, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 }

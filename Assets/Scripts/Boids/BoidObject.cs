@@ -30,13 +30,15 @@ public class BoidObject : MonoBehaviour
     private Vector3[] collisionNavigationCheckVectors;
     private Vector3 velocity;
 
+    private GameObject followObj;
+
     public BoidObject(BoidData boidData)
     {
         this.data = boidData;
     }
 
     // called when a boid is found at start of scene by BoidManager
-    public void BoidStart(BoidData data)
+    public void BoidStart(BoidData data, GameObject followObj = null)
     {
         this.data = data;
 
@@ -44,6 +46,11 @@ public class BoidObject : MonoBehaviour
         transform.rotation = Random.rotation;
 
         collisionNavigationCheckVectors = NavigationSphereCaster.GetNavigationSphereVectors(data.collisionNavigationChecks);
+
+        if (followObj != null)
+        {
+            this.followObj = followObj;
+        }
     }
 
     // gets separation, alignment, and cohesion values and adds them to move boid
@@ -51,6 +58,11 @@ public class BoidObject : MonoBehaviour
     public void UpdateBoid()
     {
         Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
+
+        if (followObj)
+        {
+            acceleration = (followObj.transform.position - transform.position).normalized * data.followObjInfluence;
+        }
 
         // boid rules - alignment/cohesion/separation
         if (numNeighborBoids > 0)

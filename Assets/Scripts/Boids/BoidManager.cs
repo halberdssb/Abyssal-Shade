@@ -21,6 +21,9 @@ public class BoidManager : MonoBehaviour
     [SerializeField]
     private ComputeShader boidComputeShader;
 
+    [SerializeField]
+    private GameObject boidFollowObj;
+
     private BoidObject[] boidsInScene;
 
     // Boid Compute Data Struct - holds data for boids calculated in compute shader
@@ -48,7 +51,14 @@ public class BoidManager : MonoBehaviour
 
         foreach (BoidObject boid in boidsInScene)
         {
-            boid.BoidStart(boidData);
+            if (boidFollowObj != null)
+            {
+                boid.BoidStart(boidData, boidFollowObj);
+            }
+            else
+            {
+                boid.BoidStart(boidData);
+            }
         }
     }
 
