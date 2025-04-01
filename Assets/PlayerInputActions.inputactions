@@ -110,15 +110,37 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "7ac2c0fd-ce3f-4dfa-959d-e9370d701944",
-                    "path": "<Mouse>/scroll",
+                    "name": "Scroll Wheel",
+                    "id": "5e7a44ee-c4cb-4b67-abba-23ce299131c4",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "bd0b10ce-608b-4efc-b3e3-6c054ce6470e",
+                    "path": "<Mouse>/scroll/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse & Keyboard",
                     "action": "Zoom",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "e0fdf572-765c-4e79-8565-103fcfd6a4aa",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse & Keyboard",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "Q/E",

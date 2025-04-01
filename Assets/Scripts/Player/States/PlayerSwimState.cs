@@ -20,6 +20,7 @@ public class PlayerSwimState : PlayerBaseState
     public override void OnUpdateState(PlayerStateController player)
     {
         player.cameraFollow.Rotate();
+        player.cameraFollow.Zoom();
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {

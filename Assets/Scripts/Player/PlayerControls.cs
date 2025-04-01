@@ -17,6 +17,7 @@ public class PlayerControls : MonoBehaviour
 
     private Vector2 _movementInput;
     private Vector2 _lookInput;
+    private float _zoomInput;
     private float _rollInput;
 
     #endregion
@@ -30,6 +31,11 @@ public class PlayerControls : MonoBehaviour
     public Vector2 LookInput 
     { 
         get { return _lookInput; }
+    }
+
+    public float ZoomInput
+    {
+        get { return _zoomInput; }
     }
 
     public float RollInput
@@ -51,6 +57,11 @@ public class PlayerControls : MonoBehaviour
     public void OnLook(InputValue value)
     {
         _lookInput = value.Get<Vector2>();
+    }
+
+    public void OnZoom(InputValue value)
+    {
+        _zoomInput = value.Get<float>();
     }
 
     public void OnRoll(InputValue value)

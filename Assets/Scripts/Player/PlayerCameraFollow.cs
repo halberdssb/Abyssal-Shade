@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,6 +13,9 @@ using UnityEngine;
 
 public class PlayerCameraFollow : MonoBehaviour
 {
+    [SerializeField]
+    private CinemachineVirtualCamera mainCamera;
+
     private PlayerStateController player;
 
     private void Awake()
@@ -47,5 +51,14 @@ public class PlayerCameraFollow : MonoBehaviour
             clampedYLook = Mathf.Clamp(clampedYLook, 0, 85);
         }
         transform.rotation = Quaternion.Euler(clampedYLook, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+    }
+
+    // zooms the camera in and out based on mouse scroll values
+    public void Zoom()
+    {
+        if (player.Controls.ZoomInput != 0)
+        Debug.Log("Zoom input: " + player.Controls.ZoomInput);
+        mainCamera.m_Lens.FieldOfView += player.Controls.ZoomInput * player.Data.zoomSensitivity;
+        mainCamera.m_Lens.FieldOfView = Mathf.Clamp(mainCamera.m_Lens.FieldOfView, player.Data.minZoomDistance, player.Data.maxZoomDistance); 
     }
 }

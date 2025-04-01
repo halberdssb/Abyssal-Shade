@@ -17,3 +17,6 @@ MonoBehaviour:
   rollSpeed: 4
   turnSpeed: 4
   lookSensitivity: 0.2
+  zoomSensitivity: 0.02
+  minZoomDistance: 50
+  maxZoomDistance: 120

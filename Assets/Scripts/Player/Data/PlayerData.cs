@@ -19,4 +19,8 @@ public class PlayerData : ScriptableObject
     public float turnSpeed;
     [Range(0f, 1f)]
     public float lookSensitivity;
+    [Range(0, 1f)]
+    public float zoomSensitivity;
+    public float minZoomDistance;
+    public float maxZoomDistance;
 }
