@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -76,11 +77,31 @@ public class SwimMovement : MonoBehaviour
     }
 
     // smoothly lerps a rb rotation to another - for player turning towards camera direction
-    public void SmoothTurn(Transform rbToTurn, Transform target, Vector2 directionalInput, float turnSpeed)
+    public void SmoothTurn(Rigidbody rbToTurn, Transform target, Vector2 directionalInput, float turnSpeed, float maxZRotation)
     {
         float lerpTValue = directionalInput.sqrMagnitude * turnSpeed * Time.fixedDeltaTime;
-        Quaternion smoothTurnRotation = Quaternion.Slerp(rbToTurn.rotation, target.rotation, lerpTValue);
+        Quaternion smoothTurnRotation = Quaternion.Slerp(rbToTurn.transform.rotation, target.rotation, lerpTValue);
 
-        rbToTurn.rotation = smoothTurnRotation;
+        // handle z lerp rotation to animated based on horizontal movement
+        float zRotation = -Vector3.Dot(-rbToTurn.transform.forward, target.right * maxZRotation);
+        Vector3 zRotationVector = Vector3.zero;
+
+        zRotationVector.z = Mathf.Lerp(rbToTurn.transform.rotation.z, zRotation, lerpTValue);
+
+        Vector3 finalEulerRotation = smoothTurnRotation.eulerAngles + zRotationVector;
+
+        rbToTurn.rotation = Quaternion.Euler(finalEulerRotation);
+    }
+
+    // applies a boost in the given direction for dashing/dodging
+    public void Dash(Rigidbody rb, Vector2 moveInput, float dashSpeed, Transform lookTransform = null)
+    {
+        Vector3 adjustedMoveInput = new Vector3(moveInput.x, 0, moveInput.y);
+
+        Transform transformForwardToUse = lookTransform != null ? lookTransform : rb.transform;
+
+        Vector3 dashForce = transformForwardToUse.TransformDirection(adjustedMoveInput) * dashSpeed;
+
+        rb.AddForce(dashForce, ForceMode.Impulse);
     }
 }

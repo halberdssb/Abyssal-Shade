@@ -11,7 +11,7 @@ using UnityEngine;
  * 3.23.25
  */
 
-public class PlayerCameraFollow : MonoBehaviour
+public class PlayerCameraController : MonoBehaviour
 {
     [SerializeField]
     private CinemachineVirtualCamera mainCamera;
@@ -24,19 +24,13 @@ public class PlayerCameraFollow : MonoBehaviour
         transform.parent = null;
     }
 
-
-    void Update()
-    {
-        // update camera movement
-        //Rotate();
-    }
-
     // rotates based on player mouse input and sensitivity
     public void Rotate()
     {
         // switch x and y axis of mouse input to correctly rotate based on input
         Vector3 flippedLookInput = new Vector3(-player.Controls.LookInput.y, player.Controls.LookInput.x);
         transform.Rotate(flippedLookInput * player.Data.lookSensitivity);
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
 
         // clamp vertical rotation to min and max values to prevent camera jittering
         //Debug.Log(transform.rotation.eulerAngles.x);
@@ -53,11 +47,15 @@ public class PlayerCameraFollow : MonoBehaviour
         transform.rotation = Quaternion.Euler(clampedYLook, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 
+    // instantly alligns player forward with camera direction
+    public void SnapPlayerToCameraDirection()
+    {
+        player.transform.rotation = mainCamera.transform.rotation;
+    }
+
     // zooms the camera in and out based on mouse scroll values
     public void Zoom()
     {
-        if (player.Controls.ZoomInput != 0)
-        Debug.Log("Zoom input: " + player.Controls.ZoomInput);
         mainCamera.m_Lens.FieldOfView += player.Controls.ZoomInput * player.Data.zoomSensitivity;
         mainCamera.m_Lens.FieldOfView = Mathf.Clamp(mainCamera.m_Lens.FieldOfView, player.Data.minZoomDistance, player.Data.maxZoomDistance); 
     }

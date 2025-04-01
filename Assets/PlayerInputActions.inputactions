@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Dash",
+                    "type": "Value",
+                    "id": "35563137-e7fe-4994-86dd-7870ab0a3478",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -122,8 +131,8 @@
                 },
                 {
                     "name": "negative",
-                    "id": "bd0b10ce-608b-4efc-b3e3-6c054ce6470e",
-                    "path": "<Mouse>/scroll/down",
+                    "id": "e0fdf572-765c-4e79-8565-103fcfd6a4aa",
+                    "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse & Keyboard",
@@ -133,8 +142,8 @@
                 },
                 {
                     "name": "positive",
-                    "id": "e0fdf572-765c-4e79-8565-103fcfd6a4aa",
-                    "path": "<Mouse>/scroll/up",
+                    "id": "bd0b10ce-608b-4efc-b3e3-6c054ce6470e",
+                    "path": "<Mouse>/scroll/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse & Keyboard",
@@ -174,6 +183,17 @@
                     "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "a009faac-700a-4155-88f2-37e7e8585fab",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse & Keyboard",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

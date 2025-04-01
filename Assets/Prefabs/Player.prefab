@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5367026162877008400}
   - component: {fileID: 8094148321749918840}
-  - component: {fileID: 4099281478202568952}
+  - component: {fileID: 9166439982969369981}
   m_Layer: 3
   m_Name: CameraFollow
   m_TagString: Untagged
@@ -60,7 +60,7 @@ ParentConstraint:
   m_Sources:
   - sourceTransform: {fileID: 5217981797825697993}
     weight: 1
---- !u!114 &4099281478202568952
+--- !u!114 &9166439982969369981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,9 +69,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2268764372287138791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f879a04c6c803a04d8bae3c3d4b6fd6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ebffb98bcbe98c49b72f3b37e4ba31d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
 --- !u!1 &2298810129248631512
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f071d284e28fb2247b9333ac6602eb5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFollow: {fileID: 4099281478202568952}
+  cameraController: {fileID: 9166439982969369981}
   data: {fileID: 11400000, guid: 1e6127ae03d437c4a9bdd31f1c923b06, type: 2}
 --- !u!54 &5860787491787781471
 Rigidbody:

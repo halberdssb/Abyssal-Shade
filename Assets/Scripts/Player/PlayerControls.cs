@@ -19,6 +19,7 @@ public class PlayerControls : MonoBehaviour
     private Vector2 _lookInput;
     private float _zoomInput;
     private float _rollInput;
+    private bool _dashPressed;
 
     #endregion
 
@@ -41,6 +42,11 @@ public class PlayerControls : MonoBehaviour
     public float RollInput
     {
         get { return _rollInput; }
+    }
+
+    public bool DashPressed
+    {
+        get { return _dashPressed; }
     }
 
     #endregion
@@ -67,6 +73,11 @@ public class PlayerControls : MonoBehaviour
     public void OnRoll(InputValue value)
     {
         _rollInput = value.Get<float>();
+    }
+
+    public void OnDash(InputValue value)
+    {
+        _dashPressed = value.isPressed;
     }
 
     #endregion
