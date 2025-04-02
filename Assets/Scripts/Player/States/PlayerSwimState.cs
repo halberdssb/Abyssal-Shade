@@ -44,6 +44,7 @@ public class PlayerSwimState : PlayerBaseState
         if (player.Controls.DashPressed && !isDashHeld && player.dashCooldownTimer <= 0 && player.Controls.MovementInput.sqrMagnitude > 0)
         {
             player.SwimMovement.Dash(player.Rb, player.Controls.MovementInput, player.Data.dashSpeed, player.cameraController.transform);
+            player.dashSound.Play();
             isDashHeld = true;
             player.dashCooldownTimer = player.Data.dashCooldown;
         }

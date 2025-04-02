@@ -16,6 +16,7 @@ public class PlayerStateController : MonoBehaviour
 
     public PlayerCameraController cameraController;
 
+    public AudioSource dashSound;
     public float dashCooldownTimer;
     #endregion
 
