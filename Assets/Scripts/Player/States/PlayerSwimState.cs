@@ -35,6 +35,7 @@ public class PlayerSwimState : PlayerBaseState
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
         // handle movement, turning, dashing
+        Debug.Log("input: " + player.Controls.MovementInput.x);
         player.SwimMovement.Swim(player.Rb, player.Controls.MovementInput, player.Data.swimSpeed, player.Data.strafeSpeed, player.cameraController.transform);
 
         // currently disabling roll - don't like how it feels w/ camera movement
