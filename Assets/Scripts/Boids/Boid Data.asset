@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 8
   maxTurnSpeed: 4
-  separationInfluence: 10
+  separationInfluence: 8.5
   alignmentInfluence: 8
   cohesionInfluence: 8
   collisionAvoidInfluence: 50
-  followObjInfluence: 10.7
-  neighborCastRadius: 4
-  neighborAvoidRadius: 3
+  followObjInfluence: 10
+  neighborCastRadius: 2
+  neighborAvoidRadius: 1.4
   collisionMask:
     serializedVersion: 2
     m_Bits: 128

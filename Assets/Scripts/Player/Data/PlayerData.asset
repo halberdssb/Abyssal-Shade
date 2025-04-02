@@ -16,9 +16,10 @@ MonoBehaviour:
   strafeSpeed: 8
   rollSpeed: 4
   turnSpeed: 4
-  dashSpeed: 40
+  dashSpeed: 50
   dashCooldown: 1
   dashBufferWindow: 0.3
+  maxTurnZRotation: 60
   lookSensitivity: 0.2
   zoomSensitivity: 0.02
   minZoomDistance: 50
