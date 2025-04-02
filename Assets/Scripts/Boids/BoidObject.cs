@@ -17,6 +17,8 @@ public class BoidObject : MonoBehaviour
 {
     [HideInInspector]
     public BoidData data;
+    [HideInInspector]
+    public GameObject player;
 
     [HideInInspector]
     public Vector3 neighborsDirection;
@@ -38,9 +40,10 @@ public class BoidObject : MonoBehaviour
     }
 
     // called when a boid is found at start of scene by BoidManager
-    public void BoidStart(BoidData data, GameObject followObj = null)
+    public void BoidStart(BoidData data, GameObject player, GameObject followObj = null)
     {
         this.data = data;
+        this.player = player;
 
         velocity = transform.forward * data.maxSpeed / 2;
         transform.rotation = Random.rotation;
@@ -62,6 +65,10 @@ public class BoidObject : MonoBehaviour
         if (followObj)
         {
             acceleration = (followObj.transform.position - transform.position).normalized * data.followObjInfluence;
+        }
+        else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
+        {
+            followObj = player;
         }
 
         // boid rules - alignment/cohesion/separation

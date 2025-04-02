@@ -47,6 +47,8 @@ public class BoidManager : MonoBehaviour
 
     void Start()
     {
+        GameObject player = FindObjectOfType<PlayerStateController>().gameObject;
+
         boidsInScene = FindObjectsOfType<BoidObject>();
 
         foreach (BoidObject boid in boidsInScene)
@@ -57,7 +59,7 @@ public class BoidManager : MonoBehaviour
             }
             else
             {
-                boid.BoidStart(boidData);
+                boid.BoidStart(boidData, player);
             }
         }
     }

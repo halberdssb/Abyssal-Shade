@@ -30,4 +30,10 @@ public class PlayerData : ScriptableObject
     public float zoomSensitivity;
     public float minZoomDistance;
     public float maxZoomDistance;
+
+    [Space]
+    [Header("Boid Interactions")]
+    public float defaultBoidCollectionDistance;
+    public float dashBoidCollectionDistance;
+    public float dashBoidCollectionTime;
 }

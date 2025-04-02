@@ -13,6 +13,7 @@ using UnityEngine;
 public class PlayerSwimState : PlayerBaseState
 {
     private bool isDashHeld;
+    private Coroutine dashBoidCollectionRoutine;
 
     public override void OnEnterState(PlayerStateController player)
     {
@@ -47,6 +48,11 @@ public class PlayerSwimState : PlayerBaseState
             player.dashSound.Play();
             isDashHeld = true;
             player.dashCooldownTimer = player.Data.dashCooldown;
+
+            if (dashBoidCollectionRoutine != null)
+            {
+                dashBoidCollectionRoutine = player.StartCoroutine(DashCollectionRadiusChangeRoutine(player));
+            }
         }
         else if (!player.Controls.DashPressed && player.dashCooldownTimer <= player.Data.dashBufferWindow)
         {
@@ -56,5 +62,15 @@ public class PlayerSwimState : PlayerBaseState
     public override void OnExitState(PlayerStateController player)
     {
 
+    }
+
+    // increases boid collection radius for a period of time while dashing
+    private IEnumerator DashCollectionRadiusChangeRoutine(PlayerStateController player)
+    {
+        PlayerStateController.BoidCollectionDistance = player.Data.dashBoidCollectionDistance;
+
+        yield return new WaitForSeconds(player.Data.dashBoidCollectionTime);
+
+        PlayerStateController.BoidCollectionDistance = player.Data.defaultBoidCollectionDistance;
     }
 }

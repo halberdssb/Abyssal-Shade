@@ -11,7 +11,10 @@ using UnityEngine;
 
 public class PlayerStateController : MonoBehaviour
 {
+    #region Static Variables
+    public static float BoidCollectionDistance;
 
+    #endregion
     #region Public Variables
 
     public PlayerCameraController cameraController;
@@ -73,6 +76,8 @@ public class PlayerStateController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         controls = GetComponent<PlayerControls>();
         swimMovement = GetComponent<SwimMovement>();
+
+        BoidCollectionDistance = Data.defaultBoidCollectionDistance;
 
         SwitchState(SwimState);
     }
