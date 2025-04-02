@@ -22,14 +22,7 @@ public class AnglerAttract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (attractingFish)
-        {
-            GetComponent<Renderer>().material.color = attractColor;
-        }
-        else
-        {
-            GetComponent<Renderer>().material.color = normalColor;
-        }
+        bool anyAttracted = false; // Flag to check if any object is still within the radius
 
         // Attract nearby objects if they are within the specified radius
         Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, attractRadius);
@@ -45,31 +38,46 @@ public class AnglerAttract : MonoBehaviour
                 if (!attractedObjects.Contains(rb))
                 {
                     attractedObjects.Add(rb);
-                    attractingFish = true;  // Change color to attract color when attracting at least one fish
                 }
 
-                // Calculate the direction towards the current object
-                Vector3 directionToAttract = transform.position - nearbyObject.transform.position;
-
-                // Apply attraction force to the object
-                rb.AddForce(directionToAttract.normalized * attractionForce);
+                // Apply attraction force only if the object is within the radius
+                if (Vector3.Distance(transform.position, nearbyObject.transform.position) <= attractRadius)
+                {
+                    // Calculate the direction towards the current object
+                    Vector3 directionToAttract = transform.position - nearbyObject.transform.position;
+                    rb.AddForce(directionToAttract.normalized * attractionForce);
+                    anyAttracted = true;
+                }
+                else
+                {
+                    // Stop the object from moving towards the main object if it is outside the radius
+                    // You can set the velocity to zero to effectively stop its movement.
+                    rb.velocity = Vector3.zero;  // Stop the object from moving further
+                }
             }
         }
 
-        // Remove objects that have moved out of the radius
+        // Remove objects that have moved out of the radius or are destroyed
         for (int i = attractedObjects.Count - 1; i >= 0; i--)
         {
             Rigidbody attractedObject = attractedObjects[i];
-            float distanceToObject = Vector3.Distance(transform.position, attractedObject.position);
-            if (distanceToObject > attractRadius)
+
+            // Check if the Rigidbody is destroyed or the object has moved out of range
+            if (attractedObject == null || Vector3.Distance(transform.position, attractedObject.position) > attractRadius)
             {
-                attractedObjects.Remove(attractedObject); // Stop attracting the object
+                attractedObjects.RemoveAt(i); // Stop attracting the object
             }
         }
 
-        // If no objects are being attracted, change the color back to normal
-        if (attractedObjects.Count == 0)
+        // Change color based on whether any object is still within the radius
+        if (anyAttracted)
         {
+            GetComponent<Renderer>().material.color = attractColor;
+            attractingFish = true;
+        }
+        else
+        {
+            GetComponent<Renderer>().material.color = normalColor;
             attractingFish = false;
         }
     }
@@ -79,7 +87,15 @@ public class AnglerAttract : MonoBehaviour
         if (collider.gameObject.CompareTag("Soulfish"))
         {
             Debug.Log("Hit");
-            Destroy(collider.gameObject);
+            // Call a coroutine to delay the destruction and prevent immediate access to the object
+            StartCoroutine(DestroyObjectWithDelay(collider.gameObject));
         }
+    }
+
+    // Coroutine to destroy the object after one frame to prevent immediate access to the object
+    private IEnumerator DestroyObjectWithDelay(GameObject objectToDestroy)
+    {
+        yield return null; // Wait until the next frame
+        Destroy(objectToDestroy);
     }
 }
