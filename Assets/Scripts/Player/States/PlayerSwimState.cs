@@ -31,6 +31,11 @@ public class PlayerSwimState : PlayerBaseState
         {
             player.dashCooldownTimer -= Time.deltaTime;
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+        }
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
@@ -73,5 +78,10 @@ public class PlayerSwimState : PlayerBaseState
         yield return new WaitForSeconds(player.Data.dashBoidCollectionTime);
 
         PlayerStateController.BoidCollectionDistance = player.Data.defaultBoidCollectionDistance;
+    }
+
+    private void CreateBoidSphere()
+    {
+
     }
 }

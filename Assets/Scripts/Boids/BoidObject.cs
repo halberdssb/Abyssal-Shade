@@ -19,6 +19,8 @@ public class BoidObject : MonoBehaviour
     public BoidData data;
     [HideInInspector]
     public GameObject player;
+    [HideInInspector]
+    public BoidCollectionHandler playerBoidCollection; 
 
     [HideInInspector]
     public Vector3 neighborsDirection;
@@ -44,6 +46,11 @@ public class BoidObject : MonoBehaviour
     {
         this.data = data;
         this.player = player;
+
+        if (player.GetComponent<PlayerStateController>() != null)
+        {
+            playerBoidCollection = player.GetComponent<PlayerStateController>().boidCollectionHandler;
+        }
 
         velocity = transform.forward * data.maxSpeed / 2;
         transform.rotation = Random.rotation;
