@@ -38,10 +38,9 @@ public class RestorationObject : MonoBehaviour
             {
                 Debug.Log("restoring object! enough boids present");
                 RestoreObject(playerBoids.CallBoids(soulfishNeededToRestore));
+                isRestored = true;
             }
             else Debug.Log("not enough fish in player! num fish player has: " + playerBoids.GetNumberOfBoids());
-
-            isRestored = true;
         }
     }
 
