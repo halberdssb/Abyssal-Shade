@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BoidCollectionHandler : MonoBehaviour
 {
-    public Stack<BoidObject> collectedBoids;
+    public int numBoids;
+    private Stack<BoidObject> collectedBoids = new Stack<BoidObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -21,9 +22,15 @@ public class BoidCollectionHandler : MonoBehaviour
     public void AddCollectedBoid(BoidObject boid)
     {
         collectedBoids.Push(boid);
+        numBoids++;
     }
 
-    public BoidObject[] GetCollectedBoids(int numToPull)
+    public int GetNumberOfBoids()
+    {
+        return collectedBoids.Count;
+    }
+
+    public BoidObject[] CallBoids(int numToPull)
     {
         BoidObject[] boidsToPull = new BoidObject[numToPull];
 

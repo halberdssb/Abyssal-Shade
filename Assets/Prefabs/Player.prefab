@@ -346,6 +346,7 @@ GameObject:
   - component: {fileID: 4431748104501242257}
   - component: {fileID: 4385455665056785592}
   - component: {fileID: 5541253871287945929}
+  - component: {fileID: 4955585033423616639}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -386,6 +387,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraController: {fileID: 9166439982969369981}
   vfxHandler: {fileID: 4431748104501242257}
+  boidCollectionHandler: {fileID: 4955585033423616639}
+  collectedBoids: []
   dashSound: {fileID: 4353945622875526908}
   dashCooldownTimer: 0
   data: {fileID: 11400000, guid: 1e6127ae03d437c4a9bdd31f1c923b06, type: 2}
@@ -490,6 +493,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d6cbdf8c5be4e04da444abd4bc15b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4955585033423616639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8245509012025007009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3e615ec2ea7a146bcabaa71bbae25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3956784343402642016

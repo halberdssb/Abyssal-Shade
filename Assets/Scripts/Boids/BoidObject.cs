@@ -18,9 +18,7 @@ public class BoidObject : MonoBehaviour
     [HideInInspector]
     public BoidData data;
     [HideInInspector]
-    public GameObject player;
-    [HideInInspector]
-    public BoidCollectionHandler playerBoidCollection; 
+    public PlayerStateController player;
 
     [HideInInspector]
     public Vector3 neighborsDirection;
@@ -36,31 +34,25 @@ public class BoidObject : MonoBehaviour
 
     private GameObject followObj;
 
+    private bool isUsingBoidBehavior;
+
     public BoidObject(BoidData boidData)
     {
         this.data = boidData;
     }
 
     // called when a boid is found at start of scene by BoidManager
-    public void BoidStart(BoidData data, GameObject player, GameObject followObj = null)
+    public void BoidStart(BoidData data, PlayerStateController player)
     {
         this.data = data;
         this.player = player;
-
-        if (player.GetComponent<PlayerStateController>() != null)
-        {
-            playerBoidCollection = player.GetComponent<PlayerStateController>().boidCollectionHandler;
-        }
 
         velocity = transform.forward * data.maxSpeed / 2;
         transform.rotation = Random.rotation;
 
         collisionNavigationCheckVectors = NavigationSphereCaster.GetNavigationSphereVectors(data.collisionNavigationChecks);
 
-        if (followObj != null)
-        {
-            this.followObj = followObj;
-        }
+        isUsingBoidBehavior = true;
     }
 
     // gets separation, alignment, and cohesion values and adds them to move boid
@@ -75,7 +67,8 @@ public class BoidObject : MonoBehaviour
         }
         else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
         {
-            followObj = player;
+            followObj = player.gameObject;
+            player.boidCollectionHandler.AddCollectedBoid(this);
         }
 
         // boid rules - alignment/cohesion/separation
@@ -106,6 +99,17 @@ public class BoidObject : MonoBehaviour
 
         transform.position += velocity * Time.deltaTime;
         transform.forward = velocity;
+    }
+
+    // toggles if the boid should be moving according to boid rules or not - should be disabled for extended external forces/movement
+    public void ToggleBoidBehavior(bool useBoidBehavior)
+    {
+        isUsingBoidBehavior = useBoidBehavior;
+    }
+
+    public bool IsUsingBoidBehavior()
+    {
+        return isUsingBoidBehavior;
     }
 
     // checks for obstacle collision in front of boid

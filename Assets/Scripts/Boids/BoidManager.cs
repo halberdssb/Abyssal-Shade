@@ -47,20 +47,13 @@ public class BoidManager : MonoBehaviour
 
     void Start()
     {
-        GameObject player = FindObjectOfType<PlayerStateController>().gameObject;
+        PlayerStateController player = FindObjectOfType<PlayerStateController>();
 
         boidsInScene = FindObjectsOfType<BoidObject>();
 
         foreach (BoidObject boid in boidsInScene)
         {
-            if (boidFollowObj != null)
-            {
-                boid.BoidStart(boidData, boidFollowObj);
-            }
-            else
-            {
-                boid.BoidStart(boidData, player);
-            }
+            boid.BoidStart(boidData, player);
         }
     }
 
@@ -105,9 +98,11 @@ public class BoidManager : MonoBehaviour
             boid.neighborsSeparationForce = boidComputeData[i].neighborsSeparationForce;
             boid.numNeighborBoids = boidComputeData[i].numNeighbors;
 
-            boid.UpdateBoid();
+            if (boid.IsUsingBoidBehavior())
+            {
+                boid.UpdateBoid();
+            }
         }
-
         boidComputeBuffer.Release();
     }
 }
