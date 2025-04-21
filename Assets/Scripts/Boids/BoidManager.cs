@@ -66,8 +66,17 @@ public class BoidManager : MonoBehaviour
         
         for (int i = 0; i < totalNumBoids; i++)
         {
-            boidComputeData[i].boidPosition = boidsInScene[i].transform.position;
-            boidComputeData[i].boidDirection = boidsInScene[i].transform.forward;
+            // check if boid is using boid behavior - otherwise we ignore by sending position far below map
+            if (boidsInScene[i].IsUsingBoidBehavior())
+            {
+                boidComputeData[i].boidPosition = boidsInScene[i].transform.position;
+                boidComputeData[i].boidDirection = boidsInScene[i].transform.forward;
+            }
+            else
+            {
+                boidComputeData[i].boidPosition = Vector3.down * -1000;
+                boidComputeData[i].boidDirection = Vector3.zero;
+            }
         }
 
         // create compute buffer to calculate boid neighbor data

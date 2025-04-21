@@ -29,6 +29,9 @@ public class BoidObject : MonoBehaviour
     [HideInInspector]
     public int numNeighborBoids;
 
+    [SerializeField]
+    private bool showNavigationRays;
+
     private Vector3[] collisionNavigationCheckVectors;
     private Vector3 velocity;
 
@@ -153,20 +156,23 @@ public class BoidObject : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Vector3[] rays = NavigationSphereCaster.GetNavigationSphereVectors(200);
-
-        foreach (Vector3 ray in rays)
+        if (showNavigationRays)
         {
-            if (Vector3.Dot(transform.forward, ray) > -0.5)
-            {
-                Gizmos.color = Color.green;
-            }
-            else
-            {
-                Gizmos.color = Color.red;
-            }
+            Vector3[] rays = NavigationSphereCaster.GetNavigationSphereVectors(200);
 
-            Gizmos.DrawLine(transform.position, transform.position + ray.normalized);
+            foreach (Vector3 ray in rays)
+            {
+                if (Vector3.Dot(transform.forward, ray) > -0.5)
+                {
+                    Gizmos.color = Color.green;
+                }
+                else
+                {
+                    Gizmos.color = Color.red;
+                }
+
+                Gizmos.DrawLine(transform.position, transform.position + ray.normalized);
+            }
         }
     }
 }

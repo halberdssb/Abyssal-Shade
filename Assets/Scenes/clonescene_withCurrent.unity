@@ -1783,7 +1783,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ae9b0b58918de2643b3c8bfb214adb27,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.79
+      value: 8.72
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ae9b0b58918de2643b3c8bfb214adb27,
         type: 3}
@@ -1866,7 +1866,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3190e0b84ffe734eb37039f964134ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soulfishNeededToRestore: 100
+  soulfishNeededToRestore: 50
+  fishMoveToPositionTime: 2
+  fishSphereRadius: 2
+  fishSphereOffset: {x: 0, y: 0.62, z: 0}
+  sphereSpinUpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  sphereSpinDownCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.06500405
+      outSlope: -0.06500405
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.05799812
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 1
+    m_RotationOrder: 4
 --- !u!135 &141610704
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1887,7 +1938,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.08
-  m_Center: {x: 0.0023022657, y: 0.008243721, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &149383844 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 93a2daa67c47b3a4484c3a02476ac8b7,
