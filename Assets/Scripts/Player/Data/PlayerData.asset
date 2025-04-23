@@ -24,7 +24,7 @@ MonoBehaviour:
   lookSensitivity: 0.2
   zoomSensitivity: 0.02
   minZoomDistance: 50
-  maxZoomDistance: 120
+  maxZoomDistance: 130
   defaultBoidCollectionDistance: 10
   dashBoidCollectionDistance: 20
   dashBoidCollectionTime: 0.6

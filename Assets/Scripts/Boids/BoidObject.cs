@@ -123,8 +123,8 @@ public class BoidObject : MonoBehaviour
 
         // apply forces to boid and move
         velocity += acceleration * Time.deltaTime;
-        velocity += AddAllExternalForces();
         velocity = Vector3.ClampMagnitude(velocity, data.maxSpeed);
+        velocity += AddAllExternalForces();
 
         transform.position += velocity * Time.deltaTime;
         transform.forward = velocity;

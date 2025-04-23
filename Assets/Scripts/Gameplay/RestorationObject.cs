@@ -47,16 +47,19 @@ public class RestorationObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isRestored)
+        if (other == player)
         {
-            BoidCollectionHandler playerBoids = player.boidCollectionHandler;
-            if (playerBoids.GetNumberOfBoids() >= soulfishNeededToRestore)
+            if (!isRestored)
             {
-                Debug.Log("restoring object! enough boids present");
-                StartCoroutine(RestoreObject(playerBoids.CallBoids(soulfishNeededToRestore)));
-                isRestored = true;
+                BoidCollectionHandler playerBoids = player.boidCollectionHandler;
+                if (playerBoids.GetNumberOfBoids() >= soulfishNeededToRestore)
+                {
+                    Debug.Log("restoring object! enough boids present");
+                    StartCoroutine(RestoreObject(playerBoids.CallBoids(soulfishNeededToRestore)));
+                    isRestored = true;
+                }
+                else Debug.Log("not enough fish in player! num fish player has: " + playerBoids.GetNumberOfBoids());
             }
-            else Debug.Log("not enough fish in player! num fish player has: " + playerBoids.GetNumberOfBoids());
         }
     }
 

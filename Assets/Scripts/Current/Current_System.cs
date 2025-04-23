@@ -101,6 +101,14 @@ public class WaterCurrent : MonoBehaviour
     //Function to print what object has entered the Current (in game the entire level will be the current)
     private void OnTriggerEnter(Collider other)
     {
+        BoidObject boid = other.GetComponent<BoidObject>();
+        if (boid != null)
+        {
+            Debug.Log(boid.name + " entered the current!", boid.gameObject);
+            affectedBoids.Add(boid);
+            return;
+        }
+
         Rigidbody rb = other.attachedRigidbody;
         if (rb != null)
         {
@@ -108,16 +116,17 @@ public class WaterCurrent : MonoBehaviour
             Debug.Log($"{rb.name} entered the current!");
             return;
         }
-        
-        BoidObject boid = rb.GetComponent<BoidObject>();
-        if (boid != null)
-        {
-            affectedBoids.Add(boid);
-        }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        BoidObject boid = other.GetComponent<BoidObject>();
+        if (boid != null)
+        {
+            affectedBoids.Remove(boid);
+            return;
+        }
+
         Rigidbody rb = other.attachedRigidbody;
         if (rb != null)
         {
