@@ -13,7 +13,7 @@ using UnityEngine;
 
 public class BoidManager : MonoBehaviour
 {
-    // thread group size for compute shader - same as in BoidComputeShader
+    // thread group size for compute shader - MUST BE same as in BoidComputeShader
     private const int THREAD_GROUP_SIZE = 1024;
 
     private const int MAX_BOIDS_IN_SCENE = 500;

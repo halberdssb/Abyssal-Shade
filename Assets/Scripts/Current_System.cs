@@ -12,18 +12,31 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class WaterCurrent : MonoBehaviour
 {
+    [SerializeField]
+    private bool useTimer;
+    [SerializeField]
+    private float onTime;
+    [SerializeField]
+    private float offTime;
+    [SerializeField]
+    private bool changeDirectionOnInterval;
+
+    [SerializeField]
     private Vector3 currentDirection = Vector3.forward; // Direction of the current
+    [SerializeField]
     private float currentStrength = .05f; // Strength of the force
     private ForceMode forceMode = ForceMode.VelocityChange; // Type of force applied
-    public float changeInterval = 3f; // Time in seconds before changing direction
+    [SerializeField]
+    private float changeInterval = 3f; // Time in seconds before changing direction
 
   //  public ParticleSystem currentParticles; // Reference to the particle system
 
     private HashSet<Rigidbody> affectedBodies = new HashSet<Rigidbody>();
+    private HashSet<BoidObject> affectedBoids = new HashSet<BoidObject>();
     
     private void Start()
     {
-        StartCoroutine(ChangeCurrentDirection());
+        if (changeDirectionOnInterval) StartCoroutine(ChangeCurrentDirection());
     }
 
     private void FixedUpdate()
@@ -36,6 +49,11 @@ public class WaterCurrent : MonoBehaviour
                 //Debug.Log($"Applying force to {rb.name}");
                 rb.AddForce(currentDirection.normalized * currentStrength, forceMode);
             }
+        }
+
+        foreach (BoidObject boid in affectedBoids)
+        {
+            boid.ApplyForce(currentDirection.normalized * currentStrength);
         }
     }
 
@@ -88,6 +106,13 @@ public class WaterCurrent : MonoBehaviour
         {
             affectedBodies.Add(rb);
             Debug.Log($"{rb.name} entered the current!");
+            return;
+        }
+        
+        BoidObject boid = rb.GetComponent<BoidObject>();
+        if (boid != null)
+        {
+            affectedBoids.Add(boid);
         }
     }
 
@@ -98,5 +123,34 @@ public class WaterCurrent : MonoBehaviour
         {
             affectedBodies.Remove(rb);
         }
+    }
+
+    // draw an arrow in direction current is pushing
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+
+        // get points for point and base corners of pyramid at top of arrow
+        Vector3 topOfPyramid = transform.position + currentDirection.normalized;
+        Vector3 yAxisCrossVector = Vector3.Cross(currentDirection.normalized, Vector3.up);
+        Vector3 topPyramidBaseCorner = transform.position + (yAxisCrossVector / 2f);
+        Vector3 bottomPyramidBaseCorner = transform.position - (yAxisCrossVector / 2f);
+        Vector3 xAxisCrossVector = Vector3.Cross(currentDirection.normalized, Vector3.forward);
+        Vector3 rightPyramidBaseCorner = transform.position - (xAxisCrossVector / 2f); 
+        Vector3 leftPyramidBaseCorner = transform.position + (xAxisCrossVector / 2f); 
+        Vector3 bottomOfArrow = transform.position - currentDirection.normalized;
+
+        // draw lines to create 3d arrow shape
+        Gizmos.DrawLine(topOfPyramid, topPyramidBaseCorner);
+        Gizmos.DrawLine(topOfPyramid, bottomPyramidBaseCorner);
+        Gizmos.DrawLine(topOfPyramid, rightPyramidBaseCorner);
+        Gizmos.DrawLine(topOfPyramid, leftPyramidBaseCorner);
+        Gizmos.DrawLine(topPyramidBaseCorner, leftPyramidBaseCorner);
+        Gizmos.DrawLine(leftPyramidBaseCorner, bottomPyramidBaseCorner);
+        Gizmos.DrawLine(bottomPyramidBaseCorner, rightPyramidBaseCorner);
+        Gizmos.DrawLine(rightPyramidBaseCorner, topPyramidBaseCorner);
+        Gizmos.DrawLine(topPyramidBaseCorner, bottomPyramidBaseCorner);
+        Gizmos.DrawLine(leftPyramidBaseCorner, rightPyramidBaseCorner);
+        Gizmos.DrawLine(topOfPyramid, bottomOfArrow);
     }
 }

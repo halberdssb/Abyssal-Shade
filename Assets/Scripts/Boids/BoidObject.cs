@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,6 +40,8 @@ public class BoidObject : MonoBehaviour
 
     private bool isUsingBoidBehavior;
 
+    private Stack<Vector3> externalForces = new Stack<Vector3>();
+
     public BoidObject(BoidData boidData)
     {
         this.data = boidData;
@@ -52,6 +55,7 @@ public class BoidObject : MonoBehaviour
 
         velocity = transform.forward * data.maxSpeed / 2;
         transform.rotation = Random.rotation;
+        externalForces = new Stack<Vector3>();
 
         collisionNavigationCheckVectors = NavigationSphereCaster.GetNavigationSphereVectors(data.collisionNavigationChecks);
 
@@ -110,6 +114,7 @@ public class BoidObject : MonoBehaviour
 
         // apply forces to boid and move
         velocity += acceleration * Time.deltaTime;
+        velocity += AddAllExternalForces();
         velocity = Vector3.ClampMagnitude(velocity, data.maxSpeed);
 
         transform.position += velocity * Time.deltaTime;
@@ -172,6 +177,32 @@ public class BoidObject : MonoBehaviour
         return Vector3.ClampMagnitude(forceToAdd, data.maxTurnSpeed) * weight;
     }
 
+    // pops and returns all added forces to add to fish this frame
+    private Vector3 AddAllExternalForces()
+    {
+        if (externalForces.Count > 0)
+        {
+            Vector3 netExternalForce = Vector3.zero;
+
+            int numForcesToAdd = externalForces.Count;
+            for (int i = 0; i < numForcesToAdd; i++)
+            {
+                netExternalForce += externalForces.Pop();
+            }
+
+            return netExternalForce;
+        }
+
+        return Vector3.zero;
+    }
+
+    // adds an external force from outside source to force stack
+    public void ApplyForce(Vector3 force)
+    {
+        externalForces.Push(force);
+    }
+
+    // shows navigation rays if toggled on
     private void OnDrawGizmosSelected()
     {
         if (showNavigationRays)

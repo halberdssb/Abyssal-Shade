@@ -35,8 +35,6 @@ public class SoulfishSpawner : MonoBehaviour
     private float timeBetweenIndividualSpawns = 0.25f;
     // tracks if the spawner is actively spawning fish or not
     private bool isActivated;
-    // used for animating/guiding fish out of spawn area
-    private GameObject fishFollowObj;
 
     // timer to stagger fish spawns in ONE wave
     private float fishSpawnTimer;
@@ -48,48 +46,82 @@ public class SoulfishSpawner : MonoBehaviour
     // collider used for spawning fish and/or triggering spawns
     private SphereCollider spawnCollider;
 
+    // player reference
+    PlayerStateController player;
+
     void Start()
     {
         spawnCollider = GetComponent<SphereCollider>();
+        spawnCollider.isTrigger = true;
+
+        player = FindObjectOfType<PlayerStateController>();
 
         if (spawnPassively)
         {
-            ActivateSpawner(true);
+            CheckPlayerDistance();
         }
     }
 
     private void Update()
     {
+        // handle spawn timers/spawning if active
         if (isActivated)
         {
-            // if time between waves is up, start spawning fish in a wave
-            if (waveSpawnTimer > timeBetweenWaves)
+            HandleFishAndWaveTiming();
+        }
+
+        // check if spawner should be loaded/unloaded if set to always spawn
+        if (!spawnPassively)
+        {
+            CheckPlayerDistance();
+        }
+    }
+
+    // handles timing for spawning fish and waves in update
+    private void HandleFishAndWaveTiming()
+    {
+        // if time between waves is up, start spawning fish in a wave
+        if (waveSpawnTimer > timeBetweenWaves)
+        {
+            // check if individual fish should be spawned
+            if (fishSpawnTimer > timeBetweenIndividualSpawns)
             {
-                // check if individual fish should be spawned
-                if (fishSpawnTimer > timeBetweenIndividualSpawns)
-                {
-                    Vector3 spawnPos = spawnRandomlyInCollider ? GetRandomizedSpawnPosition() : transform.position + spawnPoint;
-                    BoidManager.SpawnBoids(1, spawnPos);
+                Vector3 spawnPos = spawnRandomlyInCollider ? GetRandomizedSpawnPosition() : transform.position + spawnPoint;
+                BoidManager.SpawnBoids(1, spawnPos);
 
-                    numFishSpawnedThisWave++;
-                    fishSpawnTimer = 0;
-                }
+                numFishSpawnedThisWave++;
+                fishSpawnTimer = 0;
+            }
 
-                if (numFishSpawnedThisWave >= numSoulfishPerWave)
-                {
-                    waveSpawnTimer = 0;
-                    numFishSpawnedThisWave = 0;
-                }
-                else
-                {
-                    fishSpawnTimer += Time.deltaTime;
-                }
-            }    
-            // else increment wave spawn timer til 
+            if (numFishSpawnedThisWave >= numSoulfishPerWave)
+            {
+                waveSpawnTimer = 0;
+                numFishSpawnedThisWave = 0;
+            }
             else
             {
-                waveSpawnTimer += Time.deltaTime;
+                fishSpawnTimer += Time.deltaTime;
             }
+        }
+        // else increment wave spawn timer til 
+        else
+        {
+            waveSpawnTimer += Time.deltaTime;
+        }
+    }
+
+    // checks distance to player and activates/deactivates based on distance
+    private void CheckPlayerDistance()
+    {
+        float playerDistance = Vector3.Distance(player.transform.position, transform.position);
+
+        if (isActivated && playerDistance > BoidManager.BOID_DESPAWN_DISTANCE)
+        {
+            ActivateSpawner(false);
+        }
+        else if (!isActivated && playerDistance < BoidManager.BOID_DESPAWN_DISTANCE)
+        {
+            ActivateSpawner(true);
         }
     }
 
@@ -116,6 +148,12 @@ public class SoulfishSpawner : MonoBehaviour
     private float GetRandomPointOnSphereAxis()
     {
         return Random.Range(-spawnCollider.radius * 0.5f, spawnCollider.radius * 0.5f);
+    }
+
+    // if not set to start on awake, activate when player enters trigger area
+    private void OnTriggerEnter(Collider other)
+    {
+
     }
 
     // draw sphere on spawn point
