@@ -43,7 +43,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: fishSphereOffset.y
-    value: 0.62
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: fishSphereOffset.z

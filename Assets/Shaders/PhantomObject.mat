@@ -192,6 +192,7 @@ Material:
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
     - _ExcludeFromTUAndAA: 0
+    - _Glow: 5
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -201,7 +202,7 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
-    - _Intensity: 3
+    - _Intensity: 1.86
     - _InvTilingScale: 1
     - _Ior: 1.5
     - _IridescenceMask: 1
