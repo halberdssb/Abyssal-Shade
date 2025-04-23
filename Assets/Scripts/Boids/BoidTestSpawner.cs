@@ -9,7 +9,7 @@ using UnityEngine;
  * 3.4.25
  */
 
-public class BoidSpawner : MonoBehaviour
+public class BoidTestSpawner : MonoBehaviour
 {
     [SerializeField]
     private int numberBoidsToSpawn;
@@ -29,7 +29,7 @@ public class BoidSpawner : MonoBehaviour
     private GameObject[] boids;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         spawnArea = GetComponent<BoxCollider>();
 
@@ -62,18 +62,16 @@ public class BoidSpawner : MonoBehaviour
     // spawns specified number of boids in spawn area
     private void SpawnBoids()
     {
-        boids = new GameObject[numberBoidsToSpawn];
         Transform boidParent = new GameObject("BoidHolder").transform;
 
-        for (int i = 0; i < numberBoidsToSpawn; i++)
+        for (int i = 0; i < numberBoidsToSpawn / 5; i++)
         {
             Vector3 spawnPos = spawnArea.transform.position;
             spawnPos.x += Random.Range(-spawnArea.size.x * 0.5f, spawnArea.size.x * 0.5f);
             spawnPos.y += Random.Range(-spawnArea.size.y * 0.5f, spawnArea.size.y * 0.5f);
             spawnPos.z += Random.Range(-spawnArea.size.z * 0.5f, spawnArea.size.z * 0.5f);
 
-            boids[i] = Instantiate(boidPrefab, spawnPos, Random.rotation);
-            boids[i].transform.parent = boidParent;
+            BoidManager.SpawnBoids(5, spawnPos);
         }
     }
 

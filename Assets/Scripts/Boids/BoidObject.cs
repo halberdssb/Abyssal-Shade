@@ -45,7 +45,7 @@ public class BoidObject : MonoBehaviour
     }
 
     // called when a boid is found at start of scene by BoidManager
-    public void BoidStart(BoidData data, PlayerStateController player)
+    public void BoidStart(BoidData data, PlayerStateController player, GameObject followObj = null)
     {
         this.data = data;
         this.player = player;
@@ -56,13 +56,25 @@ public class BoidObject : MonoBehaviour
         collisionNavigationCheckVectors = NavigationSphereCaster.GetNavigationSphereVectors(data.collisionNavigationChecks);
 
         isUsingBoidBehavior = true;
+
+        if (followObj)
+        {
+            this.followObj = followObj;
+        }
     }
 
     // gets separation, alignment, and cohesion values and adds them to move boid
     // called by BoidManager
     public void UpdateBoid()
     {
-        Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
+        float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
+        if (distanceToPlayer > BoidManager.BOID_DESPAWN_DISTANCE && !followObj)
+        {
+            BoidManager.DespawnBoids(this);
+            return;
+        }
+
+            Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
 
         if (followObj)
         {
@@ -113,6 +125,12 @@ public class BoidObject : MonoBehaviour
     public bool IsUsingBoidBehavior()
     {
         return isUsingBoidBehavior;
+    }
+
+    // sets the follow object of the boid
+    public void SetFollowObject(GameObject objectToFollow)
+    {
+        followObj = objectToFollow;
     }
 
     // checks for obstacle collision in front of boid

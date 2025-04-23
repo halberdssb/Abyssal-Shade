@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /*
  * Manages and calls update on all boids in scene
+ * Also handles spawning and despawning handling
  * 
  * Jeff Stevenson
  * 3.4.25
@@ -13,18 +14,34 @@ using UnityEngine;
 public class BoidManager : MonoBehaviour
 {
     // thread group size for compute shader - same as in BoidComputeShader
-    private const int THREAD_GROUP_SIZE = 1024; 
+    private const int THREAD_GROUP_SIZE = 1024;
+
+    private const int MAX_BOIDS_IN_SCENE = 500;
+
+    // distance boids will be simulated/move within related to player
+    public readonly static float BOID_DESPAWN_DISTANCE = 100;
+
+    public readonly static int numBoidsInScene;
 
     [SerializeField]
     private BoidData boidData;
 
+    private static BoidData staticBoidData;
+
+    [SerializeField]
+    private GameObject boidPrefab;
+
     [SerializeField]
     private ComputeShader boidComputeShader;
 
-    [SerializeField]
-    private GameObject boidFollowObj;
+    //[SerializeField]
+    //private GameObject boidFollowObj;
 
-    private BoidObject[] boidsInScene;
+    private static PlayerStateController player;
+
+    private static Queue<BoidObject> inactiveBoidPool = new Queue<BoidObject>();
+    private static List<BoidObject> activeBoidPool = new List<BoidObject>();
+
 
     // Boid Compute Data Struct - holds data for boids calculated in compute shader
     public struct BoidComputeData
@@ -45,21 +62,27 @@ public class BoidManager : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        staticBoidData = boidData;
+        CreateBoidQueue();
+    }
+
     void Start()
     {
-        PlayerStateController player = FindObjectOfType<PlayerStateController>();
+        player = FindObjectOfType<PlayerStateController>();
 
-        boidsInScene = FindObjectsOfType<BoidObject>();
-
-        foreach (BoidObject boid in boidsInScene)
+        foreach (BoidObject boid in activeBoidPool)
         {
-            boid.BoidStart(boidData, player);
+            boid.BoidStart(staticBoidData, player);
         }
     }
 
     void Update()
     {
-        int totalNumBoids = boidsInScene.Length;
+        int totalNumBoids = activeBoidPool.Count;
+
+        if (totalNumBoids <= 0) return;
 
         // add transform values from all boids into boid data array
         BoidComputeData[] boidComputeData = new BoidComputeData[totalNumBoids];
@@ -67,16 +90,17 @@ public class BoidManager : MonoBehaviour
         for (int i = 0; i < totalNumBoids; i++)
         {
             // check if boid is using boid behavior - otherwise we ignore by sending position far below map
-            if (boidsInScene[i].IsUsingBoidBehavior())
+            if (activeBoidPool[i].IsUsingBoidBehavior())
             {
-                boidComputeData[i].boidPosition = boidsInScene[i].transform.position;
-                boidComputeData[i].boidDirection = boidsInScene[i].transform.forward;
+                boidComputeData[i].boidPosition = activeBoidPool[i].transform.position;
+                boidComputeData[i].boidDirection = activeBoidPool[i].transform.forward;
             }
             else
             {
                 boidComputeData[i].boidPosition = Vector3.down * -1000;
                 boidComputeData[i].boidDirection = Vector3.zero;
             }
+
         }
 
         // create compute buffer to calculate boid neighbor data
@@ -98,9 +122,9 @@ public class BoidManager : MonoBehaviour
         boidComputeBuffer.GetData(boidComputeData);
 
         // send data form compute shader to each boid and update
-        for (int i = 0; i < totalNumBoids; i++)
+        for (int i = 0; i < activeBoidPool.Count; i++)
         {
-            BoidObject boid = boidsInScene[i];
+            BoidObject boid = activeBoidPool[i];
 
             boid.neighborsDirection = boidComputeData[i].neighborsDirection;
             boid.neighborsCenter = boidComputeData[i].neighborsCenter;
@@ -112,6 +136,83 @@ public class BoidManager : MonoBehaviour
                 boid.UpdateBoid();
             }
         }
+
         boidComputeBuffer.Release();
+    }
+
+    // spawns a specified number of boids, adds them to active queue and returns
+    public static BoidObject[] SpawnBoids(int requestedNumToSpawn, Vector3 spawnLocation)
+    {
+        int numBoidsCanBeSpawned = MAX_BOIDS_IN_SCENE - numBoidsInScene;
+
+        if (numBoidsCanBeSpawned == 0)
+        {
+            Debug.LogWarning("Cannot spawn any more boids - max number in scene!");
+            return null;
+        }
+        else
+        {
+            // spawn as many boids as we can - check if going to go over capacity if spawning requested amount
+            int numToSpawn = requestedNumToSpawn < numBoidsCanBeSpawned ? requestedNumToSpawn : numBoidsCanBeSpawned;
+
+            BoidObject[] boidsToSpawn = new BoidObject[numToSpawn];
+
+            for (int i = 0; i < numToSpawn; i++)
+            {
+                BoidObject boid = inactiveBoidPool.Dequeue();
+                activeBoidPool.Add(boid);
+                boid.gameObject.SetActive(true);
+                boid.BoidStart(staticBoidData, player);
+                boid.transform.position = spawnLocation;
+                boid.ToggleBoidBehavior(true);
+                boidsToSpawn[i] = boid;
+            }
+
+            return boidsToSpawn;
+        } 
+    }
+
+    // overload to spawn following an object
+    public static BoidObject[] SpawnBoids(int requestedNumToSpawn, Vector3 spawnLocation, GameObject follow)
+    {
+        BoidObject[] boids = SpawnBoids(requestedNumToSpawn, spawnLocation);
+
+        foreach (var boid in boids)
+        {
+            boid.SetFollowObject(follow);
+        }
+
+        return boids;
+    }
+
+
+    // despawns boids, sets them inactive and moves them to the inactive queue
+    public static void DespawnBoids(BoidObject[] boidsToDespawn)
+    {
+        for (int i = 0; i < boidsToDespawn.Length; i++)
+        {
+            BoidObject boid = boidsToDespawn[i];
+            activeBoidPool.Remove(boid);
+            inactiveBoidPool.Enqueue(boid);
+            boid.ToggleBoidBehavior(false);
+            boid.gameObject.SetActive(false);
+        }
+    }
+
+    public static void DespawnBoids(BoidObject boid)
+    {
+        BoidObject[] singleBoid = new BoidObject[] { boid };
+        DespawnBoids(singleBoid);
+    }
+
+    // creates the max number of boids and adds them to inactive stack on scene start
+    private void CreateBoidQueue()
+    {
+        for (int i = 0; i < MAX_BOIDS_IN_SCENE; i++)
+        {
+            BoidObject boid = Instantiate(boidPrefab, transform).GetComponent<BoidObject>();
+            inactiveBoidPool.Enqueue(boid);
+            boid.gameObject.SetActive(false);
+        }
     }
 }

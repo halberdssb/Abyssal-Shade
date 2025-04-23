@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -125,13 +126,13 @@ public class RestorationObject : MonoBehaviour
             Vector3 positionAroundObject = transform.position + (fishSurroundPoints[i] * fishSphereRadius) + fishSphereOffset;
             Tween moveToSphereTween = boid.transform.DOMove(positionAroundObject, tweenTime);
 
-            Vector3 fishLookVector = Quaternion.AngleAxis(90, transform.up) * fishSurroundPoints[i];
-            Tween rotationTween = boid.transform.DORotate(fishLookVector, tweenTime);
-
             // used for rotating fish around sphere by rotating object
+            int fishID = i;
             moveToSphereTween.onComplete += () =>
             {
                 boid.transform.parent = transform;
+                boid.transform.LookAt(transform.position + (fishSurroundPoints[fishID] * fishSphereRadius * 2));
+                boid.transform.Rotate(new Vector3(0, 90, 0));
             };
         }
     }
@@ -144,11 +145,9 @@ public class RestorationObject : MonoBehaviour
             BoidObject boid = boids[i];
 
             boid.transform.parent = null;
-            boid.transform.DOMove(player.transform.position, tweenTime).onComplete += () => boid.ToggleBoidBehavior(true);
+            boid.ToggleBoidBehavior(true);
         }
     }
-
-    // spins the object at a given speed for a certain amount of time
 
     // creates the vortex sphere visual effect mesh on runtime around the object
     private GameObject CreateVortexSphereMesh()
