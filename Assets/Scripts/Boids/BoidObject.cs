@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -11,6 +12,7 @@ using UnityEngine.UIElements;
  * 
  * Jeff Stevenson
  * 3.2.25
+ * modifications lines 39,40,71,72,73 from Dev 4.23.25
  */
 
 
@@ -41,6 +43,9 @@ public class BoidObject : MonoBehaviour
     private bool isUsingBoidBehavior;
 
     private Stack<Vector3> externalForces = new Stack<Vector3>();
+
+    //from Dev for attack
+    public bool isAttacking = false;
 
     public BoidObject(BoidData boidData)
     {
@@ -78,7 +83,11 @@ public class BoidObject : MonoBehaviour
             return;
         }
 
-            Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
+        Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
+
+        //from Dev, to make the attack work by pausing movement controller temporarily
+        if (isAttacking)
+            return;
 
         if (followObj)
         {
