@@ -20,6 +20,8 @@ public class PlayerControls : MonoBehaviour
     private float _zoomInput;
     private float _rollInput;
     private bool _dashPressed;
+    private bool _pausePressed;
+    private bool _commandPressed;
 
     #endregion
 
@@ -47,6 +49,16 @@ public class PlayerControls : MonoBehaviour
     public bool DashPressed
     {
         get { return _dashPressed; }
+    }
+
+    public bool PausePressed
+    {
+        get { return _pausePressed; }
+    }
+
+    public bool CommandPressed
+    {
+        get { return _commandPressed; }
     }
 
     #endregion
@@ -78,6 +90,16 @@ public class PlayerControls : MonoBehaviour
     public void OnDash(InputValue value)
     {
         _dashPressed = value.isPressed;
+    }
+
+    public void OnPause(InputValue value)
+    {
+        _pausePressed = value.isPressed;
+    }
+
+    public void OnCommand(InputValue value)
+    {
+        _commandPressed = value.isPressed;
     }
 
     #endregion

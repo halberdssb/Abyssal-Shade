@@ -37,4 +37,8 @@ public class PlayerData : ScriptableObject
     public float defaultBoidCollectionDistance;
     public float dashBoidCollectionDistance;
     public float dashBoidCollectionTime;
+    public float boidAttackSpeed;
+    public float boidAttackDistance;
+    public float boidAttackStopRadius;
+    public LayerMask boidAttackCollisionMask;
 }

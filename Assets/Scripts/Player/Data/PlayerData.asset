@@ -28,3 +28,8 @@ MonoBehaviour:
   defaultBoidCollectionDistance: 10
   dashBoidCollectionDistance: 20
   dashBoidCollectionTime: 0.6
+  boidAttackSpeed: 3
+  boidAttackDistance: 12
+  boidAttackCollisionMask:
+    serializedVersion: 2
+    m_Bits: 384

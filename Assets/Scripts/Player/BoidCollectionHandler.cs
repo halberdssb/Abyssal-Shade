@@ -30,6 +30,11 @@ public class BoidCollectionHandler : MonoBehaviour
         return collectedBoids.Count;
     }
 
+    public BoidObject[] CallBoids()
+    {
+        return CallBoids(GetNumberOfBoids());
+    }
+
     public BoidObject[] CallBoids(int numToPull)
     {
         BoidObject[] boidsToPull = new BoidObject[numToPull];

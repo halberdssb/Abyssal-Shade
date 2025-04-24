@@ -32,6 +32,37 @@ Transform:
   - {fileID: 7245411234965410181}
   m_Father: {fileID: 5217981797825697993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2207938606831839899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7295587397924749582}
+  m_Layer: 3
+  m_Name: AttackFollowObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7295587397924749582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207938606831839899}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5217981797825697993}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2268764372287138791
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,6 +402,7 @@ Transform:
   - {fileID: 5367026162877008400}
   - {fileID: 6250419567204437807}
   - {fileID: 1872136332297615753}
+  - {fileID: 7295587397924749582}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1359009627656534183
@@ -388,9 +420,12 @@ MonoBehaviour:
   cameraController: {fileID: 9166439982969369981}
   vfxHandler: {fileID: 4431748104501242257}
   boidCollectionHandler: {fileID: 4955585033423616639}
-  collectedBoids: []
+  boidAttackController: {fileID: 0}
+  attackFollowObj: {fileID: 2207938606831839899}
   dashSound: {fileID: 4353945622875526908}
   dashCooldownTimer: 0
+  isDashHeld: 0
+  isCommandHeld: 0
   data: {fileID: 11400000, guid: 1e6127ae03d437c4a9bdd31f1c923b06, type: 2}
 --- !u!54 &5860787491787781471
 Rigidbody:

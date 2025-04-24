@@ -18,27 +18,29 @@ public class BoidAttackController : MonoBehaviour
 
     void Update()
     {
+
+    }
+
+    private void BoidAttack(PlayerStateController player)
+    {
         // When the player presses the E key...
-        if (Input.GetKeyDown(KeyCode.E))
+        Vector3 attackDirection = playerTransform.forward;
+        Debug.Log("E key pressed. Attack direction: " + attackDirection);
+
+        // Find all boids with BoidAttack component in the scene
+        BoidAttack[] boidAttacks = FindObjectsOfType<BoidAttack>();
+
+        int countInRange = 0;
+        foreach (BoidAttack boid in boidAttacks)
         {
-            Vector3 attackDirection = playerTransform.forward;
-            Debug.Log("E key pressed. Attack direction: " + attackDirection);
-
-            // Find all boids with BoidAttack component in the scene
-            BoidAttack[] boidAttacks = FindObjectsOfType<BoidAttack>();
-
-            int countInRange = 0;
-            foreach (BoidAttack boid in boidAttacks)
+            float distance = Vector3.Distance(boid.transform.position, playerTransform.position);
+            if (distance <= attackRange)
             {
-                float distance = Vector3.Distance(boid.transform.position, playerTransform.position);
-                if (distance <= attackRange)
-                {
-                    countInRange++;
-                    boid.StartAttack(attackSpeed, attackDuration, attackDirection);
-                }
+                countInRange++;
+                boid.StartAttack(attackSpeed, attackDuration, attackDirection);
             }
-            Debug.Log("Found and commanded " + countInRange + " boids to attack.");
         }
+        Debug.Log("Found and commanded " + countInRange + " boids to attack.");
     }
 }
 
