@@ -37,6 +37,7 @@ public class BoidObject : MonoBehaviour
 
     private Vector3[] collisionNavigationCheckVectors;
     private Vector3 velocity;
+    private float speedModifier = 1f;
 
     private GameObject followObj;
 
@@ -61,6 +62,7 @@ public class BoidObject : MonoBehaviour
         velocity = transform.forward * data.maxSpeed / 2;
         transform.rotation = Random.rotation;
         externalForces = new Stack<Vector3>();
+        AdjustBoidSpeed(1f);
 
         collisionNavigationCheckVectors = NavigationSphereCaster.GetNavigationSphereVectors(data.collisionNavigationChecks);
 
@@ -85,13 +87,21 @@ public class BoidObject : MonoBehaviour
 
         Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
 
-        //from Dev, to make the attack work by pausing movement controller temporarily
-        if (isAttacking)
-            return;
-
         if (followObj)
         {
-            acceleration = (followObj.transform.position - transform.position).normalized * data.followObjInfluence;
+            Vector3 distanceToFollowObj = followObj.transform.position - transform.position;
+            acceleration = distanceToFollowObj.normalized * data.followObjInfluence;
+
+            // for attack - if arrived at attack end pos, reset speed and stop attack state
+            if (isAttacking)
+            {
+                if (distanceToFollowObj.sqrMagnitude < player.Data.boidAttackStopRadius * player.Data.boidAttackStopRadius)
+                {
+                    Debug.Log("reset boid speed");
+                    AdjustBoidSpeed(1f);
+                    isAttacking = false;
+                }
+            }
         }
         else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
         {
@@ -124,6 +134,7 @@ public class BoidObject : MonoBehaviour
         // apply forces to boid and move
         velocity += acceleration * Time.deltaTime;
         velocity = Vector3.ClampMagnitude(velocity, data.maxSpeed);
+        velocity *= speedModifier;
         velocity += AddAllExternalForces();
 
         transform.position += velocity * Time.deltaTime;
@@ -209,6 +220,20 @@ public class BoidObject : MonoBehaviour
     public void ApplyForce(Vector3 force)
     {
         externalForces.Push(force);
+    }
+
+    // adjusts the speed modifier of the boid
+    public void AdjustBoidSpeed(float newSpeedMod)
+    {
+        speedModifier = newSpeedMod;
+    }
+
+    // called when the command boid attack is used to send boids forward from player
+    public void OnBoidAttackUsed(GameObject attackFollowObj, float attackSpeedMod)
+    {
+        isAttacking = true;
+        followObj = attackFollowObj;
+        AdjustBoidSpeed(attackSpeedMod);
     }
 
     // shows navigation rays if toggled on
