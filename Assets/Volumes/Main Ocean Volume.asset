@@ -18,21 +18,21 @@ MonoBehaviour:
     m_Value: 2
   threshold:
     m_OverrideState: 1
-    m_Value: 1.2
+    m_Value: 4.4
   intensity:
     m_OverrideState: 1
     m_Value: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.6
+    m_Value: 0.7
   tint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1, g: 0.95686275, b: 0.7294118, a: 1}
   dirtTexture:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {fileID: 0}
   dirtIntensity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 5.89
   anamorphic:
     m_OverrideState: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
     m_Value: 8
   farFocusEnd:
     m_OverrideState: 1
-    m_Value: 120
+    m_Value: 20
   m_NearSampleCount:
     m_OverrideState: 1
     m_Value: 8
@@ -153,7 +153,7 @@ MonoBehaviour:
     m_Value: {x: 0.54598784, y: 0.5519634, z: 1, w: -0.086763024}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 0.18020499, y: 0.48254338, z: 1, w: 0.15593222}
+    m_Value: {x: 0.18020499, y: 0.48254338, z: 1, w: 1}
   gain:
     m_OverrideState: 1
     m_Value: {x: 0.4847595, y: 1, z: 0.59819704, w: 1}

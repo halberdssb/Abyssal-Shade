@@ -1,6 +1,8 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +12,7 @@ using UnityEngine.UIElements;
  * 
  * Jeff Stevenson
  * 3.2.25
+ * modifications lines 39,40,71,72,73 from Dev 4.23.25
  */
 
 
@@ -18,7 +21,7 @@ public class BoidObject : MonoBehaviour
     [HideInInspector]
     public BoidData data;
     [HideInInspector]
-    public GameObject player;
+    public PlayerStateController player;
 
     [HideInInspector]
     public Vector3 neighborsDirection;
@@ -29,10 +32,20 @@ public class BoidObject : MonoBehaviour
     [HideInInspector]
     public int numNeighborBoids;
 
+    [SerializeField]
+    private bool showNavigationRays;
+
     private Vector3[] collisionNavigationCheckVectors;
     private Vector3 velocity;
 
     private GameObject followObj;
+
+    private bool isUsingBoidBehavior;
+
+    private Stack<Vector3> externalForces = new Stack<Vector3>();
+
+    //from Dev for attack
+    public bool isAttacking = false;
 
     public BoidObject(BoidData boidData)
     {
@@ -40,17 +53,20 @@ public class BoidObject : MonoBehaviour
     }
 
     // called when a boid is found at start of scene by BoidManager
-    public void BoidStart(BoidData data, GameObject player, GameObject followObj = null)
+    public void BoidStart(BoidData data, PlayerStateController player, GameObject followObj = null)
     {
         this.data = data;
         this.player = player;
 
         velocity = transform.forward * data.maxSpeed / 2;
         transform.rotation = Random.rotation;
+        externalForces = new Stack<Vector3>();
 
         collisionNavigationCheckVectors = NavigationSphereCaster.GetNavigationSphereVectors(data.collisionNavigationChecks);
 
-        if (followObj != null)
+        isUsingBoidBehavior = true;
+
+        if (followObj)
         {
             this.followObj = followObj;
         }
@@ -60,7 +76,18 @@ public class BoidObject : MonoBehaviour
     // called by BoidManager
     public void UpdateBoid()
     {
+        float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
+        if (distanceToPlayer > BoidManager.BOID_DESPAWN_DISTANCE && !followObj)
+        {
+            BoidManager.DespawnBoids(this);
+            return;
+        }
+
         Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
+
+        //from Dev, to make the attack work by pausing movement controller temporarily
+        if (isAttacking)
+            return;
 
         if (followObj)
         {
@@ -68,7 +95,8 @@ public class BoidObject : MonoBehaviour
         }
         else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
         {
-            followObj = player;
+            followObj = player.gameObject;
+            player.boidCollectionHandler.AddCollectedBoid(this);
         }
 
         // boid rules - alignment/cohesion/separation
@@ -96,9 +124,27 @@ public class BoidObject : MonoBehaviour
         // apply forces to boid and move
         velocity += acceleration * Time.deltaTime;
         velocity = Vector3.ClampMagnitude(velocity, data.maxSpeed);
+        velocity += AddAllExternalForces();
 
         transform.position += velocity * Time.deltaTime;
         transform.forward = velocity;
+    }
+
+    // toggles if the boid should be moving according to boid rules or not - should be disabled for extended external forces/movement
+    public void ToggleBoidBehavior(bool useBoidBehavior)
+    {
+        isUsingBoidBehavior = useBoidBehavior;
+    }
+
+    public bool IsUsingBoidBehavior()
+    {
+        return isUsingBoidBehavior;
+    }
+
+    // sets the follow object of the boid
+    public void SetFollowObject(GameObject objectToFollow)
+    {
+        followObj = objectToFollow;
     }
 
     // checks for obstacle collision in front of boid
@@ -140,22 +186,51 @@ public class BoidObject : MonoBehaviour
         return Vector3.ClampMagnitude(forceToAdd, data.maxTurnSpeed) * weight;
     }
 
+    // pops and returns all added forces to add to fish this frame
+    private Vector3 AddAllExternalForces()
+    {
+        if (externalForces.Count > 0)
+        {
+            Vector3 netExternalForce = Vector3.zero;
+
+            int numForcesToAdd = externalForces.Count;
+            for (int i = 0; i < numForcesToAdd; i++)
+            {
+                netExternalForce += externalForces.Pop();
+            }
+
+            return netExternalForce;
+        }
+
+        return Vector3.zero;
+    }
+
+    // adds an external force from outside source to force stack
+    public void ApplyForce(Vector3 force)
+    {
+        externalForces.Push(force);
+    }
+
+    // shows navigation rays if toggled on
     private void OnDrawGizmosSelected()
     {
-        Vector3[] rays = NavigationSphereCaster.GetNavigationSphereVectors(200);
-
-        foreach (Vector3 ray in rays)
+        if (showNavigationRays)
         {
-            if (Vector3.Dot(transform.forward, ray) > -0.5)
-            {
-                Gizmos.color = Color.green;
-            }
-            else
-            {
-                Gizmos.color = Color.red;
-            }
+            Vector3[] rays = NavigationSphereCaster.GetNavigationSphereVectors(200);
 
-            Gizmos.DrawLine(transform.position, transform.position + ray.normalized);
+            foreach (Vector3 ray in rays)
+            {
+                if (Vector3.Dot(transform.forward, ray) > -0.5)
+                {
+                    Gizmos.color = Color.green;
+                }
+                else
+                {
+                    Gizmos.color = Color.red;
+                }
+
+                Gizmos.DrawLine(transform.position, transform.position + ray.normalized);
+            }
         }
     }
 }
