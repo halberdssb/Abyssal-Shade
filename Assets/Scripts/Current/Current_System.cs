@@ -13,48 +13,97 @@ using UnityEngine;
 public class WaterCurrent : MonoBehaviour
 {
     [SerializeField]
+    private Vector3 currentDirection = Vector3.forward; // Direction of the current
+    [SerializeField]
+    private float currentStrength = .05f; // Strength of the force
+    [SerializeField]
+    private bool startOn;
+
+    [Space]
+    [SerializeField]
     private bool useTimer;
     [SerializeField]
     private float onTime;
     [SerializeField]
     private float offTime;
+
+    [Space]
     [SerializeField]
     private bool changeDirectionOnInterval;
-
-    [SerializeField]
-    private Vector3 currentDirection = Vector3.forward; // Direction of the current
-    [SerializeField]
-    private float currentStrength = .05f; // Strength of the force
-    private ForceMode forceMode = ForceMode.VelocityChange; // Type of force applied
     [SerializeField]
     private float changeInterval = 3f; // Time in seconds before changing direction
 
-  //  public ParticleSystem currentParticles; // Reference to the particle system
+    private ForceMode forceMode = ForceMode.VelocityChange; // Type of force applied
+    //  public ParticleSystem currentParticles; // Reference to the particle system
 
     private HashSet<Rigidbody> affectedBodies = new HashSet<Rigidbody>();
     private HashSet<BoidObject> affectedBoids = new HashSet<BoidObject>();
+
+    private bool isActivated;
+    private bool isCycleOn;
+    private float cycleTimer;
     
     private void Start()
     {
         if (changeDirectionOnInterval) StartCoroutine(ChangeCurrentDirection());
+        if (startOn) ToggleCurrent(true);
+    }
+
+    private void Update()
+    {
+        if (useTimer)
+        {
+            HandleCycleOnOff();
+        }
     }
 
     private void FixedUpdate()
     {
-        // Continuously apply force to all objects in the current
-        foreach (Rigidbody rb in affectedBodies)
+        if (isActivated)
         {
-            if (rb != null)
+            // Continuously apply force to all objects in the current
+            foreach (Rigidbody rb in affectedBodies)
             {
-                //Debug.Log($"Applying force to {rb.name}");
-                rb.AddForce(currentDirection.normalized * currentStrength, forceMode);
+                if (rb != null)
+                {
+                    //Debug.Log($"Applying force to {rb.name}");
+                    rb.AddForce(currentDirection.normalized * currentStrength, forceMode);
+                }
+            }
+
+            foreach (BoidObject boid in affectedBoids)
+            {
+                boid.ApplyForce(currentDirection.normalized * currentStrength);
             }
         }
+    }
 
-        foreach (BoidObject boid in affectedBoids)
+    // enables/disables the whole current system, including its cycle if using
+    public void ToggleCurrent(bool activate)
+    {
+        isActivated = activate;
+        if (useTimer)
         {
-            boid.ApplyForce(currentDirection.normalized * currentStrength);
+            cycleTimer = 0f;
+            isCycleOn = activate;
         }
+    }
+
+    // switches between on and off for timer cycle while active
+    public void HandleCycleOnOff()
+    {
+        if (isActivated && cycleTimer > onTime)
+        {
+            isActivated = false;
+            cycleTimer = 0f;
+        }
+        else if (!isActivated && cycleTimer > offTime)
+        {
+            isActivated = true;
+            cycleTimer = 0f;
+        }
+
+        cycleTimer += Time.deltaTime;
     }
 
     private IEnumerator ChangeCurrentDirection()
