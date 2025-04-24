@@ -18,6 +18,10 @@ public class PlayerStateController : MonoBehaviour
     #region Public Variables
 
     public PlayerCameraController cameraController;
+    public PlayerVFXHandler vfxHandler;
+    public BoidCollectionHandler boidCollectionHandler;
+
+    public BoidObject[] collectedBoids;
 
     public AudioSource dashSound;
     [HideInInspector]

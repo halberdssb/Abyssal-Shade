@@ -31,22 +31,27 @@ public class PlayerSwimState : PlayerBaseState
         {
             player.dashCooldownTimer -= Time.deltaTime;
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+        }
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
         // handle movement, turning, dashing
-        Debug.Log("input: " + player.Controls.MovementInput.x);
         player.SwimMovement.Swim(player.Rb, player.Controls.MovementInput, player.Data.swimSpeed, player.Data.strafeSpeed, player.cameraController.transform);
+        player.SwimMovement.SmoothTurn(player.Rb, player.cameraController.transform, player.Controls.MovementInput, player.Data.turnSpeed, player.Data.maxTurnZRotation);
 
         // currently disabling roll - don't like how it feels w/ camera movement
         //player.SwimMovement.Roll(player.Rb, player.Controls.RollInput, player.Data.rollSpeed, player.cameraController.transform);
 
-        player.SwimMovement.SmoothTurn(player.Rb, player.cameraController.transform, player.Controls.MovementInput, player.Data.turnSpeed, player.Data.maxTurnZRotation);
-
+        // handle dash
         if (player.Controls.DashPressed && !isDashHeld && player.dashCooldownTimer <= 0 && player.Controls.MovementInput.sqrMagnitude > 0)
         {
             player.SwimMovement.Dash(player.Rb, player.Controls.MovementInput, player.Data.dashSpeed, player.cameraController.transform);
             player.dashSound.Play();
+            player.vfxHandler.TriggerDashVFX(player.Data.dashVFXDuration);
             isDashHeld = true;
             player.dashCooldownTimer = player.Data.dashCooldown;
 
@@ -73,5 +78,10 @@ public class PlayerSwimState : PlayerBaseState
         yield return new WaitForSeconds(player.Data.dashBoidCollectionTime);
 
         PlayerStateController.BoidCollectionDistance = player.Data.defaultBoidCollectionDistance;
+    }
+
+    private void CreateBoidSphere()
+    {
+
     }
 }

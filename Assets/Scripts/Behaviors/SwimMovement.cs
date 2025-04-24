@@ -86,7 +86,10 @@ public class SwimMovement : MonoBehaviour
         float zRotation = -Vector3.Dot(-rbToTurn.transform.forward, target.right * maxZRotation);
         Vector3 zRotationVector = Vector3.zero;
 
-        zRotationVector.z = Mathf.Lerp(rbToTurn.transform.rotation.z, zRotation, lerpTValue);
+        if (lerpTValue != 0)
+        {
+            zRotationVector.z = Mathf.Lerp(rbToTurn.transform.rotation.z, zRotation, lerpTValue);
+        }
 
         Vector3 finalEulerRotation = smoothTurnRotation.eulerAngles + zRotationVector;
 
