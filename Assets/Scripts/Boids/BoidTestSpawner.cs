@@ -31,8 +31,6 @@ public class BoidTestSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spawnArea = GetComponent<BoxCollider>();
-
         SpawnBoids();
     }
 
@@ -60,8 +58,10 @@ public class BoidTestSpawner : MonoBehaviour
     }
 
     // spawns specified number of boids in spawn area
-    private void SpawnBoids()
+    public void SpawnBoids()
     {
+        spawnArea = GetComponent<BoxCollider>();
+
         Transform boidParent = new GameObject("BoidHolder").transform;
 
         for (int i = 0; i < numberBoidsToSpawn / 5; i++)

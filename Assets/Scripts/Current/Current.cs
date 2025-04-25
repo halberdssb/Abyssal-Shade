@@ -10,7 +10,7 @@ using UnityEngine;
  */
 
 [RequireComponent(typeof(Collider))]
-public class WaterCurrent : MonoBehaviour
+public class Current : MonoBehaviour
 {
     [SerializeField]
     private Vector3 currentDirection = Vector3.forward; // Direction of the current
@@ -104,6 +104,12 @@ public class WaterCurrent : MonoBehaviour
         }
 
         cycleTimer += Time.deltaTime;
+    }
+
+    // sets the push direction of the current
+    public void SetPushDirection(Vector3 newDirection)
+    {
+        currentDirection = newDirection;
     }
 
     private IEnumerator ChangeCurrentDirection()

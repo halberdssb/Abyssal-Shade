@@ -98,17 +98,23 @@ public class PlayerSwimState : PlayerBaseState
 
             Vector3 attackDirection = player.cameraController.transform.forward;
             //Debug.Log("E key pressed. Attack direction: " + attackDirection);
-
+            player.currentPrefab.SetActive(true);
+            player.currentPrefab.transform.up = attackDirection;
+            player.currentPrefab.transform.position = player.transform.position + attackDirection * player.currentPrefab.transform.localScale.y;
+            player.currentPrefab.GetComponent<Current>().SetPushDirection(attackDirection);
+            return;
             // Find all boids with BoidAttack component in the scene
             BoidObject[] boids = player.boidCollectionHandler.CallBoids();
             Debug.Log("boid attack! boids to send: " + boids.Length);
+            player.currentPrefab.transform.up = player.cameraController.transform.forward;
+            player.currentPrefab.active = true;
             int countInRange = 0;
             foreach (BoidObject boid in boids)
             {
                 countInRange++;
 
-                MoveAttackFollowObject(player, player.attackFollowObj);
-                boid.OnBoidAttackUsed(player.attackFollowObj, player.Data.boidAttackSpeed);
+                //MoveAttackFollowObject(player, player.attackFollowObj);
+                //boid.OnBoidAttackUsed(player.attackFollowObj, player.Data.boidAttackSpeed);
             }
             Debug.Log("Found and commanded " + countInRange + " boids to attack.");
         }

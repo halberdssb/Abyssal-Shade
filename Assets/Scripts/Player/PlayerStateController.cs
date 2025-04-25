@@ -21,7 +21,7 @@ public class PlayerStateController : MonoBehaviour
     public PlayerVFXHandler vfxHandler;
     public BoidCollectionHandler boidCollectionHandler;
     public BoidAttackController boidAttackController;
-    public GameObject attackFollowObj;
+    public GameObject currentPrefab;
 
     public AudioSource dashSound;
     [HideInInspector]
@@ -87,14 +87,18 @@ public class PlayerStateController : MonoBehaviour
         swimMovement = GetComponent<SwimMovement>();
 
         BoidCollectionDistance = Data.defaultBoidCollectionDistance;
-        attackFollowObj.transform.parent = null;
+        currentPrefab.transform.parent = null;
+        currentPrefab.SetActive(false);
 
         SwitchState(SwimState);
     }
 
     private void Update()
     {
-        currentState.OnUpdateState(this);
+        if (!MenuManager.IsGamePaused)
+        {
+            currentState.OnUpdateState(this);
+        }
     }
 
     private void FixedUpdate()
