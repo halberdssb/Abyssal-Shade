@@ -106,6 +106,12 @@ public class Current : MonoBehaviour
         cycleTimer += Time.deltaTime;
     }
 
+    // sets the push direction of the current
+    public void SetPushDirection(Vector3 newDirection)
+    {
+        currentDirection = newDirection;
+    }
+
     private IEnumerator ChangeCurrentDirection()
     {
         while (true)
