@@ -64,7 +64,6 @@ public class AudioSettings : MonoBehaviour
     {
         float volume;
         audioMixer.GetFloat(volumeRefStr, out volume);
-        Debug.Log(volumeRefStr + " " + volume);
         return volume;
     }
 }

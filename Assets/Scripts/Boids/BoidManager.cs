@@ -64,18 +64,33 @@ public class BoidManager : MonoBehaviour
 
     private void Awake()
     {
-        staticBoidData = boidData;
-        CreateBoidQueue();
+
     }
 
     void Start()
     {
+        Debug.Log("starting boids!");
+        staticBoidData = boidData;
+        CreateBoidQueue();
+
         player = FindObjectOfType<PlayerStateController>();
 
         foreach (BoidObject boid in activeBoidPool)
         {
             boid.BoidStart(staticBoidData, player);
         }
+
+        //TESTING ONLY
+        if (GetComponent<BoidTestSpawner>() != null)
+        {
+            GetComponent<BoidTestSpawner>().SpawnBoids();
+        }
+    }
+
+    private void OnDisable()
+    {
+        inactiveBoidPool.Clear();
+        activeBoidPool.Clear();
     }
 
     void Update()
@@ -143,6 +158,8 @@ public class BoidManager : MonoBehaviour
     // spawns a specified number of boids, adds them to active queue and returns
     public static BoidObject[] SpawnBoids(int requestedNumToSpawn, Vector3 spawnLocation)
     {
+        if (inactiveBoidPool.Count == 0) return null;
+
         int numBoidsCanBeSpawned = MAX_BOIDS_IN_SCENE - numBoidsInScene;
 
         if (numBoidsCanBeSpawned == 0)

@@ -95,7 +95,7 @@ public class PlayerStateController : MonoBehaviour
 
     private void Update()
     {
-        if (!PauseManager.IsGamePaused)
+        if (!MenuManager.IsGamePaused)
         {
             currentState.OnUpdateState(this);
         }

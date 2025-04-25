@@ -5,17 +5,22 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /*
- * Handles pausing and unpausing and displaying pause menu panels
+ * Handles pausing and unpausing and displaying menu panels
  * 
  * Jeff Stevenson
  * 4.25.25
  */
 
-public class PauseManager : MonoBehaviour
+public class MenuManager : MonoBehaviour
 {
     // name of main menu scene
     private const string MAIN_MENU_STR_REF = "MainMenu";
+    private const string GAME_START_SCENE = "clonescene_withCurrent";
+
     public static bool IsGamePaused;
+
+    [SerializeField]
+    private bool isMainMenu;
 
     [SerializeField]
     private PlayerControls playerControls;
@@ -34,25 +39,35 @@ public class PauseManager : MonoBehaviour
     {
         menuCanvasGroup = GetComponent<CanvasGroup>();
 
-        foreach (var panel in pausePanels)
+        if (!isMainMenu)
         {
-            panel.SetPanelActive(false);
-        }
+            foreach (var panel in pausePanels)
+            {
+                panel.SetPanelActive(false);
+            }
 
-        Unpause();
+            Unpause();
+        }
+        else
+        {
+            currentPanel = defaultPanel;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerControls.PausePressed && !isPauseHeld)
+        if (!isMainMenu)
         {
-            TogglePause();
-            isPauseHeld = true;
-        }
-        else if (!playerControls.PausePressed)
-        {
-            isPauseHeld = false;
+            if (playerControls.PausePressed && !isPauseHeld)
+            {
+                TogglePause();
+                isPauseHeld = true;
+            }
+            else if (!playerControls.PausePressed)
+            {
+                isPauseHeld = false;
+            }
         }
     }
 
@@ -88,6 +103,16 @@ public class PauseManager : MonoBehaviour
     {
         SceneManager.LoadScene(MAIN_MENU_STR_REF);
     }    
+
+    public void NewGame()
+    {
+        SceneManager.LoadScene(GAME_START_SCENE);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 
     public void SwitchToPanel(int panelIndex)
     {
