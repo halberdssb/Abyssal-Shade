@@ -153,7 +153,7 @@ public class WaterCurrent : MonoBehaviour
         BoidObject boid = other.GetComponent<BoidObject>();
         if (boid != null)
         {
-            Debug.Log(boid.name + " entered the current!", boid.gameObject);
+            //Debug.Log(boid.name + " entered the current!", boid.gameObject);
             affectedBoids.Add(boid);
             return;
         }
@@ -162,7 +162,7 @@ public class WaterCurrent : MonoBehaviour
         if (rb != null)
         {
             affectedBodies.Add(rb);
-            Debug.Log($"{rb.name} entered the current!");
+            //Debug.Log($"{rb.name} entered the current!");
             return;
         }
     }

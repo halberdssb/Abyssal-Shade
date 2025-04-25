@@ -149,6 +149,7 @@ public class RestorationObject : MonoBehaviour
 
             boid.transform.parent = null;
             boid.ToggleBoidBehavior(true);
+            player.boidCollectionHandler.AddCollectedBoid(boid);
         }
     }
 

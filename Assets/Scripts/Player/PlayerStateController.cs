@@ -20,12 +20,16 @@ public class PlayerStateController : MonoBehaviour
     public PlayerCameraController cameraController;
     public PlayerVFXHandler vfxHandler;
     public BoidCollectionHandler boidCollectionHandler;
-
-    public BoidObject[] collectedBoids;
+    public BoidAttackController boidAttackController;
+    public GameObject attackFollowObj;
 
     public AudioSource dashSound;
     [HideInInspector]
     public float dashCooldownTimer;
+    [HideInInspector]
+    public bool isDashHeld;
+    //[HideInInspector]
+    public bool isCommandHeld;
     #endregion
 
     #region Private Variables
@@ -83,6 +87,7 @@ public class PlayerStateController : MonoBehaviour
         swimMovement = GetComponent<SwimMovement>();
 
         BoidCollectionDistance = Data.defaultBoidCollectionDistance;
+        attackFollowObj.transform.parent = null;
 
         SwitchState(SwimState);
     }
