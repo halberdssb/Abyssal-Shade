@@ -47,7 +47,7 @@ public class RestorationObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == player.gameObject)
+        if (other.CompareTag("Player"))
         {
             if (!isRestored)
             {

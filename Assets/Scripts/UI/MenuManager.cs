@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
 {
     // name of main menu scene
     private const string MAIN_MENU_STR_REF = "MainMenu";
-    private const string GAME_START_SCENE = "clonescene_withCurrent";
+    private const string GAME_START_SCENE = "GameplayTestScene";
 
     public static bool IsGamePaused;
 
@@ -78,6 +78,7 @@ public class MenuManager : MonoBehaviour
         menuCanvasGroup.interactable = true;
         menuCanvasGroup.blocksRaycasts = true;
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         SwitchToPanel(defaultPanel);
         IsGamePaused = true;
     }
@@ -89,6 +90,7 @@ public class MenuManager : MonoBehaviour
         menuCanvasGroup.interactable = false;
         menuCanvasGroup.blocksRaycasts = false;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         Time.timeScale = 1f;
         IsGamePaused = false;
     }

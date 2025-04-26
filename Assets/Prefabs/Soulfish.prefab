@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6597371047941245417}
   - component: {fileID: 3369582622444475354}
   m_Layer: 6
-  m_Name: TestBoid
+  m_Name: Soulfish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

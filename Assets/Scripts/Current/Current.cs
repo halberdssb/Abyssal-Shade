@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 /*
@@ -18,6 +19,8 @@ public class Current : MonoBehaviour
     private float currentStrength = .05f; // Strength of the force
     [SerializeField]
     private bool startOn;
+    [SerializeField]
+    private bool isPlayerAbilityCurrent; // is this the current object used for the player current ability?
 
     [Space]
     [SerializeField]
@@ -33,18 +36,29 @@ public class Current : MonoBehaviour
     [SerializeField]
     private float changeInterval = 3f; // Time in seconds before changing direction
 
+    [Space]
+    [SerializeField]
+    private ParticleSystem particles;
+
     private ForceMode forceMode = ForceMode.VelocityChange; // Type of force applied
-    //  public ParticleSystem currentParticles; // Reference to the particle system
 
     private HashSet<Rigidbody> affectedBodies = new HashSet<Rigidbody>();
     private HashSet<BoidObject> affectedBoids = new HashSet<BoidObject>();
 
+    private PlayerStateController player;
+
     private bool isActivated;
     private bool isCycleOn;
     private float cycleTimer;
+    private float particleLifetime = 1f;
+
+    private float fadeTimer;
+    private float currentFadeTime;
     
     private void Start()
     {
+        player = FindObjectOfType<PlayerStateController>();
+
         if (changeDirectionOnInterval) StartCoroutine(ChangeCurrentDirection());
         if (startOn) ToggleCurrent(true);
     }
@@ -54,6 +68,24 @@ public class Current : MonoBehaviour
         if (useTimer)
         {
             HandleCycleOnOff();
+        }
+
+        // used for player ability current - disable after fade time w/ appropriate particle delay
+        if (currentFadeTime > 0)
+        {
+            if (fadeTimer >= currentFadeTime + particleLifetime)
+            {
+                currentFadeTime = 0f;
+                gameObject.SetActive(false);
+                return;
+            }
+            else if (fadeTimer >= currentFadeTime)
+            {
+                particles.Stop();
+                isActivated = false;
+            }
+
+            fadeTimer += Time.deltaTime;
         }
     }
 
@@ -87,6 +119,15 @@ public class Current : MonoBehaviour
             cycleTimer = 0f;
             isCycleOn = activate;
         }
+
+        if (activate)
+        {
+            particles.Play();
+        }
+        else
+        {
+            particles.Stop();
+        }
     }
 
     // switches between on and off for timer cycle while active
@@ -110,6 +151,20 @@ public class Current : MonoBehaviour
     public void SetPushDirection(Vector3 newDirection)
     {
         currentDirection = newDirection;
+    }
+
+    // used for player current ability - turns current on for certain amt of time at given pos/rotation
+    public void EnableCurrentForTime(float timeTilDisable, Vector3 enablePosition, Vector3 direction)
+    {
+        gameObject.SetActive(true);
+        isActivated = true;
+        particles.Play();
+        transform.position = enablePosition;
+        transform.up = direction;
+        SetPushDirection(direction);
+
+        fadeTimer = 0f;
+        currentFadeTime = timeTilDisable;
     }
 
     private IEnumerator ChangeCurrentDirection()
@@ -167,6 +222,13 @@ public class Current : MonoBehaviour
         Rigidbody rb = other.attachedRigidbody;
         if (rb != null)
         {
+            // if this is player ability current, don't add player to list to push - apply speedboost instead
+            if (isPlayerAbilityCurrent && other.CompareTag("Player"))
+            {
+                Debug.Log("Player speed boost active!");
+                player.swimSpeedMod = player.Data.currentSpeedBoostMod;
+                return;
+            }
             affectedBodies.Add(rb);
             //Debug.Log($"{rb.name} entered the current!");
             return;
@@ -185,7 +247,14 @@ public class Current : MonoBehaviour
         Rigidbody rb = other.attachedRigidbody;
         if (rb != null)
         {
+            if (isPlayerAbilityCurrent && other.CompareTag("Player"))
+            {
+                Debug.Log("Player speed boost gone");
+                player.swimSpeedMod = 1f;
+                return;
+            }
             affectedBodies.Remove(rb);
+            return;
         }
     }
 

@@ -15,19 +15,24 @@ public class PlayerStateController : MonoBehaviour
     public static float BoidCollectionDistance;
 
     #endregion
+
     #region Public Variables
 
     public PlayerCameraController cameraController;
     public PlayerVFXHandler vfxHandler;
     public BoidCollectionHandler boidCollectionHandler;
-    public BoidAttackController boidAttackController;
-    public GameObject currentPrefab;
+    public Animator anim;
+    public Current currentAbility;
 
     public AudioSource dashSound;
     [HideInInspector]
     public float dashCooldownTimer;
     [HideInInspector]
+    public float currentCooldownTimer;
+    [HideInInspector]
     public bool isDashHeld;
+    [HideInInspector]
+    public float swimSpeedMod = 1f;
     //[HideInInspector]
     public bool isCommandHeld;
     #endregion
@@ -87,8 +92,9 @@ public class PlayerStateController : MonoBehaviour
         swimMovement = GetComponent<SwimMovement>();
 
         BoidCollectionDistance = Data.defaultBoidCollectionDistance;
-        currentPrefab.transform.parent = null;
-        currentPrefab.SetActive(false);
+        currentAbility.transform.parent = null;
+        currentAbility.gameObject.SetActive(false);
+        swimSpeedMod = 1f;
 
         SwitchState(SwimState);
     }
