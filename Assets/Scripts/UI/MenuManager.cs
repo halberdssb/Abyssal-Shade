@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
 {
     // name of main menu scene
     private const string MAIN_MENU_STR_REF = "MainMenu";
-    private const string GAME_START_SCENE = "clonescene_withCurrent";
+    private const string GAME_START_SCENE = "GameplayDemoScene";
 
     public static bool IsGamePaused;
 
