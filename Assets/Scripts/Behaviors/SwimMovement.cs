@@ -82,16 +82,17 @@ public class SwimMovement : MonoBehaviour
         float lerpTValue = directionalInput.sqrMagnitude * turnSpeed * Time.fixedDeltaTime;
         Quaternion smoothTurnRotation = Quaternion.Slerp(rbToTurn.transform.rotation, target.rotation, lerpTValue);
 
+        // commented out now - turning handled by anim blend tree w/ banking animations
         // handle z lerp rotation to animated based on horizontal movement
-        float zRotation = -Vector3.Dot(-rbToTurn.transform.forward, target.right * maxZRotation);
-        Vector3 zRotationVector = Vector3.zero;
+        //float zRotation = -Vector3.Dot(-rbToTurn.transform.forward, target.right * maxZRotation);
+        //Vector3 zRotationVector = Vector3.zero;
+        //
+        //if (lerpTValue != 0)
+        //{
+        //    zRotationVector.z = Mathf.Lerp(rbToTurn.transform.rotation.z, zRotation, lerpTValue);
+        //}
 
-        if (lerpTValue != 0)
-        {
-            zRotationVector.z = Mathf.Lerp(rbToTurn.transform.rotation.z, zRotation, lerpTValue);
-        }
-
-        Vector3 finalEulerRotation = smoothTurnRotation.eulerAngles + zRotationVector;
+        Vector3 finalEulerRotation = smoothTurnRotation.eulerAngles;// + zRotationVector;
 
         rbToTurn.rotation = Quaternion.Euler(finalEulerRotation);
     }

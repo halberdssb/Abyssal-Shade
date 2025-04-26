@@ -18,6 +18,7 @@ public class PlayerData : ScriptableObject
     public float rollSpeed;
     public float turnSpeed;
     public float dashSpeed;
+    public float dashStartupTime;
     public float dashVFXDuration;
     public float dashCooldown;
     public float dashBufferWindow;

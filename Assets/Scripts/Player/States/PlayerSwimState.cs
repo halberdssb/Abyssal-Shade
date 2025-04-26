@@ -14,8 +14,6 @@ using UnityEngine;
 
 public class PlayerSwimState : PlayerBaseState
 {
-    private Coroutine dashBoidCollectionRoutine;
-
     public override void OnEnterState(PlayerStateController player)
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -46,9 +44,27 @@ public class PlayerSwimState : PlayerBaseState
         return;
     }
 
-    // increases boid collection radius for a period of time while dashing
-    private IEnumerator DashCollectionRadiusChangeRoutine(PlayerStateController player)
+
+    // coroutine that handles dash timing for visuals, startup, and force
+    private IEnumerator DashRoutine(PlayerStateController player)
     {
+        player.isDashHeld = true;
+        player.dashCooldownTimer = player.Data.dashCooldown;
+
+        // start animation and vfx before dash force is applied
+        player.anim.SetTrigger("Dash");
+        player.vfxHandler.TriggerDashVFX(player.Data.dashVFXDuration + player.Data.dashStartupTime);
+
+        yield return new WaitForSeconds(player.Data.dashStartupTime);
+
+        // dash
+        float totalDashSpeed = player.Data.dashSpeed * player.swimSpeedMod;
+        player.SwimMovement.Dash(player.Rb, player.Controls.MovementInput, totalDashSpeed, player.cameraController.transform);
+
+        // effects
+        player.dashSound.Play();
+
+        // increase player boid collection range during dash
         PlayerStateController.BoidCollectionDistance = player.Data.dashBoidCollectionDistance;
 
         yield return new WaitForSeconds(player.Data.dashBoidCollectionTime);
@@ -80,24 +96,8 @@ public class PlayerSwimState : PlayerBaseState
         // if new dash input occurs and off cooldown, dash
         if (player.Controls.DashPressed && !player.isDashHeld && player.dashCooldownTimer <= 0 && player.Controls.MovementInput.sqrMagnitude > 0)
         {
-            // dash
-            float totalDashSpeed = player.Data.dashSpeed * player.swimSpeedMod;
-            player.SwimMovement.Dash(player.Rb, player.Controls.MovementInput, totalDashSpeed, player.cameraController.transform);
+            player.StartCoroutine(DashRoutine(player));
 
-            // effects
-            player.dashSound.Play();
-            player.vfxHandler.TriggerDashVFX(player.Data.dashVFXDuration);
-            player.anim.SetTrigger("Dash");
-
-            // set cooldown and input buffer
-            player.isDashHeld = true;
-            player.dashCooldownTimer = player.Data.dashCooldown;
-
-            // increase player boid collection range during dash
-            if (dashBoidCollectionRoutine != null)
-            {
-                dashBoidCollectionRoutine = player.StartCoroutine(DashCollectionRadiusChangeRoutine(player));
-            }
         }
         else if (!player.Controls.DashPressed && player.dashCooldownTimer <= player.Data.dashBufferWindow)
         {
@@ -139,8 +139,27 @@ public class PlayerSwimState : PlayerBaseState
     {
         // value used for determing if dash roll should spin left or right - 
         // first use x move input, if 0 use diff from player forward and cam forward to spin towards camera center
-        float differenceFromCamDirection = Vector3.SignedAngle(player.cameraController.transform.forward, player.transform.forward, player.cameraController.transform.up);
-        float xInputVal = player.Controls.MovementInput.x != 0 ? player.Controls.MovementInput.x : -Mathf.Sign(differenceFromCamDirection);
-        player.anim.SetFloat("XInput", xInputVal);
+        float xInputVal;
+        if (player.Controls.MovementInput.sqrMagnitude <= 0)
+        {
+            xInputVal = 0f;
+        }
+        else
+        {
+            float differenceFromCamDirection = Vector3.SignedAngle(player.cameraController.transform.forward, player.transform.forward, player.cameraController.transform.up);
+            xInputVal = player.Controls.MovementInput.x != 0 ? player.Controls.MovementInput.x : -Mathf.Sign(differenceFromCamDirection);
+        }
+
+        // want player to bank if they are moving laterally or moving at all and turning camera - otherwise they should level out to flat
+        bool shouldBeBanking = player.Controls.MovementInput.x != 0 || (player.Controls.MovementInput.sqrMagnitude > 0 && player.Controls.LookInput.sqrMagnitude > 0);
+        // if should be banking, we want to lerp float towards bank direction, otherwise bank to 0 (level)
+        float finalSign = shouldBeBanking ? Mathf.Sign(xInputVal) : 0;
+        float lerpVal = Mathf.Lerp(player.anim.GetFloat("BankValue"), finalSign, Time.deltaTime);
+        // if lerp value is small enough, just set to 0
+        if (Mathf.Abs(finalSign - lerpVal) < 0.01) lerpVal = finalSign;
+
+        // set bank value and dash direction
+        player.anim.SetFloat("BankValue", lerpVal);
+        player.anim.SetFloat("DashDirection", xInputVal);
     }
 }
