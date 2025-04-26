@@ -23,8 +23,8 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnUpdateState(PlayerStateController player)
     {
-        UpdateAnims
-            (player);
+        UpdateAnims(player);
+
         HandleCameraMovement(player);
 
         HandleBoidAttack(player);
@@ -34,7 +34,6 @@ public class PlayerSwimState : PlayerBaseState
         {
             player.dashCooldownTimer -= Time.deltaTime;
         }
-
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
@@ -57,13 +56,17 @@ public class PlayerSwimState : PlayerBaseState
         PlayerStateController.BoidCollectionDistance = player.Data.defaultBoidCollectionDistance;
     }
 
+    // handles moving and turning player with physics system
     private void HandleMovement(PlayerStateController player)
     {
         // handle movement, turning, dashing
-        player.SwimMovement.Swim(player.Rb, player.Controls.MovementInput, player.Data.swimSpeed, player.Data.strafeSpeed, player.cameraController.transform);
+        float totalSwimSpeed = player.Data.swimSpeed * player.swimSpeedMod;
+        float totalStrafeSpeed = player.Data.strafeSpeed * player.swimSpeedMod;
+        player.SwimMovement.Swim(player.Rb, player.Controls.MovementInput, totalSwimSpeed, totalStrafeSpeed, player.cameraController.transform);
         player.SwimMovement.SmoothTurn(player.Rb, player.cameraController.transform, player.Controls.MovementInput, player.Data.turnSpeed, player.Data.maxTurnZRotation);
     }
 
+    // moves camera based on mouse input
     private void HandleCameraMovement(PlayerStateController player)
     {
         // handle camera movement
@@ -71,17 +74,26 @@ public class PlayerSwimState : PlayerBaseState
         player.cameraController.Zoom();
     }
 
+    // handles dash forward, cooldown, and dash effects
     private void HandleDash(PlayerStateController player)
     {
+        // if new dash input occurs and off cooldown, dash
         if (player.Controls.DashPressed && !player.isDashHeld && player.dashCooldownTimer <= 0 && player.Controls.MovementInput.sqrMagnitude > 0)
         {
-            player.SwimMovement.Dash(player.Rb, player.Controls.MovementInput, player.Data.dashSpeed, player.cameraController.transform);
+            // dash
+            float totalDashSpeed = player.Data.dashSpeed * player.swimSpeedMod;
+            player.SwimMovement.Dash(player.Rb, player.Controls.MovementInput, totalDashSpeed, player.cameraController.transform);
+
+            // effects
             player.dashSound.Play();
             player.vfxHandler.TriggerDashVFX(player.Data.dashVFXDuration);
-            player.isDashHeld = true;
-            player.dashCooldownTimer = player.Data.dashCooldown;
             player.anim.SetTrigger("Dash");
 
+            // set cooldown and input buffer
+            player.isDashHeld = true;
+            player.dashCooldownTimer = player.Data.dashCooldown;
+
+            // increase player boid collection range during dash
             if (dashBoidCollectionRoutine != null)
             {
                 dashBoidCollectionRoutine = player.StartCoroutine(DashCollectionRadiusChangeRoutine(player));
@@ -93,49 +105,40 @@ public class PlayerSwimState : PlayerBaseState
         }
     }
 
+    // creates a current ahead of player that pushes boids forward
     private void HandleBoidAttack(PlayerStateController player)
     {
-        if (player.Controls.CommandPressed && !player.isCommandHeld)
+        // create current if new current input pressed and ability is off cooldown
+        if (player.Controls.CommandPressed && !player.isCommandHeld && player.currentCooldownTimer <= 0)
         {
             player.isCommandHeld = true;
 
+            // create current in direction of camera
             Vector3 attackDirection = player.cameraController.transform.forward;
+            // offset attack to start at player and stretch in front
+            Vector3 currentPosOffset = player.transform.position + attackDirection * player.currentAbility.transform.localScale.y;
 
-            player.currentPrefab.SetActive(true);
-            player.currentPrefab.transform.up = attackDirection;
-            player.currentPrefab.transform.position = player.transform.position + attackDirection * player.currentPrefab.transform.localScale.y;
-            player.currentPrefab.GetComponent<Current>().SetPushDirection(attackDirection);
-            return;
+            // create current and start cooldown
+            player.currentAbility.EnableCurrentForTime(player.Data.currentLifetime, currentPosOffset, attackDirection);
+            player.currentCooldownTimer = player.Data.currentCooldown;
         }
         else if (!player.Controls.CommandPressed)
         {
             player.isCommandHeld = false;
         }
+
+        // decrement cooldown timer
+        if (player.currentCooldownTimer > 0)
+        {
+            player.currentCooldownTimer -= Time.deltaTime;
+        }
     }
 
-    private void MoveAttackFollowObject(PlayerStateController player, GameObject attackFollowObj)
-    {
-        // cast a ray to figure out attack end position
-        Ray attackRay = new Ray(player.transform.position, player.cameraController.transform.forward);
-        RaycastHit hitInfo = new RaycastHit();
-        bool didRaycastHit = Physics.Raycast(attackRay, out hitInfo, player.Data.boidAttackDistance, player.Data.boidAttackCollisionMask);
-
-        Vector3 attackEndPos;
-        if (didRaycastHit)
-        {
-            float distanceAwayFromHit = 3f;
-            attackEndPos = hitInfo.point - player.cameraController.transform.forward * distanceAwayFromHit;
-        }
-        else
-        {
-            attackEndPos = player.transform.position + (player.cameraController.transform.forward * player.Data.boidAttackDistance);
-        }
-
-        attackFollowObj.transform.position = attackEndPos;
-    }
-
+    // update animation parameters for player
     private void UpdateAnims(PlayerStateController player)
     {
+        // value used for determing if dash roll should spin left or right - 
+        // first use x move input, if 0 use diff from player forward and cam forward to spin towards camera center
         float differenceFromCamDirection = Vector3.SignedAngle(player.cameraController.transform.forward, player.transform.forward, player.cameraController.transform.up);
         float xInputVal = player.Controls.MovementInput.x != 0 ? player.Controls.MovementInput.x : -Mathf.Sign(differenceFromCamDirection);
         player.anim.SetFloat("XInput", xInputVal);

@@ -24,6 +24,12 @@ public class PlayerData : ScriptableObject
     public float maxTurnZRotation;
 
     [Space]
+    [Header("Current Ability")]
+    public float currentLifetime;
+    public float currentCooldown;
+    public float currentSpeedBoostMod;
+
+    [Space]
     [Header("Camera Controls")]
     [Range(0f, 1f)]
     public float lookSensitivity;
