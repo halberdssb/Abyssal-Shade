@@ -15,12 +15,14 @@ public class PlayerStateController : MonoBehaviour
     public static float BoidCollectionDistance;
 
     #endregion
+
     #region Public Variables
 
     public PlayerCameraController cameraController;
     public PlayerVFXHandler vfxHandler;
     public BoidCollectionHandler boidCollectionHandler;
     public BoidAttackController boidAttackController;
+    public Animator anim;
     public GameObject currentPrefab;
 
     public AudioSource dashSound;

@@ -23,6 +23,8 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnUpdateState(PlayerStateController player)
     {
+        UpdateAnims
+            (player);
         HandleCameraMovement(player);
 
         HandleBoidAttack(player);
@@ -42,7 +44,7 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnExitState(PlayerStateController player)
     {
-
+        return;
     }
 
     // increases boid collection radius for a period of time while dashing
@@ -78,6 +80,7 @@ public class PlayerSwimState : PlayerBaseState
             player.vfxHandler.TriggerDashVFX(player.Data.dashVFXDuration);
             player.isDashHeld = true;
             player.dashCooldownTimer = player.Data.dashCooldown;
+            player.anim.SetTrigger("Dash");
 
             if (dashBoidCollectionRoutine != null)
             {
@@ -97,26 +100,12 @@ public class PlayerSwimState : PlayerBaseState
             player.isCommandHeld = true;
 
             Vector3 attackDirection = player.cameraController.transform.forward;
-            //Debug.Log("E key pressed. Attack direction: " + attackDirection);
+
             player.currentPrefab.SetActive(true);
             player.currentPrefab.transform.up = attackDirection;
             player.currentPrefab.transform.position = player.transform.position + attackDirection * player.currentPrefab.transform.localScale.y;
             player.currentPrefab.GetComponent<Current>().SetPushDirection(attackDirection);
             return;
-            // Find all boids with BoidAttack component in the scene
-            BoidObject[] boids = player.boidCollectionHandler.CallBoids();
-            Debug.Log("boid attack! boids to send: " + boids.Length);
-            player.currentPrefab.transform.up = player.cameraController.transform.forward;
-            player.currentPrefab.active = true;
-            int countInRange = 0;
-            foreach (BoidObject boid in boids)
-            {
-                countInRange++;
-
-                //MoveAttackFollowObject(player, player.attackFollowObj);
-                //boid.OnBoidAttackUsed(player.attackFollowObj, player.Data.boidAttackSpeed);
-            }
-            Debug.Log("Found and commanded " + countInRange + " boids to attack.");
         }
         else if (!player.Controls.CommandPressed)
         {
@@ -143,5 +132,12 @@ public class PlayerSwimState : PlayerBaseState
         }
 
         attackFollowObj.transform.position = attackEndPos;
+    }
+
+    private void UpdateAnims(PlayerStateController player)
+    {
+        float differenceFromCamDirection = Vector3.SignedAngle(player.cameraController.transform.forward, player.transform.forward, player.cameraController.transform.up);
+        float xInputVal = player.Controls.MovementInput.x != 0 ? player.Controls.MovementInput.x : -Mathf.Sign(differenceFromCamDirection);
+        player.anim.SetFloat("XInput", xInputVal);
     }
 }
