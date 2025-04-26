@@ -14,6 +14,9 @@ using UnityEngine;
 
 public class PlayerSwimState : PlayerBaseState
 {
+    private bool inCurrentAbility = false;
+    private float currentStartupTimer;
+
     public override void OnEnterState(PlayerStateController player)
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -35,7 +38,11 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
-        HandleMovement(player);
+        // don't move if in current ability anim
+        if (!inCurrentAbility)
+        {
+            HandleMovement(player);
+        }
 
         HandleDash(player);
     }
@@ -48,7 +55,6 @@ public class PlayerSwimState : PlayerBaseState
     // coroutine that handles dash timing for visuals, startup, and force
     private IEnumerator DashRoutine(PlayerStateController player)
     {
-        player.isDashHeld = true;
         player.dashCooldownTimer = player.Data.dashCooldown;
 
         // start animation and vfx before dash force is applied
@@ -96,13 +102,51 @@ public class PlayerSwimState : PlayerBaseState
         // if new dash input occurs and off cooldown, dash
         if (player.Controls.DashPressed && !player.isDashHeld && player.dashCooldownTimer <= 0 && player.Controls.MovementInput.sqrMagnitude > 0)
         {
-            player.StartCoroutine(DashRoutine(player));
-
+            player.isDashHeld = true;
+            // make sure player not using current ability
+            if (!inCurrentAbility)
+            {
+                player.StartCoroutine(DashRoutine(player));
+            }
         }
         else if (!player.Controls.DashPressed && player.dashCooldownTimer <= player.Data.dashBufferWindow)
         {
             player.isDashHeld = false;
         }
+    }
+
+    // starts current ability anim and delays ability start to match animation
+    private IEnumerator AttackRoutine(PlayerStateController player)
+    {
+        inCurrentAbility = true;
+        player.currentCooldownTimer = player.Data.currentCooldown;
+        player.anim.SetTrigger("Current");
+
+        // wait for anim startup and turn player towards look direction 
+        currentStartupTimer = player.Data.currentStartupTime;
+        while (currentStartupTimer > 0)
+        {
+            // turn while aiming - pass in vector2.one as direction input to always turn regardless of move input
+            player.SwimMovement.SmoothTurn(player.Rb, player.cameraController.transform, Vector2.one, player.Data.turnSpeed * player.Data.currentAimTurnSpeedMod, player.Data.maxTurnZRotation);
+            currentStartupTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        // create current in direction of camera
+        Vector3 attackDirection = player.cameraController.transform.forward;
+        // offset attack to start at player and stretch in front
+        Vector3 currentPosOffset = player.transform.position + attackDirection * player.currentAbility.transform.localScale.y;
+
+        // create current and start cooldown
+        player.currentAbility.EnableCurrentForTime(player.Data.currentLifetime, currentPosOffset, attackDirection);
+
+        //sfx
+        player.currentSound.Play();
+
+        // wait to turn anim bool off - to not overlap with dash
+        yield return new WaitForSeconds(player.Data.currentExitTime);
+
+        inCurrentAbility = false;
     }
 
     // creates a current ahead of player that pushes boids forward
@@ -112,15 +156,11 @@ public class PlayerSwimState : PlayerBaseState
         if (player.Controls.CommandPressed && !player.isCommandHeld && player.currentCooldownTimer <= 0)
         {
             player.isCommandHeld = true;
-
-            // create current in direction of camera
-            Vector3 attackDirection = player.cameraController.transform.forward;
-            // offset attack to start at player and stretch in front
-            Vector3 currentPosOffset = player.transform.position + attackDirection * player.currentAbility.transform.localScale.y;
-
-            // create current and start cooldown
-            player.currentAbility.EnableCurrentForTime(player.Data.currentLifetime, currentPosOffset, attackDirection);
-            player.currentCooldownTimer = player.Data.currentCooldown;
+            // make sure player not in dash
+            if (player.dashCooldownTimer <= player.Data.dashBufferWindow)
+            {
+                player.StartCoroutine(AttackRoutine(player));
+            }
         }
         else if (!player.Controls.CommandPressed)
         {

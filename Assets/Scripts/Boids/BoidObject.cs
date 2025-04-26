@@ -93,7 +93,7 @@ public class BoidObject : MonoBehaviour
             acceleration = distanceToFollowObj.normalized * data.followObjInfluence;
 
             // for attack - if arrived at attack end pos, reset speed and stop attack state
-            if (isAttacking)
+/*            if (isAttacking)
             {
                 if (distanceToFollowObj.sqrMagnitude < player.Data.boidAttackStopRadius * player.Data.boidAttackStopRadius)
                 {
@@ -101,7 +101,7 @@ public class BoidObject : MonoBehaviour
                     AdjustBoidSpeed(1f);
                     isAttacking = false;
                 }
-            }
+            }*/
         }
         else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
         {
