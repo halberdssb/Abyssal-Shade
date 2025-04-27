@@ -42,12 +42,8 @@ public class BoidObject : MonoBehaviour
     private GameObject followObj;
 
     private bool isUsingBoidBehavior;
-    private bool isBeingLured;
 
     private Stack<Vector3> externalForces = new Stack<Vector3>();
-
-    //from Dev for attack
-    public bool isAttacking = false;
 
     public BoidObject(BoidData boidData)
     {
@@ -69,6 +65,7 @@ public class BoidObject : MonoBehaviour
 
         isUsingBoidBehavior = true;
 
+        followObj = null;
         if (followObj)
         {
             this.followObj = followObj;
@@ -80,29 +77,18 @@ public class BoidObject : MonoBehaviour
     public void UpdateBoid()
     {
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (distanceToPlayer > BoidManager.BOID_DESPAWN_DISTANCE && !followObj)
+        if (distanceToPlayer > BoidManager.BOID_DESPAWN_DISTANCE)
         {
             BoidManager.DespawnBoids(this);
             return;
         }
 
-        Vector3 acceleration = Vector3.zero; //transform.rotation * Vector3.forward * data.moveSpeed;
+        Vector3 acceleration = Vector3.zero;
 
         if (followObj)
         {
             Vector3 distanceToFollowObj = followObj.transform.position - transform.position;
             acceleration = distanceToFollowObj.normalized * data.followObjInfluence;
-
-            // for attack - if arrived at attack end pos, reset speed and stop attack state
-/*            if (isAttacking)
-            {
-                if (distanceToFollowObj.sqrMagnitude < player.Data.boidAttackStopRadius * player.Data.boidAttackStopRadius)
-                {
-                    Debug.Log("reset boid speed");
-                    AdjustBoidSpeed(1f);
-                    isAttacking = false;
-                }
-            }*/
         }
         else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
         {
@@ -227,14 +213,6 @@ public class BoidObject : MonoBehaviour
     public void AdjustBoidSpeed(float newSpeedMod)
     {
         speedModifier = newSpeedMod;
-    }
-
-    // called when the command boid attack is used to send boids forward from player
-    public void OnBoidAttackUsed(GameObject attackFollowObj, float attackSpeedMod)
-    {
-        isAttacking = true;
-        followObj = attackFollowObj;
-        AdjustBoidSpeed(attackSpeedMod);
     }
 
     // shows navigation rays if toggled on

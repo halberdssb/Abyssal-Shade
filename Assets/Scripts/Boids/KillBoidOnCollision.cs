@@ -13,7 +13,6 @@ public class KillBoidOnCollision : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("boid hit!");
         BoidManager.DespawnBoids(other.GetComponent<BoidObject>());
     }
 }

@@ -54,7 +54,7 @@ public class RestorationObject : MonoBehaviour
                 BoidCollectionHandler playerBoids = player.boidCollectionHandler;
                 if (playerBoids.GetNumberOfBoids() >= soulfishNeededToRestore)
                 {
-                    Debug.Log("restoring object! enough boids present");
+                    Debug.Log("restoring object! enough boids present: " + playerBoids.GetNumberOfBoids());
                     StartCoroutine(RestoreObject(playerBoids.CallBoids(soulfishNeededToRestore)));
                     isRestored = true;
                 }

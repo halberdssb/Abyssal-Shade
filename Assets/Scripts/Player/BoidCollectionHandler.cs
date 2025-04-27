@@ -5,24 +5,22 @@ using UnityEngine;
 public class BoidCollectionHandler : MonoBehaviour
 {
     public int numBoids;
-    private Stack<BoidObject> collectedBoids = new Stack<BoidObject>();
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField]
+    private List<BoidObject> collectedBoids = new List<BoidObject>();
 
     public void AddCollectedBoid(BoidObject boid)
     {
-        collectedBoids.Push(boid);
+        collectedBoids.Add(boid);
         numBoids++;
+    }
+
+    public void RemoveBoid(BoidObject boid)
+    {
+        if (collectedBoids.Contains(boid))
+        {
+            collectedBoids.Remove(boid);
+            numBoids--;
+        }
     }
 
     public int GetNumberOfBoids()
@@ -41,7 +39,12 @@ public class BoidCollectionHandler : MonoBehaviour
 
         for (int i = 0; i < numToPull; i++)
         {
-            boidsToPull[i] = collectedBoids.Pop();
+            boidsToPull[i] = collectedBoids[i];
+            numBoids--;
+        }
+        for (int i = 0; i < numToPull; i++)
+        {
+            collectedBoids.RemoveAt(0);
         }
 
         return boidsToPull;
