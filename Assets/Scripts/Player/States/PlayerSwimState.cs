@@ -24,6 +24,8 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnUpdateState(PlayerStateController player)
     {
+        if (player.blockInput) return;
+
         UpdateAnims(player);
 
         HandleCameraMovement(player);
@@ -38,6 +40,8 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
+        if (player.blockInput) return;
+
         // don't move if in current ability anim
         if (!inCurrentAbility)
         {

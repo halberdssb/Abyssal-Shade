@@ -27,6 +27,8 @@ public class PlayerStateController : MonoBehaviour
     public AudioSource dashSound;
     public AudioSource currentSound;
 
+    public bool blockInput;
+
     [HideInInspector]
     public float dashCooldownTimer;
     [HideInInspector]
