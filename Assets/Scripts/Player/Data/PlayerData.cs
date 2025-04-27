@@ -18,6 +18,7 @@ public class PlayerData : ScriptableObject
     public float rollSpeed;
     public float turnSpeed;
     public float dashSpeed;
+    public float dashStartupTime;
     public float dashVFXDuration;
     public float dashCooldown;
     public float dashBufferWindow;
@@ -25,9 +26,12 @@ public class PlayerData : ScriptableObject
 
     [Space]
     [Header("Current Ability")]
+    public float currentStartupTime;
+    public float currentExitTime;
     public float currentLifetime;
     public float currentCooldown;
     public float currentSpeedBoostMod;
+    public float currentAimTurnSpeedMod;
 
     [Space]
     [Header("Camera Controls")]
@@ -43,8 +47,4 @@ public class PlayerData : ScriptableObject
     public float defaultBoidCollectionDistance;
     public float dashBoidCollectionDistance;
     public float dashBoidCollectionTime;
-    public float boidAttackSpeed;
-    public float boidAttackDistance;
-    public float boidAttackStopRadius;
-    public LayerMask boidAttackCollisionMask;
 }
