@@ -115,7 +115,6 @@ public class BoidManager : MonoBehaviour
                 boidComputeData[i].boidPosition = Vector3.down * -1000;
                 boidComputeData[i].boidDirection = Vector3.zero;
             }
-
         }
 
         // create compute buffer to calculate boid neighbor data

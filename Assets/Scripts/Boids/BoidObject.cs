@@ -42,6 +42,7 @@ public class BoidObject : MonoBehaviour
     private GameObject followObj;
 
     private bool isUsingBoidBehavior;
+    private bool isBeingLured;
 
     private Stack<Vector3> externalForces = new Stack<Vector3>();
 

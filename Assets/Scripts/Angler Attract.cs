@@ -95,7 +95,6 @@ public class AnglerAttract : MonoBehaviour
         if (!other.CompareTag("Player"))
         {
             BoidObject boid = other.GetComponent<BoidObject>();
-            boid.ToggleBoidBehavior(false);
             attractedBoids.Add(boid);
         }
     }
@@ -107,7 +106,6 @@ public class AnglerAttract : MonoBehaviour
         if (!other.CompareTag("Player"))
         {
             BoidObject boid = other.GetComponent<BoidObject>();
-            boid.ToggleBoidBehavior(true);
             attractedBoids.Remove(boid);
         }
     }
