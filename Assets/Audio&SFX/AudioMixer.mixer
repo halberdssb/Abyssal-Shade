@@ -47,11 +47,31 @@ AudioMixerGroupController:
   m_Children:
   - {fileID: -3806759250403056735}
   - {fileID: -8438943157428775556}
+  - {fileID: -6330783894929561838}
   m_Volume: 4c09bbe79bb711a43944d5d3cdb0dce9
   m_Pitch: 6f21a299f1e3c974b9a7d8102040a79d
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: -3023376821717449411}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &-6330783894929561838
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ObjectRestored
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 364b6c73d37a5b647a826acb594ce892
+  m_Children: []
+  m_Volume: 1ffc8c552e3941048a9ea06a1a4adce9
+  m_Pitch: 91b1285e6e08aa3479cb5b69c865ee15
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -3719765682870631257}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -90,6 +110,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &-3719765682870631257
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: a470485232e13b24e96a933f6b3bc0a8
+  m_EffectName: Attenuation
+  m_MixLevel: f9833036254972144b7b8048040912fd
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &-3023376821717449411
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -175,6 +209,7 @@ AudioMixerController:
     - b02582d417d91874288337b87e7a4557
     - 3cff5ffb852f98e409f092a1ad9bde46
     - c7f44d4f38dad3c47aca511d54328b49
+    - 364b6c73d37a5b647a826acb594ce892
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -226,6 +261,7 @@ AudioMixerSnapshotController:
     b6de4c702ce12884b9847465158feb73: 0.51
     98e47342d580fcc4ba751fdb433762ee: 1
     199e4e342ae943c43a76c6d008679c59: 1
+    1ffc8c552e3941048a9ea06a1a4adce9: 0.04171297
     cc87a995233d03b4281e232a7490dc17: 6.8
     a76d501764f6d5b4b923598a78fb0329: 0.0587
     687ea347d59f02a4cb10ee80bbdf3770: -938

@@ -96,8 +96,10 @@ public class RestorationObject : MonoBehaviour
 
         // rotate object and fish around it at increasing speed while fading in vortex sphere
         float spinSpeed = 10f;
-        float spinTime = 3f;
+        float spinTime = 1.8f;
         float spinTimer = 0f;
+
+        restoredSound.Play();
 
         // spin up to speed
         while (spinTimer < spinTime)
@@ -110,10 +112,9 @@ public class RestorationObject : MonoBehaviour
 
         // swap to restored visuals
         SwapToRestoredVisuals();
-        restoredSound.Play();
 
         // spin at top speed
-        float maxSpeedSpinTime = 1f;
+        float maxSpeedSpinTime = 0.8f;
         spinTimer = 0f;
 
         while (spinTimer < maxSpeedSpinTime)
@@ -152,17 +153,20 @@ public class RestorationObject : MonoBehaviour
             Vector3 positionAroundObject = transform.position + (fishSurroundPoints[i] * fishSphereRadius) + fishSphereOffset;
             Tween moveToSphereTween = boid.transform.DOMove(positionAroundObject, tweenTime);
 
+
             // used for rotating fish around sphere by rotating object
             int fishID = i;
             moveToSphereTween.onComplete += () =>
             {
                 boid.transform.parent = transform;
+
+                // rotate to proper position
                 Vector3 oldRotation = boid.transform.eulerAngles;
                 boid.transform.LookAt(transform.position + (fishSurroundPoints[fishID] * fishSphereRadius * 2));
                 boid.transform.Rotate(new Vector3(0, 90, 0));
                 Vector3 correctRotation = boid.transform.eulerAngles;
                 boid.transform.eulerAngles = oldRotation;
-                boid.transform.DORotate(correctRotation, 0.5f);
+                boid.transform.DORotate(correctRotation, 1f);
             };
         }
     }
