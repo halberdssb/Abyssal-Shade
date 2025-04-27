@@ -7653,6 +7653,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8734731034785022309, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 552631b70e562de49b6e79af10074bb0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7703,10 +7708,75 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8519931663936982330, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -6869813718797959513, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -5577362659326230243, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -5551259677585353499, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -4479982629687381184, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -2782257298908952037, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -2716646709958523774, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 552631b70e562de49b6e79af10074bb0,
         type: 3}
       propertyPath: m_Name
       value: Angler
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320205107532007213, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598982910733502482, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733557455418356470, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7909848542033764120, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7720,6 +7790,18 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1891352063}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1891352067}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1891352066}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 552631b70e562de49b6e79af10074bb0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1891352065}
   m_SourcePrefab: {fileID: 100100000, guid: 552631b70e562de49b6e79af10074bb0, type: 3}
 --- !u!1001 &510104741
 PrefabInstance:
@@ -37410,6 +37492,65 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1891352065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891352061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933533f22a9fdd545a216b4881b66015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attractColor: {r: 0, g: 0, b: 0, a: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
+  attractRadius: 5
+  attractionForce: 10
+  minimumAttractionDistance: 1
+--- !u!135 &1891352066
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891352061}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2
+  m_Center: {x: 0, y: 0.36, z: -0.13}
+--- !u!135 &1891352067
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891352061}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1891903778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4927655072275582, guid: d51cf4b03ec965a4889f6dc0a533e56a,
@@ -39409,7 +39550,7 @@ GameObject:
   - component: {fileID: 2009082273}
   - component: {fileID: 2009082275}
   - component: {fileID: 2009082274}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
