@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 /*
  * An object that can be restored by a certain number of soulfish
@@ -16,7 +17,19 @@ using UnityEngine;
 public class RestorationObject : MonoBehaviour
 {
     [SerializeField]
-    private int soulfishNeededToRestore;
+    private RestorationObjectUI ui;
+    [SerializeField]
+    private MeshRenderer mesh;
+    [SerializeField]
+    private Color deadColor;
+    [SerializeField]
+    private float restoredEmissiveIntensity;
+    [SerializeField]
+    private AudioSource restoredSound;
+
+    [Space]
+    [SerializeField]
+    public int soulfishNeededToRestore;
     [SerializeField]
     private float fishMoveToPositionTime = 2f;
     [SerializeField]
@@ -32,6 +45,7 @@ public class RestorationObject : MonoBehaviour
 
     private PlayerStateController player;
     private GameObject vortexSphere;
+    private Color restoredColor;
     private Vector3[] fishSurroundPoints;
 
     private bool isRestored;
@@ -43,6 +57,10 @@ public class RestorationObject : MonoBehaviour
         vortexSphere = CreateVortexSphereMesh();
 
         isRestored = false;
+
+        // visuals
+        restoredColor = mesh.material.color;
+        SwapToUnrestoredVisuals();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -68,6 +86,7 @@ public class RestorationObject : MonoBehaviour
     {
         // create boid sphere
         SurroundObjectWithBoids(boids, fishMoveToPositionTime);
+        ui.FadeUI(false);
 
         // wait until boids are in position
         yield return new WaitForSeconds(fishMoveToPositionTime);
@@ -88,6 +107,10 @@ public class RestorationObject : MonoBehaviour
             spinTimer += Time.deltaTime;
             yield return null;
         }
+
+        // swap to restored visuals
+        SwapToRestoredVisuals();
+        restoredSound.Play();
 
         // spin at top speed
         float maxSpeedSpinTime = 1f;
@@ -134,8 +157,12 @@ public class RestorationObject : MonoBehaviour
             moveToSphereTween.onComplete += () =>
             {
                 boid.transform.parent = transform;
+                Vector3 oldRotation = boid.transform.eulerAngles;
                 boid.transform.LookAt(transform.position + (fishSurroundPoints[fishID] * fishSphereRadius * 2));
                 boid.transform.Rotate(new Vector3(0, 90, 0));
+                Vector3 correctRotation = boid.transform.eulerAngles;
+                boid.transform.eulerAngles = oldRotation;
+                boid.transform.DORotate(correctRotation, 0.5f);
             };
         }
     }
@@ -167,6 +194,17 @@ public class RestorationObject : MonoBehaviour
         sphereMesh.SetActive(false);
         return sphereMesh;
 
+    }
+
+    private void SwapToUnrestoredVisuals()
+    {
+        mesh.material.color = deadColor;
+        HDMaterial.SetEmissiveIntensity(mesh.material, 0, UnityEditor.Rendering.HighDefinition.EmissiveIntensityUnit.Nits);
+    }
+    private void SwapToRestoredVisuals()
+    {
+        mesh.material.color = restoredColor;
+        HDMaterial.SetEmissiveIntensity(mesh.material, restoredEmissiveIntensity, UnityEditor.Rendering.HighDefinition.EmissiveIntensityUnit.Nits);
     }
 
     // draw representation of fish sphere around object for testing in editor - should cover mesh

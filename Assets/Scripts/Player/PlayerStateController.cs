@@ -23,6 +23,7 @@ public class PlayerStateController : MonoBehaviour
     public BoidCollectionHandler boidCollectionHandler;
     public Animator anim;
     public Current currentAbility;
+    public PlayerUI ui;
 
     public AudioSource dashSound;
     public AudioSource currentSound;

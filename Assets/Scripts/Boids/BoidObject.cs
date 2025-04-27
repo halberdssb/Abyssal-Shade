@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -89,6 +90,18 @@ public class BoidObject : MonoBehaviour
         {
             Vector3 distanceToFollowObj = followObj.transform.position - transform.position;
             acceleration = distanceToFollowObj.normalized * data.followObjInfluence;
+
+            // increase follow obj distance by modifier if few neighbors - otherwise boids will not follow well in low school #s
+            if (numNeighborBoids < data.followObjModNeighborCount)
+            {
+                float neighborNumValue = Mathf.Lerp(0, data.followObjModNeighborCount, numNeighborBoids);
+                float followObjModValue = Mathf.InverseLerp(1, data.followObjFewNeighborsMod, neighborNumValue);
+                acceleration *= followObjModValue;
+            }
+            if (distanceToFollowObj.sqrMagnitude > (PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance * 4)) 
+            {
+                followObj = null;
+            }
         }
         else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
         {

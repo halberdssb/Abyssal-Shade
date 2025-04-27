@@ -46,6 +46,10 @@ public class CanvasFadeTrigger : MonoBehaviour
 
     private void FadeCanvasGroup(float fadeTime, bool fadeIn)
     {
+        if (useCamera)
+        {
+            player.ui.FadeUI(!fadeIn, fadeTime);
+        }
         float alpha = fadeIn ? 1f : 0f;
         canvasGroup.DOFade(alpha, fadeTime);
     }
@@ -80,6 +84,7 @@ public class CanvasFadeTrigger : MonoBehaviour
     private IEnumerator WaitForClickRoutine()
     {
         player.blockInput = true;
+        player.ui.FadeUI(false, fadeTime);
         bool isClickHeld = player.Controls.CommandPressed;
 
         if (useCamera)
@@ -112,5 +117,6 @@ public class CanvasFadeTrigger : MonoBehaviour
         player.isCommandHeld = true;
         player.blockInput = false;
         FadeCanvasGroup(fadeTime, false);
+        player.ui.FadeUI(true, fadeTime);
     }
 }
