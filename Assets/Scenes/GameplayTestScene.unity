@@ -677,8 +677,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 38487612}
-    m_Source: {fileID: 418215773}
+    m_ConstrainedObject: {fileID: 7763601234063594650}
+    m_Source: {fileID: 8214142736897007228}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -1707,8 +1707,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 94873677}
-    m_Source: {fileID: 1259267828}
+    m_ConstrainedObject: {fileID: 4720043332315702589}
+    m_Source: {fileID: 4940996896043056684}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -4394,8 +4394,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 311494068}
-    m_Source: {fileID: 94873677}
+    m_ConstrainedObject: {fileID: 4692040860410415651}
+    m_Source: {fileID: 4720043332315702589}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -7258,8 +7258,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 418215773}
-    m_Source: {fileID: 540035526}
+    m_ConstrainedObject: {fileID: 8214142736897007228}
+    m_Source: {fileID: 6067106711413150373}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -8110,8 +8110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 540035526}
-    m_Source: {fileID: 0}
+    m_ConstrainedObject: {fileID: 6067106711413150373}
+    m_Source: {fileID: 5005750908806096726}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -12263,8 +12263,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 865371828}
-    m_Source: {fileID: 1068382499}
+    m_ConstrainedObject: {fileID: 1825867794560252734}
+    m_Source: {fileID: 923141590903869594}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -13007,7 +13007,7 @@ GameObject:
   - component: {fileID: 929659122}
   - component: {fileID: 929659123}
   m_Layer: 0
-  m_Name: Tail.012
+  m_Name: Damp13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13042,8 +13042,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 929659122}
-    m_Source: {fileID: 1204383725}
+    m_ConstrainedObject: {fileID: 1322021160465158042}
+    m_Source: {fileID: 4291306579879175622}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -14474,7 +14474,7 @@ GameObject:
   - component: {fileID: 1041881378}
   - component: {fileID: 1041881379}
   m_Layer: 0
-  m_Name: Tail.015
+  m_Name: Damp16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14509,8 +14509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 1041881378}
-    m_Source: {fileID: 1176462297}
+    m_ConstrainedObject: {fileID: 2167164120865215319}
+    m_Source: {fileID: 2316496379214583430}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -14740,8 +14740,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 1068382499}
-    m_Source: {fileID: 1805931805}
+    m_ConstrainedObject: {fileID: 923141590903869594}
+    m_Source: {fileID: 1423313495310015165}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -16080,7 +16080,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1807785327}
   - {fileID: 1041881378}
   - {fileID: 1176462297}
   - {fileID: 1479386488}
@@ -16412,7 +16411,7 @@ GameObject:
   - component: {fileID: 1176462297}
   - component: {fileID: 1176462298}
   m_Layer: 0
-  m_Name: Tail.014
+  m_Name: Damp15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16447,8 +16446,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 1176462297}
-    m_Source: {fileID: 1479386488}
+    m_ConstrainedObject: {fileID: 2316496379214583430}
+    m_Source: {fileID: 7415586599197540611}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -16751,7 +16750,7 @@ GameObject:
   - component: {fileID: 1204383725}
   - component: {fileID: 1204383726}
   m_Layer: 0
-  m_Name: Tail.011
+  m_Name: Damp12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16786,8 +16785,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 1204383725}
-    m_Source: {fileID: 2054542703}
+    m_ConstrainedObject: {fileID: 4291306579879175622}
+    m_Source: {fileID: 1237453387873949105}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -17510,8 +17509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 1259267828}
-    m_Source: {fileID: 38487612}
+    m_ConstrainedObject: {fileID: 4940996896043056684}
+    m_Source: {fileID: 7763601234063594650}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -18847,7 +18846,7 @@ GameObject:
   - component: {fileID: 1338425675}
   - component: {fileID: 1338425676}
   m_Layer: 0
-  m_Name: Tail.009
+  m_Name: Damp10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18882,8 +18881,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 1338425675}
-    m_Source: {fileID: 865371828}
+    m_ConstrainedObject: {fileID: 9073279258528089915}
+    m_Source: {fileID: 1825867794560252734}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -20357,7 +20356,7 @@ GameObject:
   - component: {fileID: 1479386488}
   - component: {fileID: 1479386489}
   m_Layer: 0
-  m_Name: Tail.013
+  m_Name: Damp14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20392,8 +20391,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 1479386488}
-    m_Source: {fileID: 929659122}
+    m_ConstrainedObject: {fileID: 7415586599197540611}
+    m_Source: {fileID: 1322021160465158042}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
@@ -36435,42 +36434,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 1805931805}
-    m_Source: {fileID: 311494068}
+    m_ConstrainedObject: {fileID: 1423313495310015165}
+    m_Source: {fileID: 4692040860410415651}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
---- !u!1 &1807785326
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1807785327}
-  m_Layer: 0
-  m_Name: Tail.015_end
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1807785327
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1807785326}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.4960856, y: 0.5038841, z: -0.503872, w: 0.4960977}
-  m_LocalPosition: {x: 0.30755812, y: -0.004757961, z: -0.0036452513}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1142422910}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1808550327
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39921,7 +39889,7 @@ GameObject:
   - component: {fileID: 2054542703}
   - component: {fileID: 2054542704}
   m_Layer: 0
-  m_Name: Tail.010
+  m_Name: Damp11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39956,8 +39924,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 2054542703}
-    m_Source: {fileID: 1338425675}
+    m_ConstrainedObject: {fileID: 1237453387873949105}
+    m_Source: {fileID: 9073279258528089915}
     m_DampPosition: 0.5
     m_DampRotation: 0.5
     m_MaintainAim: 1
