@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Soulfish
   - Enemy
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Obstacle
   - Restoration Object
   - Current
-  - 
-  - 
+  - Angler
+  - BoidKillZone
   - 
   - 
   - 

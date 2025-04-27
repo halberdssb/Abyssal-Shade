@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2547662184109130321}
   - component: {fileID: 7793974333253522214}
-  - component: {fileID: 6597371047941245417}
   - component: {fileID: 3369582622444475354}
+  - component: {fileID: 8133910953773449171}
   m_Layer: 6
   m_Name: Soulfish
   m_TagString: Untagged
@@ -55,27 +55,6 @@ MonoBehaviour:
   numNeighborBoids: 0
   showNavigationRays: 0
   isAttacking: 0
---- !u!65 &6597371047941245417
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1322852238248066386}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.5}
-  m_Center: {x: 0, y: 0, z: 0.25}
 --- !u!54 &3369582622444475354
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -103,6 +82,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &8133910953773449171
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322852238248066386}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.81
+  m_Height: 2.06
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6475115423615581579
 GameObject:
   m_ObjectHideFlags: 0

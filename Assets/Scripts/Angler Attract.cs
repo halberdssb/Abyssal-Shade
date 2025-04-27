@@ -11,7 +11,7 @@ public class AnglerAttract : MonoBehaviour
     public float attractionForce = 10f; // How strong the attraction force is
     public float minimumAttractionDistance = 1f; // Optional: Minimum distance for attraction
     private List<Rigidbody> attractedObjects = new List<Rigidbody>(); // List to keep track of attracted objects
-
+    private List<BoidObject> attractedBoids = new List<BoidObject>(); // List of boids attracted
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +24,7 @@ public class AnglerAttract : MonoBehaviour
     {
         bool anyAttracted = false; // Flag to check if any object is still within the radius
 
-        // Attract nearby objects if they are within the specified radius
+/*        // Attract nearby objects if they are within the specified radius
         Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, attractRadius);
 
         // Loop through all nearby objects and apply the attraction force
@@ -79,16 +79,49 @@ public class AnglerAttract : MonoBehaviour
         {
             GetComponent<Renderer>().material.color = normalColor;
             attractingFish = false;
+        }*/
+
+        foreach (var boid in attractedBoids)
+        {
+            Vector3 directionToAttract = transform.position - boid.transform.position;
+            boid.ApplyForce(directionToAttract.normalized * attractionForce);
+        }
+    }
+
+    // check for boids entering radius
+    private void OnTriggerEnter(Collider other)
+    {
+        // only check if player or boid b/c these are the only layers the angler collides with
+        if (!other.CompareTag("Player"))
+        {
+            BoidObject boid = other.GetComponent<BoidObject>();
+            attractedBoids.Add(boid);
+        }
+    }
+
+    // check for boids leaving radius
+    private void OnTriggerExit(Collider other)
+    {
+        // only check if player or boid b/c these are the only layers the angler collides with
+        if (!other.CompareTag("Player"))
+        {
+            BoidObject boid = other.GetComponent<BoidObject>();
+            attractedBoids.Remove(boid);
         }
     }
 
     void OnCollisionEnter(Collision collider)
     {
-        if (collider.gameObject.CompareTag("Soulfish"))
+        /*        if (collider.gameObject.CompareTag("Soulfish"))
+                {
+                    Debug.Log("Hit");
+                    // Call a coroutine to delay the destruction and prevent immediate access to the object
+                    StartCoroutine(DestroyObjectWithDelay(collider.gameObject));
+                }*/
+        if (!collider.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Hit");
-            // Call a coroutine to delay the destruction and prevent immediate access to the object
-            StartCoroutine(DestroyObjectWithDelay(collider.gameObject));
+            BoidObject boid = collider.gameObject.GetComponent<BoidObject>();
+            BoidManager.DespawnBoids(boid);
         }
     }
 

@@ -14,7 +14,8 @@ using UnityEngine;
 
 public class PlayerSwimState : PlayerBaseState
 {
-    private Coroutine dashBoidCollectionRoutine;
+    private bool inCurrentAbility = false;
+    private float currentStartupTimer;
 
     public override void OnEnterState(PlayerStateController player)
     {
@@ -37,7 +38,11 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
-        HandleMovement(player);
+        // don't move if in current ability anim
+        if (!inCurrentAbility)
+        {
+            HandleMovement(player);
+        }
 
         HandleDash(player);
     }
@@ -46,9 +51,26 @@ public class PlayerSwimState : PlayerBaseState
         return;
     }
 
-    // increases boid collection radius for a period of time while dashing
-    private IEnumerator DashCollectionRadiusChangeRoutine(PlayerStateController player)
+
+    // coroutine that handles dash timing for visuals, startup, and force
+    private IEnumerator DashRoutine(PlayerStateController player)
     {
+        player.dashCooldownTimer = player.Data.dashCooldown;
+
+        // start animation and vfx before dash force is applied
+        player.anim.SetTrigger("Dash");
+        player.vfxHandler.TriggerDashVFX(player.Data.dashVFXDuration + player.Data.dashStartupTime);
+
+        yield return new WaitForSeconds(player.Data.dashStartupTime);
+
+        // dash
+        float totalDashSpeed = player.Data.dashSpeed * player.swimSpeedMod;
+        player.SwimMovement.Dash(player.Rb, player.Controls.MovementInput, totalDashSpeed, player.cameraController.transform);
+
+        // effects
+        player.dashSound.Play();
+
+        // increase player boid collection range during dash
         PlayerStateController.BoidCollectionDistance = player.Data.dashBoidCollectionDistance;
 
         yield return new WaitForSeconds(player.Data.dashBoidCollectionTime);
@@ -80,29 +102,51 @@ public class PlayerSwimState : PlayerBaseState
         // if new dash input occurs and off cooldown, dash
         if (player.Controls.DashPressed && !player.isDashHeld && player.dashCooldownTimer <= 0 && player.Controls.MovementInput.sqrMagnitude > 0)
         {
-            // dash
-            float totalDashSpeed = player.Data.dashSpeed * player.swimSpeedMod;
-            player.SwimMovement.Dash(player.Rb, player.Controls.MovementInput, totalDashSpeed, player.cameraController.transform);
-
-            // effects
-            player.dashSound.Play();
-            player.vfxHandler.TriggerDashVFX(player.Data.dashVFXDuration);
-            player.anim.SetTrigger("Dash");
-
-            // set cooldown and input buffer
             player.isDashHeld = true;
-            player.dashCooldownTimer = player.Data.dashCooldown;
-
-            // increase player boid collection range during dash
-            if (dashBoidCollectionRoutine != null)
+            // make sure player not using current ability
+            if (!inCurrentAbility)
             {
-                dashBoidCollectionRoutine = player.StartCoroutine(DashCollectionRadiusChangeRoutine(player));
+                player.StartCoroutine(DashRoutine(player));
             }
         }
         else if (!player.Controls.DashPressed && player.dashCooldownTimer <= player.Data.dashBufferWindow)
         {
             player.isDashHeld = false;
         }
+    }
+
+    // starts current ability anim and delays ability start to match animation
+    private IEnumerator AttackRoutine(PlayerStateController player)
+    {
+        inCurrentAbility = true;
+        player.currentCooldownTimer = player.Data.currentCooldown;
+        player.anim.SetTrigger("Current");
+
+        // wait for anim startup and turn player towards look direction 
+        currentStartupTimer = player.Data.currentStartupTime;
+        while (currentStartupTimer > 0)
+        {
+            // turn while aiming - pass in vector2.one as direction input to always turn regardless of move input
+            player.SwimMovement.SmoothTurn(player.Rb, player.cameraController.transform, Vector2.one, player.Data.turnSpeed * player.Data.currentAimTurnSpeedMod, player.Data.maxTurnZRotation);
+            currentStartupTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        // create current in direction of camera
+        Vector3 attackDirection = player.cameraController.transform.forward;
+        // offset attack to start at player and stretch in front
+        Vector3 currentPosOffset = player.transform.position + attackDirection * player.currentAbility.transform.localScale.y;
+
+        // create current and start cooldown
+        player.currentAbility.EnableCurrentForTime(player.Data.currentLifetime, currentPosOffset, attackDirection);
+
+        //sfx
+        player.currentSound.Play();
+
+        // wait to turn anim bool off - to not overlap with dash
+        yield return new WaitForSeconds(player.Data.currentExitTime);
+
+        inCurrentAbility = false;
     }
 
     // creates a current ahead of player that pushes boids forward
@@ -112,15 +156,11 @@ public class PlayerSwimState : PlayerBaseState
         if (player.Controls.CommandPressed && !player.isCommandHeld && player.currentCooldownTimer <= 0)
         {
             player.isCommandHeld = true;
-
-            // create current in direction of camera
-            Vector3 attackDirection = player.cameraController.transform.forward;
-            // offset attack to start at player and stretch in front
-            Vector3 currentPosOffset = player.transform.position + attackDirection * player.currentAbility.transform.localScale.y;
-
-            // create current and start cooldown
-            player.currentAbility.EnableCurrentForTime(player.Data.currentLifetime, currentPosOffset, attackDirection);
-            player.currentCooldownTimer = player.Data.currentCooldown;
+            // make sure player not in dash
+            if (player.dashCooldownTimer <= player.Data.dashBufferWindow)
+            {
+                player.StartCoroutine(AttackRoutine(player));
+            }
         }
         else if (!player.Controls.CommandPressed)
         {
@@ -139,8 +179,27 @@ public class PlayerSwimState : PlayerBaseState
     {
         // value used for determing if dash roll should spin left or right - 
         // first use x move input, if 0 use diff from player forward and cam forward to spin towards camera center
-        float differenceFromCamDirection = Vector3.SignedAngle(player.cameraController.transform.forward, player.transform.forward, player.cameraController.transform.up);
-        float xInputVal = player.Controls.MovementInput.x != 0 ? player.Controls.MovementInput.x : -Mathf.Sign(differenceFromCamDirection);
-        player.anim.SetFloat("XInput", xInputVal);
+        float xInputVal;
+        if (player.Controls.MovementInput.sqrMagnitude <= 0)
+        {
+            xInputVal = 0f;
+        }
+        else
+        {
+            float differenceFromCamDirection = Vector3.SignedAngle(player.cameraController.transform.forward, player.transform.forward, player.cameraController.transform.up);
+            xInputVal = player.Controls.MovementInput.x != 0 ? player.Controls.MovementInput.x : -Mathf.Sign(differenceFromCamDirection);
+        }
+
+        // want player to bank if they are moving laterally or moving at all and turning camera - otherwise they should level out to flat
+        bool shouldBeBanking = player.Controls.MovementInput.x != 0 || (player.Controls.MovementInput.sqrMagnitude > 0 && player.Controls.LookInput.sqrMagnitude > 0);
+        // if should be banking, we want to lerp float towards bank direction, otherwise bank to 0 (level)
+        float finalSign = shouldBeBanking ? Mathf.Sign(xInputVal) : 0;
+        float lerpVal = Mathf.Lerp(player.anim.GetFloat("BankValue"), finalSign, Time.deltaTime);
+        // if lerp value is small enough, just set to 0
+        if (Mathf.Abs(finalSign - lerpVal) < 0.01) lerpVal = finalSign;
+
+        // set bank value and dash direction
+        player.anim.SetFloat("BankValue", lerpVal);
+        player.anim.SetFloat("DashDirection", xInputVal);
     }
 }

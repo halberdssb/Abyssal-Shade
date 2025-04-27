@@ -17,13 +17,17 @@ MonoBehaviour:
   rollSpeed: 4
   turnSpeed: 4
   dashSpeed: 15
+  dashStartupTime: 0.3
   dashVFXDuration: 0.7
-  dashCooldown: 1
+  dashCooldown: 1.2
   dashBufferWindow: 0.3
   maxTurnZRotation: 60
+  currentStartupTime: 0.6
+  currentExitTime: 0.25
   currentLifetime: 3
   currentCooldown: 4
   currentSpeedBoostMod: 2
+  currentAimTurnSpeedMod: 3
   lookSensitivity: 0.2
   zoomSensitivity: 0.02
   minZoomDistance: 50
@@ -31,9 +35,3 @@ MonoBehaviour:
   defaultBoidCollectionDistance: 10
   dashBoidCollectionDistance: 20
   dashBoidCollectionTime: 0.6
-  boidAttackSpeed: 3
-  boidAttackDistance: 12
-  boidAttackStopRadius: 0
-  boidAttackCollisionMask:
-    serializedVersion: 2
-    m_Bits: 384

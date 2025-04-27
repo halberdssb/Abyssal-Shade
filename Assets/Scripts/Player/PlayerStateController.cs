@@ -25,6 +25,8 @@ public class PlayerStateController : MonoBehaviour
     public Current currentAbility;
 
     public AudioSource dashSound;
+    public AudioSource currentSound;
+
     [HideInInspector]
     public float dashCooldownTimer;
     [HideInInspector]
@@ -33,7 +35,7 @@ public class PlayerStateController : MonoBehaviour
     public bool isDashHeld;
     [HideInInspector]
     public float swimSpeedMod = 1f;
-    //[HideInInspector]
+    [HideInInspector]
     public bool isCommandHeld;
     #endregion
 
