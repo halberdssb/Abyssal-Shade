@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   swimSpeed: 50
-  strafeSpeed: 12
+  strafeSpeed: 36
   rollSpeed: 4
   turnSpeed: 4
-  dashSpeed: 15
+  dashSpeed: 24
   dashStartupTime: 0.3
   dashVFXDuration: 0.7
   dashCooldown: 1.2
