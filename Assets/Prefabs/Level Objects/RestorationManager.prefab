@@ -45,9 +45,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areasData:
-  - restorationObjects: []
+  - restorationObjects:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     monumentOrb: {fileID: 0}
-  - restorationObjects: []
+  - restorationObjects:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     monumentOrb: {fileID: 0}
-  - restorationObjects: []
+  - restorationObjects:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     monumentOrb: {fileID: 0}

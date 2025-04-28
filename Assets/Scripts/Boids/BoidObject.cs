@@ -100,7 +100,7 @@ public class BoidObject : MonoBehaviour
                 acceleration *= 1 + Mathf.Pow(followObjModValue, data.followObjDistanceMod);
             }
 
-            if (distanceToFollowObj.sqrMagnitude > (sqrPlayerDistance * 4)) 
+            if (distanceToFollowObj.sqrMagnitude > (data.playerLoseBoidDistance)) 
             {
                 player.boidCollectionHandler.RemoveBoid(this);
                 followObj = null;
