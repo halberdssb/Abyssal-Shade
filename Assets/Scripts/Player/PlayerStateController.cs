@@ -30,6 +30,7 @@ public class PlayerStateController : MonoBehaviour
     public AudioSource pickupSound;
 
     public bool blockInput;
+    public bool isMainMenu;
 
     [HideInInspector]
     public float dashCooldownTimer;

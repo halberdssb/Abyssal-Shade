@@ -24,7 +24,7 @@ MonoBehaviour:
   neighborAvoidRadius: 1.4
   collisionMask:
     serializedVersion: 2
-    m_Bits: 1152
+    m_Bits: 1153
   collisionViewDistance: 3
   collisionViewRadius: 1
   collisionNavigationChecks: 100

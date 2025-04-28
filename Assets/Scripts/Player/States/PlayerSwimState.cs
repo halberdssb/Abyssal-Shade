@@ -19,6 +19,7 @@ public class PlayerSwimState : PlayerBaseState
 
     public override void OnEnterState(PlayerStateController player)
     {
+        if (player.isMainMenu) return;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
