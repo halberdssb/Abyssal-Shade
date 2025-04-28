@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7216c56d48f16e47acd62aa029cf5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentRestorationObj: {fileID: 0}
+  parentRestorationObj: {fileID: 3237712895679854222}
   text: {fileID: 4156590658952667616}
   canvasGroup: {fileID: 3014148802226584557}
   fadeTime: 1

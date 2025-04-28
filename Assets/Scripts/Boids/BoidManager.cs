@@ -19,7 +19,7 @@ public class BoidManager : MonoBehaviour
     private const int MAX_BOIDS_IN_SCENE = 500;
 
     // distance boids will be simulated/move within related to player
-    public readonly static float BOID_DESPAWN_DISTANCE = 100;
+    public readonly static float BOID_DESPAWN_DISTANCE = 400;
 
     public static int numBoidsInScene;
 
