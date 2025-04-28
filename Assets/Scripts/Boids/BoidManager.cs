@@ -91,6 +91,11 @@ public class BoidManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        numBoidsInScene = 0;
+    }
+
     private void OnDisable()
     {
         inactiveBoidPool.Clear();
