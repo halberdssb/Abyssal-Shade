@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ghost Glow Deep
-  m_Shader: {fileID: -6465566751694194690, guid: 40c18453d9695534ebf651b4eefd2a3c,
+  m_Name: Soul Sphere
+  m_Shader: {fileID: -6465566751694194690, guid: 62f0d28b1d3248640a3dabf33b0cbe00,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -17,7 +17,7 @@ Material:
   m_InvalidKeywords:
   - _DISABLE_SSR_TRANSPARENT
   - _NORMALMAP_TANGENT_SPACE
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -30,7 +30,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _Pulse_Speed
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -175,6 +175,8 @@ Material:
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
     - _ExcludeFromTUAndAA: 0
+    - _Fresnel_On: 1
+    - _Fresnel_Power: 0
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -184,7 +186,8 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
-    - _Inner_Spread: 0
+    - _Horizontal_Intensity: 1
+    - _Inner_Spread: 1
     - _InvTilingScale: 1
     - _Ior: 1.5
     - _IridescenceMask: 1
@@ -199,14 +202,14 @@ Material:
     - _ObjectSpaceUVMapping: 0
     - _ObjectSpaceUVMappingEmissive: 0
     - _OpaqueCullMode: 2
-    - _Outer_Spread: 8.5
-    - _Outline: 0
+    - _Outer_Spread: 20
+    - _Outer_Spread_On: 1
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
-    - _Pulse_Magnify: 8
+    - _Pulse_Intensity: 1000
     - _Pulse_Size: 0.14
     - _Pulse_Speed: 0.46
     - _RayTracing: 0
@@ -224,7 +227,7 @@ Material:
     - _StencilRef: 0
     - _StencilRefDepth: 1
     - _StencilRefDistortionVec: 4
-    - _StencilRefGBuffer: 10
+    - _StencilRefGBuffer: 2
     - _StencilRefMV: 33
     - _StencilWriteMask: 6
     - _StencilWriteMaskDepth: 9
@@ -251,6 +254,8 @@ Material:
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
+    - _Vertical_Intensity: 1
+    - _Whirling_Intensity: 0.1
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
@@ -264,10 +269,12 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
-    - _Inner_Color: {r: 2, g: 2, b: 2, a: 1}
+    - _Fresnel_Color: {r: 1.155473, g: 1.967906, b: 2.439845, a: 0}
+    - _Horizontal_Speed: {r: 2, g: -1, b: 0, a: 0}
+    - _Inner_Color: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _Outer_Color: {r: 167.57106, g: 77.78498, b: 191.74904, a: 1}
+    - _Outer_Color: {r: 2.3189013, g: 3.9497771, b: 4.8671446, a: 1}
     - _Pulse_Focal: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
@@ -275,8 +282,10 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+    - _Vertical_Speed: {r: 0, g: 0.45, b: 0, a: 0}
+    - _Whirling_Speed: {r: 0.3, g: 0.1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1418061082372220759
+--- !u!114 &2117332598696215774
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
