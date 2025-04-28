@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TJSceneUpdatedbyDev.unity
-    guid: 8e0be906a51d4a8448f3a8f0645ebc31
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 73486f745980c5048bb8b6c6bbe0f0af
+  - enabled: 1
+    path: Assets/Scenes/TJSceneUpdatedbyDev.unity
+    guid: 8e0be906a51d4a8448f3a8f0645ebc31
   m_configObjects: {}
