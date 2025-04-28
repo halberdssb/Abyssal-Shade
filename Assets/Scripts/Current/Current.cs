@@ -225,7 +225,6 @@ public class Current : MonoBehaviour
             // if this is player ability current, don't add player to list to push - apply speedboost instead
             if (isPlayerAbilityCurrent && other.CompareTag("Player"))
             {
-                Debug.Log("Player speed boost active!");
                 player.swimSpeedMod = player.Data.currentSpeedBoostMod;
                 return;
             }
@@ -249,7 +248,6 @@ public class Current : MonoBehaviour
         {
             if (isPlayerAbilityCurrent && other.CompareTag("Player"))
             {
-                Debug.Log("Player speed boost gone");
                 player.swimSpeedMod = 1f;
                 return;
             }

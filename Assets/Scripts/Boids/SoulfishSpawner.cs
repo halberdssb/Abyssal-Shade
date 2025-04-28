@@ -58,7 +58,7 @@ public class SoulfishSpawner : MonoBehaviour
 
         if (spawnPassively)
         {
-            CheckPlayerDistance();
+            Invoke("CheckPlayerDistance", 1f);
         }
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 /*
  * An object that can be restored by a certain number of soulfish
@@ -15,8 +16,23 @@ using UnityEngine;
 
 public class RestorationObject : MonoBehaviour
 {
+    public delegate void OnRestoredDel();
+    public OnRestoredDel RestoredDelegate;
+
     [SerializeField]
-    private int soulfishNeededToRestore;
+    private RestorationObjectUI ui;
+    [SerializeField]
+    private MeshRenderer mesh;
+    [SerializeField]
+    private Color deadColor;
+    [SerializeField]
+    private float restoredEmissiveIntensity;
+    [SerializeField]
+    private AudioSource restoredSound;
+
+    [Space]
+    [SerializeField]
+    public int soulfishNeededToRestore;
     [SerializeField]
     private float fishMoveToPositionTime = 2f;
     [SerializeField]
@@ -32,6 +48,7 @@ public class RestorationObject : MonoBehaviour
 
     private PlayerStateController player;
     private GameObject vortexSphere;
+    private Color restoredColor;
     private Vector3[] fishSurroundPoints;
 
     private bool isRestored;
@@ -43,6 +60,10 @@ public class RestorationObject : MonoBehaviour
         vortexSphere = CreateVortexSphereMesh();
 
         isRestored = false;
+
+        // visuals
+        restoredColor = mesh.material.color;
+        SwapToUnrestoredVisuals();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,7 +75,7 @@ public class RestorationObject : MonoBehaviour
                 BoidCollectionHandler playerBoids = player.boidCollectionHandler;
                 if (playerBoids.GetNumberOfBoids() >= soulfishNeededToRestore)
                 {
-                    Debug.Log("restoring object! enough boids present");
+                    Debug.Log("restoring object! enough boids present: " + playerBoids.GetNumberOfBoids());
                     StartCoroutine(RestoreObject(playerBoids.CallBoids(soulfishNeededToRestore)));
                     isRestored = true;
                 }
@@ -68,6 +89,7 @@ public class RestorationObject : MonoBehaviour
     {
         // create boid sphere
         SurroundObjectWithBoids(boids, fishMoveToPositionTime);
+        ui.FadeUI(false);
 
         // wait until boids are in position
         yield return new WaitForSeconds(fishMoveToPositionTime);
@@ -77,8 +99,10 @@ public class RestorationObject : MonoBehaviour
 
         // rotate object and fish around it at increasing speed while fading in vortex sphere
         float spinSpeed = 10f;
-        float spinTime = 3f;
+        float spinTime = 1.8f;
         float spinTimer = 0f;
+
+        restoredSound.Play();
 
         // spin up to speed
         while (spinTimer < spinTime)
@@ -89,8 +113,11 @@ public class RestorationObject : MonoBehaviour
             yield return null;
         }
 
+        // swap to restored visuals
+        SwapToRestoredVisuals();
+
         // spin at top speed
-        float maxSpeedSpinTime = 1f;
+        float maxSpeedSpinTime = 0.8f;
         spinTimer = 0f;
 
         while (spinTimer < maxSpeedSpinTime)
@@ -115,6 +142,10 @@ public class RestorationObject : MonoBehaviour
         // send boids back to player and fade out sphere
         vortexSphere.SetActive(false);
         ReturnBoidsToPlayer(boids, fishMoveToPositionTime);
+
+        // invoke check delegate after delay to check if area restored
+        yield return new WaitForSeconds(1f);
+        RestoredDelegate?.Invoke();
     }
 
     // moves fish in sphere shape around object
@@ -129,13 +160,20 @@ public class RestorationObject : MonoBehaviour
             Vector3 positionAroundObject = transform.position + (fishSurroundPoints[i] * fishSphereRadius) + fishSphereOffset;
             Tween moveToSphereTween = boid.transform.DOMove(positionAroundObject, tweenTime);
 
+
             // used for rotating fish around sphere by rotating object
             int fishID = i;
             moveToSphereTween.onComplete += () =>
             {
                 boid.transform.parent = transform;
+
+                // rotate to proper position
+                Vector3 oldRotation = boid.transform.eulerAngles;
                 boid.transform.LookAt(transform.position + (fishSurroundPoints[fishID] * fishSphereRadius * 2));
                 boid.transform.Rotate(new Vector3(0, 90, 0));
+                Vector3 correctRotation = boid.transform.eulerAngles;
+                boid.transform.eulerAngles = oldRotation;
+                boid.transform.DORotate(correctRotation, 1f);
             };
         }
     }
@@ -167,6 +205,17 @@ public class RestorationObject : MonoBehaviour
         sphereMesh.SetActive(false);
         return sphereMesh;
 
+    }
+
+    private void SwapToUnrestoredVisuals()
+    {
+        mesh.material.color = deadColor;
+        HDMaterial.SetEmissiveIntensity(mesh.material, 0, UnityEditor.Rendering.HighDefinition.EmissiveIntensityUnit.Nits);
+    }
+    private void SwapToRestoredVisuals()
+    {
+        mesh.material.color = restoredColor;
+        HDMaterial.SetEmissiveIntensity(mesh.material, restoredEmissiveIntensity, UnityEditor.Rendering.HighDefinition.EmissiveIntensityUnit.Nits);
     }
 
     // draw representation of fish sphere around object for testing in editor - should cover mesh

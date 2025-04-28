@@ -24,7 +24,13 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnUpdateState(PlayerStateController player)
     {
-        UpdateAnims(player);
+        if (player.blockInput)
+        {
+            UpdateAnims(player, Vector2.zero);
+            return;
+        }
+
+        UpdateAnims(player, player.Controls.MovementInput);
 
         HandleCameraMovement(player);
 
@@ -38,6 +44,11 @@ public class PlayerSwimState : PlayerBaseState
     }
     public override void OnFixedUpdatedState(PlayerStateController player)
     {
+        if (player.blockInput)
+        {
+            player.SwimMovement.SmoothTurn(player.Rb, player.cameraController.transform, Vector2.zero, player.Data.turnSpeed * player.Data.currentAimTurnSpeedMod, player.Data.maxTurnZRotation);
+            return;
+        }
         // don't move if in current ability anim
         if (!inCurrentAbility)
         {
@@ -175,23 +186,23 @@ public class PlayerSwimState : PlayerBaseState
     }
 
     // update animation parameters for player
-    private void UpdateAnims(PlayerStateController player)
+    private void UpdateAnims(PlayerStateController player, Vector2 moveInput)
     {
         // value used for determing if dash roll should spin left or right - 
         // first use x move input, if 0 use diff from player forward and cam forward to spin towards camera center
         float xInputVal;
-        if (player.Controls.MovementInput.sqrMagnitude <= 0)
+        if (moveInput.sqrMagnitude <= 0)
         {
             xInputVal = 0f;
         }
         else
         {
             float differenceFromCamDirection = Vector3.SignedAngle(player.cameraController.transform.forward, player.transform.forward, player.cameraController.transform.up);
-            xInputVal = player.Controls.MovementInput.x != 0 ? player.Controls.MovementInput.x : -Mathf.Sign(differenceFromCamDirection);
+            xInputVal = moveInput.x != 0 ? moveInput.x : -Mathf.Sign(differenceFromCamDirection);
         }
 
         // want player to bank if they are moving laterally or moving at all and turning camera - otherwise they should level out to flat
-        bool shouldBeBanking = player.Controls.MovementInput.x != 0 || (player.Controls.MovementInput.sqrMagnitude > 0 && player.Controls.LookInput.sqrMagnitude > 0);
+        bool shouldBeBanking = moveInput.x != 0 || (moveInput.sqrMagnitude > 0 && player.Controls.LookInput.sqrMagnitude > 0);
         // if should be banking, we want to lerp float towards bank direction, otherwise bank to 0 (level)
         float finalSign = shouldBeBanking ? Mathf.Sign(xInputVal) : 0;
         float lerpVal = Mathf.Lerp(player.anim.GetFloat("BankValue"), finalSign, Time.deltaTime);

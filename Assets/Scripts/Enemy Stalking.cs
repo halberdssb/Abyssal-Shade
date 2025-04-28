@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnemyStalking : MonoBehaviour
@@ -104,6 +105,9 @@ public class EnemyStalking : MonoBehaviour
 
         // Target position around the player
         Vector3 targetPosition = new Vector3(player.position.x + offsetX, player.position.y, player.position.z + offsetZ);
+        Vector3 swimSlitherOffset = Mathf.Sin(Time.time / 2) * (targetPosition - player.position) * 0.2f;
+        
+
 
         // Save the target as the return location after a lunge
         circlingReturnPosition = targetPosition;
@@ -112,7 +116,11 @@ public class EnemyStalking : MonoBehaviour
         hasInitializedCircle = true;
 
         // Smoothly move toward the circling position
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition + swimSlitherOffset, ref currentVelocity, smoothTime);
+        Debug.DrawLine(transform.position, targetPosition);
+        // offset for model rotation 
+        //Quaternion rotation = Quaternion.AngleAxis(-90, Vector3.right);
+        RotateHeadTowards(targetPosition + swimSlitherOffset);
     }
 
     // Coroutine that performs the lunge toward the player and retreats afterward
@@ -123,6 +131,7 @@ public class EnemyStalking : MonoBehaviour
 
         Vector3 startPosition = transform.position;
         Vector3 lungeTarget = new Vector3(player.position.x, player.position.y, player.position.z);
+        RotateHeadTowards(lungeTarget);
 
         float elapsed = 0f;
 
@@ -152,5 +161,13 @@ public class EnemyStalking : MonoBehaviour
         // Snap to exact return point
         transform.position = circlingReturnPosition;
         isLunging = false;
+    }
+
+    // rotates serpent accounting for rotation offset of model
+    private void RotateHeadTowards(Vector3 target)
+    {
+        transform.LookAt(target);
+        transform.eulerAngles += new Vector3(0, 0, -90);
+        transform.eulerAngles += new Vector3(0, 90, 0);
     }
 }

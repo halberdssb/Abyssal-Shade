@@ -19,6 +19,8 @@ MonoBehaviour:
   cohesionInfluence: 8
   collisionAvoidInfluence: 50
   followObjInfluence: 16
+  followObjFewNeighborsMod: 4
+  followObjModNeighborCount: 10
   neighborCastRadius: 2
   neighborAvoidRadius: 1.4
   collisionMask:

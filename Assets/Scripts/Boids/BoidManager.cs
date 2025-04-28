@@ -21,7 +21,7 @@ public class BoidManager : MonoBehaviour
     // distance boids will be simulated/move within related to player
     public readonly static float BOID_DESPAWN_DISTANCE = 100;
 
-    public readonly static int numBoidsInScene;
+    public static int numBoidsInScene;
 
     [SerializeField]
     private BoidData boidData;
@@ -62,21 +62,25 @@ public class BoidManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-
-    }
-
     void Start()
     {
-        Debug.Log("starting boids!");
         staticBoidData = boidData;
+
+        // find any boids already existing in the scene
+        BoidObject[] existingBoids = FindObjectsByType<BoidObject>(FindObjectsSortMode.None);
+        foreach (var boid in existingBoids)
+        {
+            activeBoidPool.Add(boid);
+            numBoidsInScene += existingBoids.Length;
+        }
+
         CreateBoidQueue();
 
         player = FindObjectOfType<PlayerStateController>();
 
         foreach (BoidObject boid in activeBoidPool)
         {
+            Debug.Log("boid started! ", boid.gameObject);
             boid.BoidStart(staticBoidData, player);
         }
 
@@ -161,16 +165,23 @@ public class BoidManager : MonoBehaviour
 
         int numBoidsCanBeSpawned = MAX_BOIDS_IN_SCENE - numBoidsInScene;
 
-        if (numBoidsCanBeSpawned == 0)
+        if (numBoidsCanBeSpawned <= 0)
         {
             Debug.LogWarning("Cannot spawn any more boids - max number in scene!");
+            if (numBoidsCanBeSpawned < 0)
+            {
+                Debug.Log("Despawning boids - over maximum in scene.");
+                for (int i = numBoidsCanBeSpawned; i > MAX_BOIDS_IN_SCENE; i--)
+                {
+                    DespawnBoids(activeBoidPool[i]);
+                }
+            }
             return null;
         }
         else
         {
             // spawn as many boids as we can - check if going to go over capacity if spawning requested amount
             int numToSpawn = requestedNumToSpawn < numBoidsCanBeSpawned ? requestedNumToSpawn : numBoidsCanBeSpawned;
-
             BoidObject[] boidsToSpawn = new BoidObject[numToSpawn];
 
             for (int i = 0; i < numToSpawn; i++)
@@ -182,6 +193,7 @@ public class BoidManager : MonoBehaviour
                 boid.transform.position = spawnLocation;
                 boid.ToggleBoidBehavior(true);
                 boidsToSpawn[i] = boid;
+                numBoidsInScene++;
             }
 
             return boidsToSpawn;
@@ -211,7 +223,9 @@ public class BoidManager : MonoBehaviour
             activeBoidPool.Remove(boid);
             inactiveBoidPool.Enqueue(boid);
             boid.ToggleBoidBehavior(false);
+            player.boidCollectionHandler.RemoveBoid(boid);
             boid.gameObject.SetActive(false);
+            numBoidsInScene--;
         }
     }
 
