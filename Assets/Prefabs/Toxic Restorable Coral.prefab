@@ -26,7 +26,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -951, y: 97, z: -798}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.041291583, y: 0.041291583, z: 0.041291583}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6791656157481523161}
@@ -66,37 +66,37 @@ PrefabInstance:
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 914.9
+      value: 901.7
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.699997
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.200012
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.83277667
+      value: 0.8333117
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.020929744
+      value: 0.0067788633
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.5523126
+      value: 0.55266744
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.031557858
+      value: 0.010221172
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
@@ -106,17 +106,47 @@ PrefabInstance:
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 67.106
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 1.405
       objectReference: {fileID: 0}
+    - target: {fileID: 2516787114641988354, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 11.889
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516787114641988354, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 11.889
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516787114641988354, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 11.889
+      objectReference: {fileID: 0}
+    - target: {fileID: 4551439942506727920, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7c1ced0b559f78045a546dfe257c1914, type: 2}
     - target: {fileID: 5931282507613329433, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_Name
       value: RestorableCoral Variant (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083848820631740094, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 18.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083848820631740094, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: soulfishNeededToRestore
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -155,17 +185,17 @@ PrefabInstance:
     - target: {fileID: 547987751933991528, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 112.67999
+      value: 102.9
       objectReference: {fileID: 0}
     - target: {fileID: 547987751933991528, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.889999
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 547987751933991528, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -283.69995
+      value: -224.9
       objectReference: {fileID: 0}
     - target: {fileID: 547987751933991528, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
@@ -202,6 +232,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2363248794668807854, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.9937
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363248794668807854, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5.9937
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363248794668807854, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5.9937
+      objectReference: {fileID: 0}
     - target: {fileID: 4399850025589269596, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -211,6 +256,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RestorableCoral (3) Variant (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217415612322394898, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 11.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217415612322394898, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: soulfishNeededToRestore
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -236,11 +291,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: RestorableCoral (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3237712895679854222, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 12.97
+      objectReference: {fileID: 0}
     - target: {fileID: 5163782138100621760, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a1144cfe8af99a343a7bce1e75af6488, type: 2}
+    - target: {fileID: 6516122030228239154, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.172
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516122030228239154, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5.172
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516122030228239154, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5.172
+      objectReference: {fileID: 0}
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -259,17 +334,17 @@ PrefabInstance:
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 184
+      value: 224.8
       objectReference: {fileID: 0}
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 231.1
+      value: 246.9
       objectReference: {fileID: 0}
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -96.099976
+      value: -97.8
       objectReference: {fileID: 0}
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
@@ -343,58 +418,78 @@ PrefabInstance:
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.609985
+      value: 41.7
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 129.97
+      value: 117.1
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 466.88
+      value: 192.3
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.97942746
+      value: 0.73786044
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.036828913
+      value: -0.649934
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.18460976
+      value: 0.15228117
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.072696604
+      value: 0.09979108
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -5.681
+      value: -81.695
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -20.979
+      value: 41.131
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -7.437
+      value: -20.542
       objectReference: {fileID: 0}
     - target: {fileID: 3051065473226855657, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f6bf1e40d19d2444680608b02b4626c7, type: 2}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.8189
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.8189
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.8189
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688340835524740007, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 9.7
+      objectReference: {fileID: 0}
     - target: {fileID: 5129141897369076992, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_Name
@@ -437,52 +532,67 @@ PrefabInstance:
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -224.30005
+      value: -232.9
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 102.5
+      value: 131.2
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 146.5
+      value: 166.9
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.83277667
+      value: 0.5682614
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.020929744
+      value: -0.45751083
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.5523126
+      value: 0.50536156
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.031557858
+      value: -0.460839
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -3.106
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 85.946
       objectReference: {fileID: 0}
     - target: {fileID: 413285799985215428, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -80.976
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516787114641988354, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 7.1167
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516787114641988354, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 7.1167
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516787114641988354, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 7.1167
       objectReference: {fileID: 0}
     - target: {fileID: 4551439942506727920, guid: 88a478e12233bab4b87718e9a1bc329f,
         type: 3}
@@ -493,6 +603,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RestorableCoral Variant (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083848820631740094, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 16.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 6083848820631740094, guid: 88a478e12233bab4b87718e9a1bc329f,
+        type: 3}
+      propertyPath: soulfishNeededToRestore
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -531,17 +651,17 @@ PrefabInstance:
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.12
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.48
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.16
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
@@ -583,6 +703,31 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7b9aab7bf06ee9b4082c3f88cd468338, type: 2}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.9521
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.9521
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.9521
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688340835524740007, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 10.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688340835524740007, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: soulfishNeededToRestore
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 5129141897369076992, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_Name
@@ -610,17 +755,17 @@ PrefabInstance:
     - target: {fileID: 547987751933991528, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 732.8159
+      value: 739.2647
       objectReference: {fileID: 0}
     - target: {fileID: 547987751933991528, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 732.8163
+      value: 739.2651
       objectReference: {fileID: 0}
     - target: {fileID: 547987751933991528, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 732.81586
+      value: 739.26465
       objectReference: {fileID: 0}
     - target: {fileID: 547987751933991528, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
@@ -672,10 +817,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.494
       objectReference: {fileID: 0}
+    - target: {fileID: 2363248794668807854, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.0735
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363248794668807854, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.0735
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363248794668807854, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.0735
+      objectReference: {fileID: 0}
     - target: {fileID: 5798024747427657141, guid: 1c6ee3e197b230d46be5bbdf7794823c,
         type: 3}
       propertyPath: m_Name
       value: RestorableCoral (3) Variant (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217415612322394898, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 11.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217415612322394898, guid: 1c6ee3e197b230d46be5bbdf7794823c,
+        type: 3}
+      propertyPath: soulfishNeededToRestore
+      value: 35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -714,17 +884,17 @@ PrefabInstance:
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1064.7
+      value: 1075.98
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 110.899994
+      value: 48.5
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -88.5
+      value: -156.4
       objectReference: {fileID: 0}
     - target: {fileID: 1207580823819315933, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
@@ -766,6 +936,31 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f6bf1e40d19d2444680608b02b4626c7, type: 2}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.2237
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.2237
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004568586214573595, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.2237
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688340835524740007, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 10.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688340835524740007, guid: ea884de62fc194a4da2b401302a60352,
+        type: 3}
+      propertyPath: soulfishNeededToRestore
+      value: 54
+      objectReference: {fileID: 0}
     - target: {fileID: 5129141897369076992, guid: ea884de62fc194a4da2b401302a60352,
         type: 3}
       propertyPath: m_Name
@@ -793,22 +988,52 @@ PrefabInstance:
     - target: {fileID: 588465977653035012, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.7864
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 588465977653035012, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.8578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 588465977653035012, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.2332
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3085142758799323177, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_Name
       value: RestorableCoral (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237712895679854222, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: fishSphereRadius
+      value: 8.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237712895679854222, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: soulfishNeededToRestore
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516122030228239154, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8574
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516122030228239154, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8574
+      objectReference: {fileID: 0}
+    - target: {fileID: 6516122030228239154, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8574
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161670356044882496, guid: 6233f1eb0574be54786ca69039327c0f,
+        type: 3}
+      propertyPath: m_Name
+      value: r
       objectReference: {fileID: 0}
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
@@ -828,17 +1053,17 @@ PrefabInstance:
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 338.59998
+      value: 338.6
       objectReference: {fileID: 0}
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.4000015
+      value: 8.1
       objectReference: {fileID: 0}
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.900024
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 9024316191539798004, guid: 6233f1eb0574be54786ca69039327c0f,
         type: 3}
