@@ -29,6 +29,8 @@ public class RestorationObject : MonoBehaviour
     private float restoredEmissiveIntensity;
     [SerializeField]
     private AudioSource restoredSound;
+    [SerializeField]
+    private ParticleSystem particles;
 
     [Space]
     [SerializeField]
@@ -60,6 +62,7 @@ public class RestorationObject : MonoBehaviour
         vortexSphere = CreateVortexSphereMesh();
 
         isRestored = false;
+        particles.transform.parent = null;
 
         // visuals
         restoredColor = mesh.material.color;
@@ -115,6 +118,8 @@ public class RestorationObject : MonoBehaviour
 
         // swap to restored visuals
         SwapToRestoredVisuals();
+
+        particles.Play();
 
         // spin at top speed
         float maxSpeedSpinTime = 0.8f;

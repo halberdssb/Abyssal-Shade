@@ -29,10 +29,10 @@ public class PlayerVFXHandler : MonoBehaviour
     {
         StartCoroutine(DashTrailRoutine(dashTime));
 
-        //foreach (var particle in _dashSpinParticles)
-        //{
-        //    particle.Play();
-        //}
+        foreach (var particle in _dashSpinParticles)
+        {
+            //particle.Play();
+        }
     }
 
     private IEnumerator DashTrailRoutine(float dashTime)
