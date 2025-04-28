@@ -33,6 +33,7 @@ public class BoidObject : MonoBehaviour
     [HideInInspector]
     public int numNeighborBoids;
 
+    [Space]
     [SerializeField]
     private bool showNavigationRays;
 
@@ -106,6 +107,7 @@ public class BoidObject : MonoBehaviour
         else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
         {
             followObj = player.gameObject;
+            player.boidCollectionHandler.PlayPickupSoundRandom();
             player.boidCollectionHandler.AddCollectedBoid(this);
         }
 

@@ -54,7 +54,6 @@ MonoBehaviour:
   neighborsSeparationForce: {x: 0, y: 0, z: 0}
   numNeighborBoids: 0
   showNavigationRays: 0
-  isAttacking: 0
 --- !u!54 &3369582622444475354
 Rigidbody:
   m_ObjectHideFlags: 0

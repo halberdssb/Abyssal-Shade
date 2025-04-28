@@ -27,6 +27,7 @@ public class PlayerStateController : MonoBehaviour
 
     public AudioSource dashSound;
     public AudioSource currentSound;
+    public AudioSource pickupSound;
 
     public bool blockInput;
 

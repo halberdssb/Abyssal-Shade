@@ -8,6 +8,12 @@ public class BoidCollectionHandler : MonoBehaviour
     [SerializeField]
     private List<BoidObject> collectedBoids = new List<BoidObject>();
 
+    [Space]
+    [SerializeField]
+    private AudioSource[] pickupSounds;
+    [SerializeField]
+    private AudioSource deathSound;
+
     public void AddCollectedBoid(BoidObject boid)
     {
         collectedBoids.Add(boid);
@@ -48,5 +54,16 @@ public class BoidCollectionHandler : MonoBehaviour
         }
 
         return boidsToPull;
+    }
+
+    public void PlayPickupSoundRandom()
+    {
+        int randomInt = Random.Range(0, pickupSounds.Length);
+        pickupSounds[randomInt].PlayOneShot(pickupSounds[randomInt].clip);
+    }
+
+    public void PlayDeathSound()
+    {
+        deathSound.PlayOneShot(deathSound.clip);
     }
 }

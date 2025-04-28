@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Value: {x: 1, y: 1, z: 1, w: 0.49945456}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 0.94, y: 1, z: 0.987, w: 1}
+    m_Value: {x: 0.94, y: 1, z: 0.987, w: -0.03685522}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
@@ -65,13 +65,13 @@ MonoBehaviour:
   active: 1
   lift:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_Value: {x: 1, y: 1, z: 1, w: -0.78624076}
   gamma:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 1}
+    m_Value: {x: 1, y: 1, z: 1, w: 0.054053985}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.3685505}
+    m_Value: {x: 1, y: 1, z: 1, w: -0.5528257}
 --- !u!114 &7412684192616712262
 MonoBehaviour:
   m_ObjectHideFlags: 3

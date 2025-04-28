@@ -13,10 +13,13 @@ public class AnglerAttract : MonoBehaviour
     private List<Rigidbody> attractedObjects = new List<Rigidbody>(); // List to keep track of attracted objects
     private List<BoidObject> attractedBoids = new List<BoidObject>(); // List of boids attracted
 
+    private BoidCollectionHandler boidCollectionHandler;
+
     // Start is called before the first frame update
     void Start()
     {
         Renderer renderer = GetComponent<Renderer>();
+        boidCollectionHandler = FindObjectOfType<BoidCollectionHandler>();
     }
 
     // Update is called once per frame

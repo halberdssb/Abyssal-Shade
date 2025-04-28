@@ -11,8 +11,15 @@ using UnityEngine;
 
 public class KillBoidOnCollision : MonoBehaviour
 {
+    private BoidCollectionHandler boidCollectionHandler;
+
+    private void Start()
+    {
+        boidCollectionHandler = FindObjectOfType<BoidCollectionHandler>();
+    }
     private void OnTriggerEnter(Collider other)
     {
+        boidCollectionHandler.PlayDeathSound();
         BoidManager.DespawnBoids(other.GetComponent<BoidObject>());
     }
 }
