@@ -65,9 +65,9 @@ Material:
     - _OpaqueCullMode: 2
     - _Outer_Spread: 4
     - _Outline: 0
-    - _Pulse_Magnify: -2
-    - _Pulse_Size: 0.1
-    - _Pulse_Speed: 0.34
+    - _Pulse_Magnify: 8
+    - _Pulse_Size: 0.14
+    - _Pulse_Speed: 0.46
     - _RenderQueueType: 4
     - _Rim_Power: 5
     - _SrcBlend: 1
@@ -96,7 +96,7 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Inner_Color: {r: 2, g: 2, b: 2, a: 1}
     - _Outer_Color: {r: 11.984313, g: 2.6929445, b: 8.976485, a: 1}
-    - _Pulse_Focal: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Pulse_Focal: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _Pulse_Focal_1: {r: 0, g: 0, b: 0, a: 0}
     - _Rim_Color: {r: 3.9533496, g: 3.9533496, b: 3.9533496, a: 1}
   m_BuildTextureStacks: []

@@ -206,9 +206,9 @@ Material:
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
-    - _Pulse_Magnify: -2
-    - _Pulse_Size: 0.1
-    - _Pulse_Speed: 0.34
+    - _Pulse_Magnify: 8
+    - _Pulse_Size: 0.14
+    - _Pulse_Speed: 0.46
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
