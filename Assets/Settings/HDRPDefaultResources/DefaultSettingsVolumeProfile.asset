@@ -164,7 +164,7 @@ MonoBehaviour:
     m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.2732734, g: 0.45330513, b: 0.8396226, a: 1}
+    m_Value: {r: 0.07742971, g: 0.23351295, b: 0.5660378, a: 1}
   maxFogDistance:
     m_OverrideState: 1
     m_Value: 5000
@@ -373,7 +373,7 @@ MonoBehaviour:
     m_Value: 0.7
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.10537558, g: 0.56480986, b: 0.6037736, a: 1}
+    m_Value: {r: 0.045656808, g: 0.47291613, b: 0.509434, a: 1}
   dirtTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
