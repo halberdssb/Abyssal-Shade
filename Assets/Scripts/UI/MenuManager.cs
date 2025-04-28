@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
 {
     // name of main menu scene
     private const string MAIN_MENU_STR_REF = "MainMenu";
-    private const string GAME_START_SCENE = "GameplayTestScene";
+    private const string GAME_START_SCENE = "TJSceneUpdatedbyDev";
 
     public static bool IsGamePaused;
 
