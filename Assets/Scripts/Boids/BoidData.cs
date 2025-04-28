@@ -29,9 +29,8 @@ public class BoidData : ScriptableObject
     public float collisionAvoidInfluence;
     [Range(1, 100f)]
     public float followObjInfluence;
-    [Range(1, 5f)]
-    public float followObjFewNeighborsMod;
-    public int followObjModNeighborCount;
+    [Range(1, 10f)]
+    public float followObjDistanceMod;
 
     [Space]
     [Header("Neighbor Detection Values")]

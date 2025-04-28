@@ -86,25 +86,27 @@ public class BoidObject : MonoBehaviour
         }
 
         Vector3 acceleration = Vector3.zero;
+        float sqrPlayerDistance = PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance;
+
 
         if (followObj)
         {
             Vector3 distanceToFollowObj = followObj.transform.position - transform.position;
             acceleration = distanceToFollowObj.normalized * data.followObjInfluence;
 
-            // increase follow obj distance by modifier if few neighbors - otherwise boids will not follow well in low school #s
-            if (numNeighborBoids < data.followObjModNeighborCount)
+            if (distanceToFollowObj.sqrMagnitude > PlayerStateController.BoidCollectionDistance)
             {
-                float neighborNumValue = Mathf.Lerp(0, data.followObjModNeighborCount, numNeighborBoids);
-                float followObjModValue = Mathf.InverseLerp(1, data.followObjFewNeighborsMod, neighborNumValue);
-                acceleration *= followObjModValue;
+                float followObjModValue = Mathf.LerpUnclamped(0, sqrPlayerDistance, distanceToFollowObj.sqrMagnitude / sqrPlayerDistance) / sqrPlayerDistance;
+                acceleration *= 1 + Mathf.Pow(followObjModValue, data.followObjDistanceMod);
             }
-            if (distanceToFollowObj.sqrMagnitude > (PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance * 4)) 
+
+            if (distanceToFollowObj.sqrMagnitude > (sqrPlayerDistance * 4)) 
             {
+                player.boidCollectionHandler.RemoveBoid(this);
                 followObj = null;
             }
         }
-        else if ((player.transform.position - transform.position).sqrMagnitude < PlayerStateController.BoidCollectionDistance * PlayerStateController.BoidCollectionDistance)
+        else if ((player.transform.position - transform.position).sqrMagnitude < sqrPlayerDistance)
         {
             followObj = player.gameObject;
             player.boidCollectionHandler.PlayPickupSoundRandom();
