@@ -31,6 +31,7 @@ public class BoidData : ScriptableObject
     public float followObjInfluence;
     [Range(1, 10f)]
     public float followObjDistanceMod;
+    public float playerLoseBoidDistance;
 
     [Space]
     [Header("Neighbor Detection Values")]
