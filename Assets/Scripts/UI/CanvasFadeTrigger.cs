@@ -20,6 +20,8 @@ public class CanvasFadeTrigger : MonoBehaviour
     private CanvasGroup canvasGroup;
     [SerializeField]
     private float fadeTime;
+    [SerializeField]
+    private float fadeAwayAutoTime;
 
     [Space]
     [SerializeField]
@@ -65,6 +67,10 @@ public class CanvasFadeTrigger : MonoBehaviour
             if (!useCamera)
             {
                 FadeCanvasGroup(fadeTime, true);
+                if (fadeAwayAutoTime > 0)
+                {
+                    StartCoroutine(FadeOutRoutine());
+                }
             }
 
         }
@@ -73,7 +79,7 @@ public class CanvasFadeTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (!pauseInputUntilClick)
+            if (!pauseInputUntilClick && fadeAwayAutoTime <= 0)
             {
                 FadeCanvasGroup(fadeTime, false);
             }
@@ -118,5 +124,16 @@ public class CanvasFadeTrigger : MonoBehaviour
         player.blockInput = false;
         FadeCanvasGroup(fadeTime, false);
         player.ui.FadeUI(true, fadeTime);
+        if (pauseInputUntilClick)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    private IEnumerator FadeOutRoutine()
+    {
+        yield return new WaitForSeconds(fadeAwayAutoTime);
+
+        FadeCanvasGroup(fadeTime, false);
     }
 }

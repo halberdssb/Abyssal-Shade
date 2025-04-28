@@ -84,6 +84,8 @@ public class AnglerAttract : MonoBehaviour
             attractingFish = false;
         }*/
 
+
+
         foreach (var boid in attractedBoids)
         {
             Vector3 directionToAttract = transform.position - boid.transform.position;

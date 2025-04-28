@@ -20,7 +20,7 @@ MonoBehaviour:
   collisionAvoidInfluence: 50
   followObjInfluence: 16
   followObjDistanceMod: 2.5
-  playerLoseBoidDistance: 2000
+  playerLoseBoidDistance: 50000
   neighborCastRadius: 2
   neighborAvoidRadius: 1.4
   collisionMask:
