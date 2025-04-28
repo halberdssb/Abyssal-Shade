@@ -16,6 +16,9 @@ using UnityEngine.Rendering.HighDefinition;
 
 public class RestorationObject : MonoBehaviour
 {
+    public delegate void OnRestoredDel();
+    public OnRestoredDel RestoredDelegate;
+
     [SerializeField]
     private RestorationObjectUI ui;
     [SerializeField]
@@ -139,6 +142,10 @@ public class RestorationObject : MonoBehaviour
         // send boids back to player and fade out sphere
         vortexSphere.SetActive(false);
         ReturnBoidsToPlayer(boids, fishMoveToPositionTime);
+
+        // invoke check delegate after delay to check if area restored
+        yield return new WaitForSeconds(1f);
+        RestoredDelegate?.Invoke();
     }
 
     // moves fish in sphere shape around object
