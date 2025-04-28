@@ -73,7 +73,7 @@ public class RestorationManager : MonoBehaviour
 
         yield return new WaitForSeconds(CAM_BLEND_TIME);
 
-        area.monumentOrb.AreaRestoredVisuals();
+        area.monumentOrb.AreaRestoredEffect();
 
         yield return new WaitForSeconds(area.monumentOrb.visualTweenTime + 1f);
 

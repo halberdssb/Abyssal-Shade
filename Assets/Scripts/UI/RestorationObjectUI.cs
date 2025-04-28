@@ -17,12 +17,13 @@ public class RestorationObjectUI : MonoBehaviour
     [SerializeField]
     private float fadeTime = 1f;
 
-    private PlayerCameraController playerCam;
+    private Camera playerCam;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerCam = FindObjectOfType<PlayerCameraController>();
+        playerCam = FindObjectOfType<Camera>();
+        GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
 
         text.text = parentRestorationObj.soulfishNeededToRestore.ToString();
     }

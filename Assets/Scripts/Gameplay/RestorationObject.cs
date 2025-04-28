@@ -31,6 +31,12 @@ public class RestorationObject : MonoBehaviour
     private AudioSource restoredSound;
     [SerializeField]
     private ParticleSystem particles;
+    [SerializeField]
+    private ParticleSystem glitter;
+    [SerializeField]
+    private Material deadGhostMat;
+    [SerializeField]
+    private Material sphereMaterial;
 
     [Space]
     [SerializeField]
@@ -50,6 +56,8 @@ public class RestorationObject : MonoBehaviour
 
     private PlayerStateController player;
     private GameObject vortexSphere;
+    private Material restoredMat;
+    private MeshRenderer sphereMesh;
     private Color restoredColor;
     private Vector3[] fishSurroundPoints;
 
@@ -65,7 +73,6 @@ public class RestorationObject : MonoBehaviour
         particles.transform.parent = null;
 
         // visuals
-        restoredColor = mesh.material.color;
         SwapToUnrestoredVisuals();
     }
 
@@ -107,6 +114,14 @@ public class RestorationObject : MonoBehaviour
 
         restoredSound.Play();
 
+        sphereMesh.material.SetFloat("_Opacity", 0f);
+        DOVirtual.Float(0, 1, spinTime, (alpha) =>
+        {
+            sphereMesh.material.SetFloat("_Opacity", alpha);
+        });
+
+        RestoreGhostMaterialBlend(spinTime);
+
         // spin up to speed
         while (spinTimer < spinTime)
         {
@@ -118,7 +133,7 @@ public class RestorationObject : MonoBehaviour
 
         // swap to restored visuals
         SwapToRestoredVisuals();
-
+        glitter.Stop();
         particles.Play();
 
         // spin at top speed
@@ -135,6 +150,11 @@ public class RestorationObject : MonoBehaviour
 
         // spin down to stop
         spinTimer = 0f;
+
+        DOVirtual.Float(1, 0, spinTime, (alpha) =>
+        {
+            sphereMesh.material.SetFloat("_Opacity", alpha);
+        });
 
         while (spinTimer < spinTime)
         {
@@ -206,19 +226,41 @@ public class RestorationObject : MonoBehaviour
         sphereMesh.transform.position = transform.position + fishSphereOffset;
         sphereMesh.transform.parent = transform;
 
+        this.sphereMesh = sphereMesh.GetComponent<MeshRenderer>();
+        this.sphereMesh.material = sphereMaterial;
+
         // set active right now - eventually should also set alpha value on shader to 0
         sphereMesh.SetActive(false);
         return sphereMesh;
 
     }
 
+    // blends ghost glow material values to merge with normal texture seamlessly
+    private void RestoreGhostMaterialBlend(float fadeTime)
+    {
+        DOVirtual.Float(0, 2, fadeTime, (innerWeight) =>
+        {
+            mesh.material.SetFloat("_Inner_Spread", innerWeight);
+        });
+        DOVirtual.Float(mesh.material.GetFloat("_Outer_Spread"), 50, fadeTime, (outerWeight) =>
+        {
+            mesh.material.SetFloat("_Outer_Spread", outerWeight);
+        });
+        DOVirtual.Color(Color.white, restoredColor, fadeTime, (color) =>
+        {
+            mesh.material.SetColor("_Inner_Color", color);
+        });
+    }
+
     private void SwapToUnrestoredVisuals()
     {
-        mesh.material.color = deadColor;
-        HDMaterial.SetEmissiveIntensity(mesh.material, 0, UnityEditor.Rendering.HighDefinition.EmissiveIntensityUnit.Nits);
+        restoredColor = mesh.material.color;
+        restoredMat = mesh.material;
+        mesh.material = deadGhostMat;
     }
     private void SwapToRestoredVisuals()
     {
+        mesh.material = restoredMat;
         mesh.material.color = restoredColor;
         HDMaterial.SetEmissiveIntensity(mesh.material, restoredEmissiveIntensity, UnityEditor.Rendering.HighDefinition.EmissiveIntensityUnit.Nits);
     }

@@ -16,7 +16,7 @@ Material:
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 0
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap:
@@ -65,9 +65,10 @@ Material:
     - _OpaqueCullMode: 2
     - _Outer_Spread: 4
     - _Outline: 0
+    - _Pulse_Intensity: 0
     - _Pulse_Magnify: 8
     - _Pulse_Size: 0.14
-    - _Pulse_Speed: 0.46
+    - _Pulse_Speed: 0
     - _RenderQueueType: 4
     - _Rim_Power: 5
     - _SrcBlend: 1
