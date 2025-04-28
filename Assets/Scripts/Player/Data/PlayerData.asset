@@ -16,7 +16,7 @@ MonoBehaviour:
   strafeSpeed: 36
   rollSpeed: 4
   turnSpeed: 4
-  dashSpeed: 24
+  dashSpeed: 32
   dashStartupTime: 0.3
   dashVFXDuration: 0.7
   dashCooldown: 1.2

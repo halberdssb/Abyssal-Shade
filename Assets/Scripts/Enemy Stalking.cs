@@ -53,9 +53,16 @@ public class EnemyStalking : MonoBehaviour
     // The last known target circling position to return to after a lunge
     private Vector3 circlingReturnPosition;
 
+    private void Start()
+    {
+        CircleAroundPlayer();
+    }
+
     // Called once per frame to handle stalking, lunging, and transitions
     void Update()
     {
+        CircleAroundPlayer();
+        return;
         if (player == null) return;
 
         // Measure the distance between enemy and player
@@ -70,9 +77,9 @@ public class EnemyStalking : MonoBehaviour
         // Stop stalking and reset timers if the player is too far
         else if (distanceToPlayer > stopDistance && isCircling)
         {
-            isCircling = false;
-            hasInitializedCircle = false;
-            stalkStartTime = -Mathf.Infinity; // Reset stalking time
+            //isCircling = false;
+            //hasInitializedCircle = false;
+            //stalkStartTime = -Mathf.Infinity; // Reset stalking time
         }
 
         // Check if enemy can lunge
@@ -84,7 +91,7 @@ public class EnemyStalking : MonoBehaviour
 
         if (canLunge)
         {
-            StartCoroutine(LungeAtPlayer());
+            //StartCoroutine(LungeAtPlayer());
         }
 
         // Perform circling motion if not lunging
