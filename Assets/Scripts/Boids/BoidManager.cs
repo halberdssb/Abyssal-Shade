@@ -16,7 +16,7 @@ public class BoidManager : MonoBehaviour
     // thread group size for compute shader - MUST BE same as in BoidComputeShader
     private const int THREAD_GROUP_SIZE = 1024;
 
-    private const int MAX_BOIDS_IN_SCENE = 500;
+    private const int MAX_BOIDS_IN_SCENE = 2000;
 
     // distance boids will be simulated/move within related to player
     public readonly static float BOID_DESPAWN_DISTANCE = 400;
